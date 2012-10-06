@@ -1,0 +1,36 @@
+[user]
+	name = Adam Brewer
+	email = adamcbrewer@gmail.com
+
+[alias]
+	ci = commit -am
+	st = status
+	s = status -s
+	df = diff --color --color-words --abbrev
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+
+[color]
+	ui = always
+
+[apply]
+	whitespace = fix
+
+[core]
+	excludesfile = ~/.gitignore
+	whitespace = fix,space-before-tab,tab-in-indent,trailing-space
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
