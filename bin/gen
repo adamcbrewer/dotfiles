@@ -1,0 +1,5 @@
+#!/bin/bash
+
+boilerplate_dir=~/Sites/BOILERPLATES/launchpad/
+
+cp -npv -R $boilerplate_dir$1 ./$2
