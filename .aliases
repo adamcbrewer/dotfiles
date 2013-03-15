@@ -32,7 +32,7 @@ alias photoshop="open -a '/Applications/Adobe Photoshop CS6/Adobe Photoshop.app'
 # general shortcuts
 #
 alias pro="cd ~/projects"
-alias gh="open -a google\ chrome 'http://github.com/adamcbrewer'"
+#alias gh="open -a google\ chrome 'http://github.com/adamcbrewer'"
 
 #
 # be nice
@@ -67,9 +67,9 @@ alias lsa="clear;ls -lhGa"
 # Git Stuff
 #
 # Undo a `git push`
-alias undopush="git push -f origin HEAD^:master"
+#alias undopush="git push -f origin HEAD^:master"
 # git root
-alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
+#alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 
 
 #

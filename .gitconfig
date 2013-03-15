@@ -3,11 +3,16 @@
 	email = adamcbrewer@gmail.com
 
 [alias]
-	ci = commit -am
-	st = status
-	s = status -s
-	df = diff --color --color-words --abbrev
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	ci  = commit -a
+	st  = status
+	s   = status -sb
+	df  = diff --color --color-words --abbrev
+	lg  = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	b   = branch
+	co  = checkout
+	all = add .
+	chop = status | grep deleted | awk '{print $3}' | xargs git rm # removes deleted files
+
 
 [color]
 	ui = always
