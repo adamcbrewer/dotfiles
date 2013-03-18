@@ -4,6 +4,7 @@
 
 [alias]
 	ci  = commit -a
+	cm  = commit -am
 	st  = status
 	s   = status -sb
 	df  = diff --color --color-words --abbrev
@@ -11,7 +12,10 @@
 	b   = branch
 	co  = checkout
 	all = add .
-	chop = status | grep deleted | awk '{print $3}' | xargs git rm # removes deleted files
+	# removes deleted files
+	chop = status | grep deleted | awk '{print $3}' | xargs git rm
+	# un-track any file that was added before ignoring
+	untrack = rm --cached
 
 
 [color]
