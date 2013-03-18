@@ -1,0 +1,32 @@
+## Create the file at ~/.gitignore_global and add some rules to it.
+## To add this file to your cross-repository configuration, run this:
+##
+## git config --global core.excludesfile ~/.gitignore_global
+##
+## https://help.github.com/articles/ignoring-files
+############################################
+
+# Folder view configuration files #
+###################################
+.DS_Store
+Desktop.ini
+
+# Thumbnail cache files #
+#########################
+._*
+Thumbs.db
+Icon?
+ehthumbs.db
+
+# Files that might appear on external disks #
+#############################################
+.Spotlight-V100
+.Trashes
+
+# Logs #
+########
+*.log
+
+# Others #
+##########
+*~
