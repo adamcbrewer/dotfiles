@@ -12,6 +12,7 @@
 	b   = branch
 	co  = checkout
 	all = add .
+	up  = pull
 	# removes deleted files
 	chop = status | grep deleted | awk '{print $3}' | xargs git rm
 	# un-track any file that was added before ignoring

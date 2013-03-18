@@ -8,6 +8,19 @@ function f() {
     find . -name "$1"
 }
 
+# Create a new directory and enter it
+function md() {
+	mkdir -p "$@" && cd "$@"
+}
+
+# take this repo and copy it to somewhere else minus the .git stuff.
+# Credits to https://github.com/paulirish/dotfiles/blob/master/.functions
+function gitexport() {
+	mkdir -p "$1"
+	git archive master | tar -x -C "$1"
+	cd "$1"
+}
+
 # Syntax-highlight JSON strings or files
 function json() {
 	if [ -p /dev/stdin ]; then
