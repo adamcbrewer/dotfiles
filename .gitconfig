@@ -3,20 +3,19 @@
 	email = adamcbrewer@gmail.com
 
 [alias]
-	ci  = commit -a
-	cm  = commit -am
-	st  = status
-	s   = status -sb
-	df  = diff --color --color-words --abbrev
-	lg  = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	b   = branch
-	co  = checkout
-	all = add .
-	up  = pull
-	# removes deleted files
-	chop = status | grep deleted | awk '{print $3}' | xargs git rm
-	# un-track any file that was added before ignoring
-	untrack = rm --cached
+	ci   	= commit
+	ca   	= commit -a
+	cam  	= commit -am
+	st   	= status
+	s    	= status -sb
+	b    	= branch
+	co   	= checkout
+	up   	= pull
+	p    	= push
+	chop 	= status | grep deleted | awk '{print $3}' | xargs git rm  # removes deleted files (broken?)
+	untrack = rm --cached  # un-track any file that was added before ignoring
+	df   	= diff --color --color-words --abbrev
+	lg   	= log --color --graph --pretty	=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date	=relative
 
 
 [color]
