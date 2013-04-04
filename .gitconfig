@@ -12,14 +12,15 @@
 	co   	= checkout
 	up   	= pull
 	p    	= push
-	go = checkout -b
-	tags = tag -l
+	go 		= checkout -b
+	unstage = reset HEAD
+	tags 	= tag -l
 	branches = branch -a
 	remotes = remote -v
 	chop 	= status | grep deleted | awk '{print $3}' | xargs git rm  # removes deleted files (broken?)
 	untrack = rm --cached  # un-track any file that was added before ignoring
 	df   	= diff --color --color-words --abbrev
-	lg   	= log --color --graph --pretty	=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date	=relative
+	lg   	= log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
 
 [color]

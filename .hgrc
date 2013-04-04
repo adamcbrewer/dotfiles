@@ -1,5 +1,16 @@
+[alias]
+killitwithfire = update --clean
+lg = log --style=$HOME/dotfiles/hg/map-cmdline.slog
+lgn = log --style=$HOME/dotfiles/hg/map-cmdline.nlog
+glg = glog --style=$HOME/dotfiles/hg/map-cmdline.sglog
+
 [extensions]
-graphlog = 
+graphlog =
+progress =
+
+[graph]
+default.width = 4 # 4px width
+default.color = FF0000 # red color
 
 [hostfingerprints]
 bitbucket.org = 24:9c:45:8b:9c:aa:ba:55:4e:01:6d:58:ff:e4:28:7d:2a:14:ae:3b
