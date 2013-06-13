@@ -51,7 +51,8 @@ set formatoptions+=1
 
 set statusline=%<\:%f\ %m%r%y%=%-35.(line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)%)
 
-colorscheme mayansmoke
+syntax on
+colorscheme molokai 
 set guifont=Monaco:h12
 set guioptions-=Tr
 set autoindent
