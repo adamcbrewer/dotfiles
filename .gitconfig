@@ -20,7 +20,7 @@
 	chop 	= status | grep deleted | awk '{print $3}' | xargs git rm  # removes deleted files (broken?)
 	untrack = rm --cached  # un-track any file that was added before ignoring
 	df   	= diff --color --color-words --abbrev
-	lg   	= log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lg   	= log --color --graph --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %C(white)(%cr) %C(yellow)<%an>%Creset' --abbrev-commit --date=relative
 
 
 [color]
@@ -32,6 +32,7 @@
 [core]
 	excludesfile = ~/.gitignore
 	whitespace = fix,space-before-tab,tab-in-indent,trailing-space
+	editor = /usr/bin/vim
 
 [color "branch"]
 	current = yellow reverse

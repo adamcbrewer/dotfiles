@@ -17,6 +17,7 @@ if tput setaf 1 &> /dev/null; then
 	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
 		MAGENTA=$(tput setaf 9)
 		ORANGE=$(tput setaf 172)
+		BLUE=$(tput setaf 4)
 		GREEN=$(tput setaf 190)
 		PURPLE=$(tput setaf 141)
 		WHITE=$(tput setaf 256)
@@ -35,6 +36,7 @@ else
 	GREEN="\033[1;32m"
 	PURPLE="\033[1;35m"
 	WHITE="\033[1;37m"
+	BLUE="\033[1;34m"
 	BOLD=""
 	RESET="\033[m"
 fi
@@ -50,7 +52,7 @@ function parse_hg_dirty() {
 function parse_hg_branch() {
     hg branch 2> /dev/null | awk '{print "hg:"$1}'
 }
-export PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]\[${BOLD}${MAGENTA}\]\u \[$WHITE\]at \[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(hg branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_hg_branch)\$(parse_hg_dirty)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
+export PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]\[${BOLD}${MAGENTA}\]\u \[$WHITE\]@\[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(hg branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_hg_branch)\$(parse_hg_dirty)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
 
 #
 # Colourful man pages
@@ -94,9 +96,11 @@ export PATH=$PATH:$HOME/bin
 
 # {{{
 # Node Completion - Auto-generated, do not touch.
-shopt -s progcomp
-for f in $(command ls ~/.node-completion); do
-  f="$HOME/.node-completion/$f"
-  test -f "$f" && . "$f"
-done
+if [ -f $HOME/.node-completion ]; then
+	shopt -s progcomp
+	for f in $(command ls ~/.node-completion); do
+	  f="$HOME/.node-completion/$f"
+	  test -f "$f" && . "$f"
+	done
+fi
 # }}}
