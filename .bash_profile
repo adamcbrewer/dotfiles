@@ -1,11 +1,8 @@
-#
-# Personalized colour prompt
-######################################
-# -- My old one
-#PS1="\[\033[1;37m\]\u\[\033[1;31m\]@\[\033[1;37m\]\h \[\033[1;33m\]\w\[\e[m\]
-#\[\033[1;37m\]→ \[\033[1;32m\]"
+# @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
+# Shamelessly copied from https://github.com/gf3/dotfiles
 
-# -- https://github.com/mathiasbynens/dotfiles/blob/master/.bash_prompt
+default_username='brewera'
+
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
 	export TERM=gnome-256color
 elif infocmp xterm-256color >/dev/null 2>&1; then
@@ -17,7 +14,6 @@ if tput setaf 1 &> /dev/null; then
 	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
 		MAGENTA=$(tput setaf 9)
 		ORANGE=$(tput setaf 172)
-		BLUE=$(tput setaf 4)
 		GREEN=$(tput setaf 190)
 		PURPLE=$(tput setaf 141)
 		WHITE=$(tput setaf 256)
@@ -36,23 +32,29 @@ else
 	GREEN="\033[1;32m"
 	PURPLE="\033[1;35m"
 	WHITE="\033[1;37m"
-	BLUE="\033[1;34m"
 	BOLD=""
 	RESET="\033[m"
 fi
-function parse_git_dirty() {
-	[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo " *"
+
+function git_info() {
+	# check if we're in a git repo
+	git rev-parse --is-inside-work-tree &>/dev/null || return
+
+	# quickest check for what branch we're on
+	branch=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
+
+	# check if it's dirty (via github.com/sindresorhus/pure)
+	dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
+
+	echo $WHITE" git:"$PURPLE$branch$dirty
 }
-function parse_git_branch() {
-	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/git:\1$(parse_git_dirty)/"
+
+# Only show username/host if not default
+function usernamehost() {
+	if [ $USER != $default_username ]; then echo "${MAGENTA}$USER ${WHITE}at ${ORANGE}$HOSTNAME $WHITEin "; fi
 }
-function parse_hg_dirty() {
-	[[ $(hg status 2> /dev/null | tail -n1) != "" ]] && echo " *"
-}
-function parse_hg_branch() {
-    hg branch 2> /dev/null | awk '{print "hg:"$1}'
-}
-export PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]\[${BOLD}${MAGENTA}\]\u \[$WHITE\]@\[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(hg branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_hg_branch)\$(parse_hg_dirty)\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
+
+PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]${BOLD}\$(usernamehost)\[$GREEN\]\w\$(git_info)\[$WHITE\]\n\$ \[$RESET\]"
 
 #
 # Colourful man pages
