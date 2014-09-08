@@ -65,6 +65,11 @@ alias lsa="clear;ls -lhGa"
 # fi
 
 #
+# Lightweight version of top which doesn't use so much CPU itself.
+#
+alias ttop='top -ocpu -R -F -s 2 -n30'
+
+#
 # Git Stuff
 #
 # Undo a `git push`
