@@ -35,10 +35,11 @@
     lg          = !"git lg2"
     df          = diff --color --color-words --abbrev
 
-    # Pulling
+    # Pulling & Pushing
     # Pull in remote changes for the current repository and all its submodules
     p       = !"git pull; git submodule foreach git pull origin master"
-    up      = pull
+    down    = pull
+    up      = push
 
     # Cloning
     # Clone a repository including all submodules
