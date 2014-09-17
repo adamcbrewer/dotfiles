@@ -1,5 +1,3 @@
-# Configures the ‘Readline environment’. This controls the way keys work when you’re entering a command into your shell.
-
 # Make Tab autocomplete regardless of filename case
 set completion-ignore-case on
 

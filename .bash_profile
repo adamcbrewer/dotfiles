@@ -1,100 +1,51 @@
-# @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
-# Shamelessly copied from https://github.com/gf3/dotfiles
+# Add `~/bin` to the `$PATH`
+export PATH="$HOME/bin:$PATH";
 
-default_username='brewera'
+# Load the shell dotfiles, and then some:
+# * ~/.path can be used to extend `$PATH`.
+# * ~/.extra can be used for other settings you don’t want to commit.
+for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
 
-if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-	export TERM=gnome-256color
-elif infocmp xterm-256color >/dev/null 2>&1; then
-	export TERM=xterm-256color
-fi
+# Case-insensitive globbing (used in pathname expansion)
+shopt -s nocaseglob;
 
-if tput setaf 1 &> /dev/null; then
-	tput sgr0
-	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-		MAGENTA=$(tput setaf 9)
-		ORANGE=$(tput setaf 172)
-		GREEN=$(tput setaf 190)
-		PURPLE=$(tput setaf 141)
-		WHITE=$(tput setaf 256)
-	else
-		MAGENTA=$(tput setaf 5)
-		ORANGE=$(tput setaf 4)
-		GREEN=$(tput setaf 2)
-		PURPLE=$(tput setaf 1)
-		WHITE=$(tput setaf 7)
-	fi
-	BOLD=$(tput bold)
-	RESET=$(tput sgr0)
-else
-	MAGENTA="\033[1;31m"
-	ORANGE="\033[1;33m"
-	GREEN="\033[1;32m"
-	PURPLE="\033[1;35m"
-	WHITE="\033[1;37m"
-	BOLD=""
-	RESET="\033[m"
-fi
+# Append to the Bash history file, rather than overwriting it
+shopt -s histappend;
 
-function git_info() {
-	# check if we're in a git repo
-	git rev-parse --is-inside-work-tree &>/dev/null || return
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell;
 
-	# quickest check for what branch we're on
-	branch=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
+# Enable some Bash 4 features when possible:
+# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+# * Recursive globbing, e.g. `echo **/*.txt`
+for option in autocd globstar; do
+	shopt -s "$option" 2> /dev/null;
+done;
 
-	# check if it's dirty (via github.com/sindresorhus/pure)
-	dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
+# Add tab completion for many Bash commands
+if which brew > /dev/null && [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+	source "$(brew --prefix)/etc/bash_completion";
+elif [ -f /etc/bash_completion ]; then
+	source /etc/bash_completion;
+fi;
 
-	echo $WHITE" git:"$PURPLE$branch$dirty
-}
-
-# Only show username/host if not default
-function usernamehost() {
-	if [ $USER != $default_username ]; then echo "${MAGENTA}$USER ${WHITE}at ${ORANGE}$HOSTNAME $WHITEin "; fi
-}
-
-PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]${BOLD}\$(usernamehost)\[$GREEN\]\w\$(git_info)\[$WHITE\]\n\$ \[$RESET\]"
-
-#
-# Colourful man pages
-######################################
-export LESS_TERMCAP_mb=$'\E[01;37m'
-export LESS_TERMCAP_md=$'\E[01;37m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;44;33m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[1;31m'
-
-
-#
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-
-
-#
-# Aliases
-#######################################
-source $HOME/.aliases
-
-
-#
-# Functions
-#######################################
-source $HOME/.functions
-
-
-# TERMINAL COLOURS
-#######################################
+# Terminal Colours
 export CLICOLOR='true'
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 
+# Enable tab completion for `g` by marking it as an alias for `git`
+if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
+	complete -o default -o nospace -F _git g;
+fi;
 
-# Path Settings
-#######################################
-export PATH=$PATH:$HOME/bin
+# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh;
 
+# Add `killall` tab completion for common apps
+complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
 
 # {{{
 # Node Completion - Auto-generated, do not touch.

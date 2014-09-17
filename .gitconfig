@@ -1,55 +1,113 @@
-[user]
-	name = Adam Brewer
-	email = adamcbrewer@gmail.com
-
 [alias]
-	ci   	= commit
-	ca   	= commit -a
-	cam  	= commit -am
-	amend  	= commit --amend -a -m
-	st   	= status
-	s    	= status -sb
-	b    	= branch
-	co   	= checkout
-	up   	= pull
-	p    	= push
-	go 		= checkout -b
-	all 	= add --all
-	unstage = reset HEAD
-	tags 	= tag -l
-	branches = branch -a
-	remotes = remote -v
-	chop 	= status | grep deleted | awk '{print $3}' | xargs git rm  # removes deleted files (broken?)
-	untrack = rm --cached  # un-track any file that was added before ignoring
-	df   	= diff --color --color-words --abbrev
-	lg1   	= log --color --graph --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %C(white)(%cr) %C(yellow)<%an>%Creset' --abbrev-commit --date=relative
-	lg2		= log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
-	lg3		= log --graph --abbrev-commit --decorate --format=format:'%C(red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-	lg		= !"git lg2"
 
-[color]
-	ui = always
+    # Committing
+    all         = add --all
+    ci          = commit
+    ca          = commit -a
+    cam         = commit -am
+    amend       = commit --amend -a -m
+    append      = commit --amend --reuse-message=HEAD
+
+    # Reverting/Resetting
+    untrack     = rm --cached
+    unstage     = reset HEAD
+    chop        = status | grep deleted | awk '{print $3}' | xargs git rm  # removes deleted files (broken?)
+
+    # Status
+    st          = status
+    s           = status -sb
+    b           = branch
+
+    # Branches & Remotes
+	# Switch to a branch, creating it if necessary
+    go          = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    co          = checkout
+    remotes     = remote -v
+    branches    = branch -a
+    tags        = tag -l
+
+    # Logging/DIFFing
+    # View abbreviated SHA, description, and history graph of the latest 20 commits
+    l           = log --pretty=oneline -n 20 --graph --abbrev-commit
+    lg1         = log --color --graph --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %C(white)(%cr) %C(yellow)<%an>%Creset' --abbrev-commit --date=relative
+    lg2         = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
+    lg3         = log --graph --abbrev-commit --decorate --format=format:'%C(red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    lg          = !"git lg2"
+    df          = diff --color --color-words --abbrev
+
+    # Pulling
+    # Pull in remote changes for the current repository and all its submodules
+    p       = !"git pull; git submodule foreach git pull origin master"
+    up      = pull
+
+    # Cloning
+    # Clone a repository including all submodules
+    c = clone --recursive
 
 [apply]
-	whitespace = fix
+
+    whitespace = fix
 
 [core]
-	excludesfile = ~/.gitignore
-	whitespace = fix,space-before-tab,tab-in-indent,trailing-space
-	editor = /usr/bin/vim
+
+    excludesfile = ~/.gitignore
+	editor = ~/bin/subl
+    attributesfile = ~/.gitattributes
+    # Treat spaces before tabs and all kinds of trailing whitespace as an error
+    # [default] trailing-space: looks for spaces at the end of a line
+    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+[color]
+    ui = always
 
 [color "branch"]
-	current = yellow reverse
+
+    current = yellow reverse
 	local = yellow
 	remote = green
 
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
+
+    meta = yellow bold
+    frag = magenta bold # line info
+    old = red # deletions
+    new = green # additions
 
 [color "status"]
-	added = yellow
+
+    added = yellow
 	changed = green
 	untracked = cyan
+
+[help]
+
+    # Automatically correct and execute mistyped commands
+    autocorrect = 1
+
+
+[merge]
+
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+
+# URL shorthands
+[url "git@github.com:"]
+
+    insteadOf = "gh:"
+    pushInsteadOf = "github:"
+    pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+    insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+    insteadOf = "gst:"
+    pushInsteadOf = "gist:"
+    pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+    insteadOf = "gist:"
