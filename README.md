@@ -8,13 +8,13 @@ dotfiles
 `cd` into your local `dotfiles` repository and then:
 
 ```bash
-source bootstrap.sh
+# -f to avoid permission
+source bootstrap.sh [-f]
 ```
 
 To update later on, just run that command again.
 
 ### Specify the `$PATH`
-
 
 If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/mathiasbynens/dotfiles/blob/aff769fd75225d8f2e481185a71d5e05b76002dc/.aliases#L21-26)) takes place.
 
@@ -81,4 +81,4 @@ Now	 make sure that `/usr/local/bin` is in your `$PATH` (consult your `~/bash_pr
 
 ## Thanks
 
-…to @mathiasbynens for [his awesome dotfiles](https://github.com/mathiasbynens/dotfiles) which most of this is based off.
+...to @mathiasbynens for [his awesome dotfiles](https://github.com/mathiasbynens/dotfiles) which most of this is based off.
