@@ -37,13 +37,14 @@
 
     # Pulling & Pushing
     # Pull in remote changes for the current repository and all its submodules
-    p       = !"git pull; git submodule foreach git pull origin master"
-    down    = pull
-    up      = push
+    p           = !"git pull; git submodule foreach git pull origin master"
+    down        = pull
+    up          = push
+    undopush    = push -f origin HEAD^:master
 
     # Cloning
     # Clone a repository including all submodules
-    c = clone --recursive
+    c           = clone --recursive
 
 [apply]
 
