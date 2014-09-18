@@ -2,7 +2,7 @@
 syntax: glob
 
 # Compiled Python files
-#*.pyc
+*.pyc
 
 # Folder view configuration files
 .DS_Store
