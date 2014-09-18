@@ -13,7 +13,7 @@ ehthumbs.db
 .Trashes
 
 # Compiled Python files
-*.pyc
+# *.pyc
 
 # Logs
 *.log
