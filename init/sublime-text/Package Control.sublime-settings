@@ -1,0 +1,33 @@
+{
+    "auto_upgrade_last_run": null,
+    "installed_packages":
+    [
+        "AngularJS",
+        "AutoFileName",
+        "ClosureMyJS",
+        "Dayle Rees Color Schemes",
+        "Djaneiro",
+        "DocBlockr",
+        "Dotfiles Syntax Highlighting",
+        "EditorConfig",
+        "Emmet",
+        "Gist",
+        "GitGutter",
+        "Handlebars",
+        "HTML5",
+        "JavaScript Snippets",
+        "Laravel Blade Highlighter",
+        "LESS",
+        "List LESS Variables",
+        "Markdown Preview",
+        "Package Control",
+        "Sass",
+        "SFTP",
+        "SideBarEnhancements",
+        "SublimeLinter",
+        "Syntax Highlighting for Sass",
+        "Theme - Flatland",
+        "Theme - Spacegray",
+        "WordCount"
+    ]
+}
