@@ -48,7 +48,7 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo 
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
 # All the clean-ups
-alias tidyup="flush && emptytrash && cleanup"
+alias cleanall="flush && emptytrash"
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
