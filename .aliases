@@ -122,3 +122,6 @@ alias counttabs="ps ux | grep '[C]hrome Helper --type=renderer' | grep -vc exten
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias killtabs="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+# Seach github.com/drcongo/spammy-recruiters to see if the recruiters are spammy
+alias isspammy="curl -s https://raw.githubusercontent.com/drcongo/spammy-recruiters/master/spammers.txt | grep ${1}"
