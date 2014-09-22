@@ -32,7 +32,10 @@ alias ls="ls ${colorflag}"
 alias ttop='top -ocpu -R -F -s 2 -n30'
 
 # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm update npm -g; npm update -g; sudo gem update --system; sudo gem update'
+alias updatenpms='npm update npm -g && npm update -g'
+alias updatebrews='brew update && brew upgrade && brew cleanup'
+alias updategems='sudo gem update --system && sudo gem update'
+alias updateall='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm update npm -g; npm update -g; sudo gem update --system; sudo gem update'
 
 # Enhanced WHOIS lookups
 alias whois="whois -h whois-servers.net"
