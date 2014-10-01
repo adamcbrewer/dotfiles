@@ -15,7 +15,7 @@ Forklift
 VLC
 App Cleaner
 TicToc
-Xcode
+Xcode & Xcode Developer Tools
 
 ### Command Line Stuff
 git

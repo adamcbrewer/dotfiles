@@ -115,6 +115,9 @@ alias d="du -h -d=1"
 # File size
 alias fs="stat -f \"%z bytes\""
 
+# Be rude back to your system when it's being stubborn
+alias fuck='sudo $(history -p \!\!)'
+
 # Stuff I never really use but cannot delete either because of http://xkcd.com/530/
 alias stfu="osascript -e 'set volume output muted true'"
 alias pumpitup="osascript -e 'set volume 10'"
