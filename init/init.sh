@@ -10,3 +10,4 @@ fi
 # Install binaries using the 
 # newly installed Homebrew
 brew bundle ./Brewfile
+echo "Don’t forget to add: \$PATH=\$(brew --prefix coreutils)/libexec/gnubin:\$PATH"
