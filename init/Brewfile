@@ -1,0 +1,44 @@
+# Install command-line tools using Homebrew
+# Usage: `brew bundle Brewfile`
+
+# Make sure we’re using the latest Homebrew
+update
+
+# Upgrade any already-installed formulae
+upgrade
+
+# Install GNU core utilities (those that come with OS X are outdated)
+install coreutils
+# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`:
+# $PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+
+# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
+install findutils
+
+# Install Bash 4
+install bash
+install bash-completion
+
+# Install wget
+install wget
+
+# Install other useful binaries
+install ack
+install git
+install imagemagick --with-webp
+install lynx
+install node # This installs `npm` too using the recommended installation method
+install p7zip
+install tree
+install webkit2png
+install graphicsmagick
+install webkit2png
+install ffmpeg
+install tree
+  ack
+  git
+
+install homebrew/versions/lua52
+
+# Remove outdated versions from the cellar
+cleanup
