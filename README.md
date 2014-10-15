@@ -51,20 +51,16 @@ When setting up a new Mac, you may want to set some sensible OS X defaults:
 ./.osx
 ```
 
-### Install Homebrew formulae
+### Setting Up From Scratch
 
-When setting up a new Mac, you may want to install some common [Homebrew](http://brew.sh/) formulae (after installing Homebrew, of course):
+#### The `/init` directory.
 
-```bash
-brew bundle ~/Brewfile
-```
+This directory contains a listing of applications, manula configs and other essentials then could easily be forgotten when setting up a new Mac. There are also some other useful files, such as resetting a Macbook back to factory settings and some specific application settings.
 
-### Install native apps with `brew cask`
-
-You could also install native apps with [`brew cask`](https://github.com/phinze/homebrew-cask):
+The `init.sh` script runs a few automated tasks, such as installing useful [Homebrew](http://brew.sh/) binaries (these are listen in the `Brewfile`). Firstly, make sure it's executable.
 
 ```bash
-brew bundle ~/Caskfile
+$ init.sh
 ```
 
 ## Other Settings
