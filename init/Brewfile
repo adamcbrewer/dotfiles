@@ -19,26 +19,19 @@ install findutils
 install bash
 install bash-completion
 
-# Install wget
-install wget
-
 # Install other useful binaries
-install ack
 install git
+# This installs `npm` too using the recommended installation method
+install node
+install wget
+install ack
 install imagemagick --with-webp
 install lynx
-install node # This installs `npm` too using the recommended installation method
 install p7zip
 install tree
 install webkit2png
 install graphicsmagick
-install webkit2png
 install ffmpeg
-install tree
-  ack
-  git
-
-install homebrew/versions/lua52
 
 # Remove outdated versions from the cellar
 cleanup
