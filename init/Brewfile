@@ -2,36 +2,36 @@
 # Usage: `brew bundle Brewfile`
 
 # Make sure we’re using the latest Homebrew
-update
+update -v
 
 # Upgrade any already-installed formulae
-upgrade
+upgrade -v
 
 # Install GNU core utilities (those that come with OS X are outdated)
-install coreutils
+install -v coreutils
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`:
 # $PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
-install findutils
+# Install -v GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
+install -v findutils
 
-# Install Bash 4
-install bash
-install bash-completion
+# Install -v Bash 4
+install -v bash
+install -v bash-completion
 
-# Install other useful binaries
-install git
+# Install -v other useful binaries
+install -v git
 # This installs `npm` too using the recommended installation method
-install node
-install wget
-install ack
-install imagemagick --with-webp
-install lynx
-install p7zip
-install tree
-install webkit2png
-install graphicsmagick
-install ffmpeg
+install -v node
+install -v wget
+install -v ack
+install -v imagemagick --with-webp
+install -v lynx
+install -v p7zip
+install -v tree
+install -v webkit2png
+install -v graphicsmagick
+install -v ffmpeg
 
 # Remove outdated versions from the cellar
 cleanup

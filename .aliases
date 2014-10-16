@@ -7,6 +7,7 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # Programs
+ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 alias st="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 alias g="git"
 alias v="vim"
