@@ -1,12 +1,13 @@
 [alias]
 
-    # Committing
+    # Committing and Stashing
     all         = add --all
     ci          = commit
     ca          = commit -a
     cam         = commit -am
     amend       = commit --amend -a -m
     append      = commit --amend --reuse-message=HEAD
+    pop         = stash pop
 
     # Reverting/Resetting
     untrack     = rm --cached
