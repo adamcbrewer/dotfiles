@@ -1,7 +1,7 @@
 [alias]
 
     # Committing and Stashing
-    all         = add --all
+    addremove   = add --all
     ci          = commit
     ca          = commit -a
     cam         = commit -am
