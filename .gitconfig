@@ -2,6 +2,7 @@
 
     # Committing and Stashing
     addremove   = add --all
+    all   = add .
     ci          = commit
     ca          = commit -a
     cam         = commit -am
