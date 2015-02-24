@@ -70,7 +70,7 @@ $ init.sh
 The following command ensures that `npm install -g <package>` does not require super-user permissions.
 
 ``` bash
-$ sudo chown -R $USER /usr/local
+$ sudo chown -R `whoami` /usr/local/lib/node_modules
 ```
 
 Now	 make sure that `/usr/local/bin` is in your `$PATH` (consult your `~/bash_profile` after installing these dotfiles).
