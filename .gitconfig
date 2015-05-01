@@ -19,6 +19,8 @@
     st          = status
     s           = status -sb
     b           = branch
+    ba          = branch -a
+    br          = branch -r
 
     # Branches & Remotes
 	# Switch to a branch, creating it if necessary
@@ -30,11 +32,11 @@
 
     # Logging/DIFFing
     # View abbreviated SHA, description, and history graph of the latest 20 commits
-    l           = log --pretty=oneline -n 20 --graph --abbrev-commit
+    l           = !"git lg2 -n 20"
     lg1         = log --color --graph --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %C(white)(%cr) %C(yellow)<%an>%Creset' --abbrev-commit --date=relative
     lg2         = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(red)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
     lg3         = log --graph --abbrev-commit --decorate --format=format:'%C(red)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''  %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-    lg          = !"git lg2"
+    lg          = log --pretty=oneline -n 20 --graph --abbrev-commit
     df          = diff --color --color-words --abbrev
 
     # Pulling & Pushing
