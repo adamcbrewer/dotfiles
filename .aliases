@@ -7,7 +7,6 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # Programs
-ln -s "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 alias st="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 alias g="git"
 alias v="vim"
@@ -67,12 +66,6 @@ alias npmg="sudo npm install -g"
 alias npmu="sudo npm update"
 alias npmr="sudo npm uninstall"
 alias npmrg="sudo npm uninstall -g"
-
-# Canonical hex dump; some systems have this symlinked
-type -t hd > /dev/null || alias hd="hexdump -C"
-
-# OS X has no `md5sum`, so use `md5` as a fallback
-type -t md5sum > /dev/null || alias md5sum="md5"
 
 # OS X has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"

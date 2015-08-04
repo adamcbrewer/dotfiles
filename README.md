@@ -63,6 +63,11 @@ The `init.sh` script runs a few automated tasks, such as installing useful [Home
 $ init.sh
 ```
 
+#### Bash or ZSH?
+
+There are setups for both zsh and bash workflows. You'll need to install [Oh My ZSH](http://ohmyz.sh) to take advantage of the zsh setups. You may need to install [Powerline Fonts](https://github.com/powerline/fonts) for some themes.
+
+
 ## Other Settings
 
 ### Node.js & NPM
