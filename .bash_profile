@@ -57,3 +57,6 @@ if [ -f $HOME/.node-completion ]; then
 	done
 fi
 # }}}
+
+# Don't write .DS_Store files to network mounts
+defaults write com.apple.desktopservices DSDontWriteNetworkStores true
