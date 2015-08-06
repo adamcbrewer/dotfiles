@@ -2,10 +2,8 @@
     "auto_close_tags": false,
     "bold_folder_labels": true,
     "caret_style": "smooth",
-    "color_scheme": "Packages/Theme - Spacegray/base16-eighties.dark.tmTheme",
-    "detect_indentation": true,
-    "draw_white_space": "selection",
-    "ensure_newline_at_eof_on_save": false,
+    "color_scheme": "Packages/User/SublimeLinter/Oceanic Next (SL).tmTheme",
+    "ensure_newline_at_eof_on_save": true,
     "file_exclude_patterns":
     [
         ".DS_Store",
@@ -14,17 +12,16 @@
     ],
     "folder_exclude_patterns":
     [
-        ".git",
         ".hg",
+        ".git",
         ".sass-cache",
         "coverage",
         "log",
         "tmp",
-        "cache",
         "/uploads"
     ],
-    "font_face": "Monaco",
-    "font_size": 12.0,
+    "font_face": "Office Code Pro",
+    "font_size": 14.0,
     "highlight_line": true,
     "highlight_modified_tabs": true,
     "ignored_packages":
@@ -36,7 +33,9 @@
         "draw_normal",
         "draw_active"
     ],
-    "index_exclude_patterns": [],
+    "index_exclude_patterns":
+    [
+    ],
     "line_padding_bottom": 1,
     "line_padding_top": 1,
     "match_brackets": true,
@@ -45,16 +44,13 @@
     "match_brackets_content": true,
     "match_brackets_square": true,
     "save_on_focus_lost": false,
-    "spell_check": true,
+    "spell_check": false,
     "tab_size": 4,
-    "theme": "Spacegray.sublime-theme",
+    "theme": "Material-Theme.sublime-theme",
     "translate_tabs_to_spaces": true,
     "trim_trailing_white_space_on_save": true,
     "wide_caret": true,
     "word_separators": "./\\()\"'-:,.;<>~!@#%^&$*|+=[]{}`~?_",
     "word_wrap": false,
-    "wrap_width": 80,
-    "rulers": [
-        80
-    ],
+    "wrap_width": 80
 }
