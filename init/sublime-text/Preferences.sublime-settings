@@ -1,6 +1,10 @@
 {
     "auto_close_tags": false,
     "bold_folder_labels": true,
+    "binary_file_patterns": [
+        "node_modules/*",
+        "bower_components/*"
+    ],
     "caret_style": "smooth",
     "color_scheme": "Packages/User/SublimeLinter/Oceanic Next (SL).tmTheme",
     "ensure_newline_at_eof_on_save": true,
