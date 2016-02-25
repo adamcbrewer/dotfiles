@@ -4,6 +4,7 @@
     addremove   = add --all
     all         = add .
     ci          = commit
+    cm          = commit -m
     ca          = commit -a
     cam         = commit -am
     amend       = commit --amend -m
@@ -13,14 +14,13 @@
     # Reverting/Resetting
     untrack     = rm --cached
     unstage     = reset HEAD
+    forget      = update-index --assume-unchanged
+    remember    = update-index --no-assume-unchanged
     chop        = status | grep deleted | awk '{print $3}' | xargs git rm  # removes deleted files (broken?)
 
     # Status
     st          = status
     s           = status -sb
-    b           = branch
-    ba          = branch -a
-    br          = branch -r
 
     # Branches & Remotes
 	# Switch to a branch, creating it if necessary
@@ -28,6 +28,9 @@
     co          = checkout
     remotes     = remote -v
     branches    = branch -a
+    b           = branch
+    ba          = branch -a
+    br          = branch -r
     tags        = tag -l
 
     # Logging/DIFFing
