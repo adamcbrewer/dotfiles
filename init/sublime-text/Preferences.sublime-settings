@@ -3,10 +3,17 @@
     "bold_folder_labels": true,
     "binary_file_patterns": [
         "node_modules/*",
-        "bower_components/*"
+        "bower_components/*",
+        "closure-library/*",
+        "third_party/*",
+        "app/kirby/*",
+		"app/panel/*",
+        "goro-files/*",
+		"out/*",
+		".tmp/*"
     ],
     "caret_style": "smooth",
-    "color_scheme": "Packages/User/SublimeLinter/Oceanic Next (SL).tmTheme",
+    "color_scheme": "Packages/User/SublimeLinter/Material-Theme-OceanicNext (SL).tmTheme",
     "ensure_newline_at_eof_on_save": true,
     "file_exclude_patterns":
     [
@@ -47,6 +54,10 @@
     "match_brackets_braces": true,
     "match_brackets_content": true,
     "match_brackets_square": true,
+    "rulers":
+	[
+		80
+	],
     "save_on_focus_lost": false,
     "spell_check": false,
     "tab_size": 4,
