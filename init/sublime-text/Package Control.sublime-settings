@@ -5,14 +5,13 @@
         "AlignTab",
         "AutoFileName",
         "Autoprefixer",
+        "Babel",
         "Base16 Color Schemes",
         "BracketHighlighter",
         "CSS3",
         "DataConverter",
-        "Dayle Rees Color Schemes",
         "DocBlockr",
         "Dotfiles Syntax Highlighting",
-        "Dracula Color Scheme",
         "EditorConfig",
         "Emmet",
         "GitGutter",
@@ -25,6 +24,7 @@
         "Markdown Preview",
         "Material Color Scheme",
         "Material Theme",
+        "Material Theme - Appbar",
         "Oceanic Next Color Scheme",
         "One Dark Color Scheme",
         "Package Control",
@@ -33,12 +33,9 @@
         "SCSS",
         "SFTP",
         "SideBarEnhancements",
+        "Slugify",
         "SublimeLinter",
         "SublimeLinter-jshint",
-        "Syntax Highlighting for Sass",
-        "Theme - Flatland",
-        "Theme - Spacegray",
-        "Tomorrow Color Schemes",
-        "WordCount"
+        "Syntax Highlighting for Sass"
     ]
 }
