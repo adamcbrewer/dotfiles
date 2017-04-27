@@ -48,6 +48,7 @@
     down        = pull
     up          = push
     undopush    = push -f origin HEAD^:master
+	prune 		= fetch --prune
 
     # Cloning
     # Clone a repository including all submodules
@@ -86,8 +87,8 @@
 [color "status"]
 
     added = yellow
-	changed = green
-	untracked = cyan
+    changed = green
+    untracked = cyan
 
 [help]
 
@@ -99,6 +100,10 @@
 
     # Include summaries of merged commits in newly created merge commit messages
     log = true
+	
+[push]
+
+	followTags = true
 
 # URL shorthands
 [url "git@github.com:"]
