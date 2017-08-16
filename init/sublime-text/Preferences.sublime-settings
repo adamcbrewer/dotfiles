@@ -10,13 +10,13 @@
         "app/thumbs/*",
         "app/kirby/*",
 		"app/panel/*",
-        "goro-files/*"
+        "goro-files/*",
         "app/polymer/*",
         "app/assets/*",
         "out/*",
 		"build/*",
         "dev/*",
-        ".git/*"
+        ".git/*",
 		".tmp/*"
     ],
     "caret_style": "smooth",
@@ -60,7 +60,15 @@
     "match_brackets_braces": true,
     "match_brackets_content": true,
     "match_brackets_square": true,
-    "material_theme_appbar_blue": true,
+    "material_theme_accent_pink": true,
+    "material_theme_tabs_autowidth": false,
+	"material_theme_appbar_blue": true,
+    "material_theme_compact_sidebar": true,
+    "material_theme_tree_headings": false,
+    "material_theme_small_tab": true,
+    "material_theme_arrow_folders": false,
+    "material_theme_small_statusbar": false,
+    "material_theme_bright_scrollbars": true,
     "rulers":
 	[
 		80
