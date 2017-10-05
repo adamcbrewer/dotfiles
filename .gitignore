@@ -20,3 +20,4 @@ ehthumbs.db
 # Others
 *~
 *.lock
+.vscode/**
