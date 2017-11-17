@@ -49,6 +49,8 @@
     up          = push
     undopush    = push -f origin HEAD^:master
 	prune 		= fetch --prune
+    # force pull from upstream
+	fpull       = "!f() { git fetch && git reset --hard $(git rev-parse --abbrev-ref HEAD@{u}); }; f"
 
     # Cloning
     # Clone a repository including all submodules
