@@ -1,20 +1,13 @@
 dotfiles
 ========
 
-## Installation
+## Requirements
 
-### Bootstrapping
+Make sure to install [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh).
 
-`cd` into your local `dotfiles` repository and then:
+## Dotfiles
 
-```bash
-# -f to avoid permission
-source bootstrap.sh [-f]
-```
-
-To update later on, just run that command again.
-
-### Specify the `$PATH`
+### `.path`
 
 If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/mathiasbynens/dotfiles/blob/aff769fd75225d8f2e481185a71d5e05b76002dc/.aliases#L21-26)) takes place.
 
@@ -24,11 +17,11 @@ Here’s an example `~/.path` file that adds `~/utils` to the `$PATH`:
 export PATH="$HOME/utils:$PATH"
 ```
 
-### Add custom commands without creating a new fork
+### `.extra`
 
 If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
 
-My `~/.extra` looks something like this:
+`~/.extra` could look something like this:
 
 ```bash
 # Git credentials
@@ -43,43 +36,17 @@ git config --global user.email "$GIT_AUTHOR_EMAIL"
 
 You could also use `~/.extra` to override settings, functions and aliases from my dotfiles repository.
 
-### Sensible OS X defaults
+### `.osx`
 
-When setting up a new Mac, you may want to set some sensible OS X defaults:
-
-```bash
-./.osx
-```
-
-### Setting Up From Scratch
-
-#### The `/init` directory.
-
-This directory contains a listing of applications, manula configs and other essentials then could easily be forgotten when setting up a new Mac. There are also some other useful files, such as resetting a Macbook back to factory settings and some specific application settings.
-
-The `init.sh` script runs a few automated tasks, such as installing useful [Homebrew](http://brew.sh/) binaries (these are listen in the `Brewfile`). Firstly, make sure it's executable.
-
-```bash
-$ init.sh
-```
-
-#### Bash or ZSH?
-
-There are setups for both zsh and bash workflows. You'll need to install [Oh My ZSH](http://ohmyz.sh) to take advantage of the zsh setups. You may need to install [Powerline Fonts](https://github.com/powerline/fonts) for some themes.
+When setting up a new Mac this file has a lot of useful OS X defaults. Either run individually or copy the file to your home directory and make sure it's included in `.zshrc`
 
 
-## Other Settings
+### `.hyper.js`
 
-### Node.js & NPM
+Use if Hyper terminal is installed. Make sure to install the listed plugins/themes from this file.
 
-The following command ensures that `npm install -g <package>` does not require super-user permissions.
+## OSX Specific
 
-``` bash
-$ sudo chown -R `whoami` /usr/local/lib/node_modules
-```
+### Quick-look plugins:
 
-Now	 make sure that `/usr/local/bin` is in your `$PATH` (consult your `~/bash_profile` after installing these dotfiles).
-
-## Thanks
-
-...to @mathiasbynens for [his awesome dotfiles](https://github.com/mathiasbynens/dotfiles) which most of this is based off.
+[github.com/sindresorhus/quick-look-plugins](https://github.com/sindresorhus/quick-look-plugins)

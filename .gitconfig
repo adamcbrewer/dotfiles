@@ -1,5 +1,4 @@
 [alias]
-
     # Committing and Stashing
     addremove   = add --all
     all         = add .
@@ -23,7 +22,7 @@
     s           = status -sb
 
     # Branches & Remotes
-	# Switch to a branch, creating it if necessary
+    # Switch to a branch, creating it if necessary
     go          = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
     co          = checkout
     remotes     = remote -v
@@ -48,22 +47,20 @@
     down        = pull
     up          = push
     undopush    = push -f origin HEAD^:master
-	prune 		= fetch --prune
+    prune 		= fetch --prune
     # force pull from upstream
-	fpull       = "!f() { git fetch && git reset --hard $(git rev-parse --abbrev-ref HEAD@{u}); }; f"
+    fpull       = "!f() { git fetch && git reset --hard $(git rev-parse --abbrev-ref HEAD@{u}); }; f"
 
     # Cloning
     # Clone a repository including all submodules
     c           = clone --recursive
 
 [apply]
-
     whitespace = fix
 
 [core]
-
     excludesfile = ~/.gitignore
-	editor = vim
+    editor = vim
     attributesfile = ~/.gitattributes
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
@@ -74,56 +71,45 @@
     ui = always
 
 [color "branch"]
-
     current = yellow reverse
-	local = yellow
-	remote = green
+    local = yellow
+    remote = green
 
 [color "diff"]
-
     meta = yellow bold
     frag = magenta bold # line info
     old = red # deletions
     new = green # additions
 
 [color "status"]
-
     added = yellow
     changed = green
     untracked = cyan
 
 [help]
-
     # Automatically correct and execute mistyped commands
-    autocorrect = 1
-
+    autocorrect = 0
 
 [merge]
-
     # Include summaries of merged commits in newly created merge commit messages
     log = true
-	
-[push]
 
-	followTags = true
+[push]
+    followTags = true
 
 # URL shorthands
 [url "git@github.com:"]
-
     insteadOf = "gh:"
     pushInsteadOf = "github:"
     pushInsteadOf = "git://github.com/"
 
 [url "git://github.com/"]
-
     insteadOf = "github:"
 
 [url "git@gist.github.com:"]
-
     insteadOf = "gst:"
     pushInsteadOf = "gist:"
     pushInsteadOf = "git://gist.github.com/"
 
 [url "git://gist.github.com/"]
-
     insteadOf = "gist:"
