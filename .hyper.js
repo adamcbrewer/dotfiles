@@ -12,7 +12,7 @@ module.exports = {
     fontSize: 14,
 
     // font family with optional fallbacks
-    fontFamily: 'Operator Mono, Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+    fontFamily: 'Dank Mono, Operator Mono, Cascadia Code, Fira Code, Inconsolata, Hack',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: 'normal',
@@ -36,7 +36,7 @@ module.exports = {
     cursorShape: 'BLOCK',
 
     // set to `true` (without backticks and without quotes) for blinking cursor
-    cursorBlink: false,
+    cursorBlink: true,
 
     // color of the text
     foregroundColor: '#fff',
@@ -52,7 +52,16 @@ module.exports = {
     borderColor: '#333',
 
     // custom CSS to embed in the main window
-    css: '',
+    css: `
+      .term_fit.term_active>.term_fit:not(.term_term) {
+        opacity: 1;
+        transition: opacity 0.2s ease;
+        will-change: opacity;
+      }
+      .term_fit:not(.term_active)>.term_fit:not(.term_term) {
+        opacity: 0.7;
+      }
+    `,
 
     // custom CSS to embed in the terminal window
     termCSS: '',
@@ -103,7 +112,7 @@ module.exports = {
     //
     // PowerShell on Windows
     // - Example: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
-    shell: '/usr/local/bin/zsh',
+    shell: '/bin/zsh',
 
     // for setting shell arguments (i.e. for using interactive shellArgs: `['-i']`)
     // by default `['--login']` will be used
