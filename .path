@@ -1,3 +1,0 @@
-# Extend your $PATH here
-
-export PATH="/Users/$(whoami)/.composer/vendor/bin:/usr/local/bin:/usr/local/php5/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
