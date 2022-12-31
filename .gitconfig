@@ -44,13 +44,12 @@
     # Pull in remote changes for the current repository and all its submodules
     p           = !"git pull; git submodule foreach git pull origin master"
     down        = pull
+    pp        = pull --prune
     up          = push
     undopush    = push -f origin HEAD^:master
     prune       = fetch --prune
     # force pull from upstream
     fpull       = "!f() { git fetch && git reset --hard $(git rev-parse --abbrev-ref HEAD@{u}); }; f"
-    # run the pre-push
-    pp          = !"./.git/hooks/pre-push"
 
     # Cloning
     # Clone a repository including all submodules
@@ -125,5 +124,5 @@
     insteadOf = "gist:"
 
 [user]
-    name = Adam Brewer
-    email = adamcbrewer@gmail.com
+	name = Adam Brewer
+	email = adamcbrewer@gmail.com
