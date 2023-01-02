@@ -1,0 +1,14 @@
+{
+	"windowPosition": [
+		2560,
+		24
+	],
+	"windowSize": [
+		2560,
+		1416
+	],
+	"hyper": {
+		"plugins": "{\"plugins\":[\"hyper-one-dark\",\"hypercwd\"],\"localPlugins\":[]}",
+		"plugin-versions": "[[\"hyper-one-dark\",\"1.0.0\"],[\"hypercwd\",\"1.4.0\"]]"
+	}
+}
