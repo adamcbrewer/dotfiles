@@ -10,8 +10,7 @@ module.exports = {
     // default font size in pixels for all tabs
     fontSize: 13,
     // font family with optional fallbacks
-    fontFamily:
-      '"Operator Mono", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+    fontFamily: '"UbuntuMono Nerd Font Mono"',
     // default font weight: 'normal' or 'bold'
     fontWeight: "300",
     // font weight for bold characters: 'normal' or 'bold'
@@ -44,8 +43,6 @@ module.exports = {
     `,
     // custom CSS to embed in the terminal window
     termCSS: "",
-    // set custom startup directory (must be an absolute path)
-    workingDirectory: "/home/adam/localhost",
     // if you're using a Linux setup which show native menus, set to false
     // default: `true` on Linux, `true` on Windows, ignored on macOS
     showHamburgerMenu: "",
@@ -133,6 +130,8 @@ module.exports = {
     screenReaderMode: false,
     // set to true to preserve working directory when creating splits or tabs
     preserveCWD: true,
+    // set custom startup directory (must be an absolute path)
+    workingDirectory: "/home/adam/localhost",
     // for advanced config flags please refer to https://hyper.is/#cfg
   },
   // a list of plugins to fetch and install from npm
