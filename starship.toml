@@ -1,7 +1,12 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+command_timeout = 10000
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
 format = """
-[](surface0)\
+[█](surface0)\
 $username\
 [](bg:peach fg:surface0)\
 $directory\
@@ -124,7 +129,7 @@ style = "bg:teal"
 format = '[[($all_status$ahead_behind )](fg:base bg:green)]($style)'
 
 [nodejs]
-symbol = "⬡"
+symbol = "⬢"
 style = "bg:teal"
 format = '[[ $symbol( $version) ](fg:base bg:teal)]($style)'
 

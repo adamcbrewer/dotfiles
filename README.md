@@ -1,23 +1,36 @@
 dotfiles
 ========
 
-## Notes to self
-
-I've decided not to use oh-my-zsh to remove complexity and keep plugins manually managed within `~/.zsh-plugins/...`
-
 ## Requirements
 
 Make sure to install:
-  - zsh
+  - zsh / fish
   - starship
   - tmux
   - zoxide
 
-## set zsh to be your default shell
+## Using Fish
 
+Set the default shell
+```sh
+chsh -s /usr/bin/fish
+```
+
+Unfortunately `nvm` doesn't work with fish so some plugins are required:
+
+- [install `fisher`](https://github.com/jorgebucaran/fisher)
+- [install `bass`](https://github.com/edc/bass)
+
+
+## Using ZSH
+
+I've decided not to use oh-my-zsh to remove complexity and keep plugins manually managed within `~/.zsh-plugins/...`
+
+Set the default shell
 ```sh
 chsh -s /usr/bin/zsh
 ```
+
 
 ## Git
 ```bash
