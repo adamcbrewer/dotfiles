@@ -4,7 +4,7 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$HOME/android-studio/bin:$ANDROID_HOME/platform-tools:$HOME/bin:$HOME/.local/bin:$PATH
 # export PATH="/Users/$(whoami)/.composer/vendor/bin:/usr/local/bin:/usr/local/php5/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
 
-export STARSHIP_CONFIG=~/.starship.toml
+export STARSHIP_CONFIG=~/.config/starship.toml
 
 # Path to your oh-my-zsh installation.
 # export ZSH="$HOME/.oh-my-zsh"
