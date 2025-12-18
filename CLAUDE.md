@@ -8,7 +8,7 @@ Personal dotfiles for shell and terminal environment configuration. Files are me
 
 ## Dependencies
 
-- zsh or fish shell
+- fish shell
 - starship prompt
 - tmux (with tpm plugin manager)
 - zoxide (z command for directory jumping)
@@ -20,7 +20,6 @@ For fish: also install fisher + bass plugins for nvm compatibility.
 
 | File | Purpose |
 |------|---------|
-| `.zshrc` | Primary shell config, plugins in `~/.zsh-plugins/` |
 | `config.fish` | Fish shell config (alt shell) |
 | `.tmux.conf` | Tmux config, prefix is `C-s`, uses tpm |
 | `starship.toml` | Prompt config, lives at `~/.config/starship.toml` |
