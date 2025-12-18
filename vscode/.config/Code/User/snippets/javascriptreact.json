@@ -1,0 +1,55 @@
+{
+	// Place your snippets for javascriptreact here. Each snippet is defined under a snippet name and has a prefix, body and
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+    // }
+    "console.log": {
+        "prefix": "cl",
+        "description": "Put console.log",
+        "body": [
+            "console.log($TM_SELECTED_TEXT${0});"
+        ]
+    },
+    "console.group": {
+        "prefix": "cg",
+        "description": "Put console.group",
+        "body": [
+            "console.group(${0});",
+            "console.log($TM_SELECTED_TEXT${1});",
+            "console.groupEnd();"
+        ]
+    },
+    "React function Component": {
+        "prefix": "react-fn",
+        "description": "Create a new function component",
+        "scope": "javascript",
+        "body": [
+            "import React from 'react';",
+            "import PropTypes from 'prop-types';",
+            "import styled from 'styled-components';",
+            "",
+            "export const ${1:MyComponent} = ({ className }) => (",
+            "  <div className={className}>$0",
+            "    <h3>This is my component</h3>",
+            "  </div>",
+            ");",
+            "",
+            "$1.propTypes = {};",
+            "$1.defaultProps = {};",
+            "",
+            "export default styled($1)`",
+            "  ",
+            "`;",
+            ""
+        ],
+    }
+}

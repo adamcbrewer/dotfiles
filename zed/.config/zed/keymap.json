@@ -1,0 +1,46 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-Escape": "workspace::ToggleZoom",
+      // "ctrl-p": "file_finder::Toggle",
+    },
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "shift-ctrl-PageUp": "workspace::ActivatePaneLeft",
+      "shift-ctrl-PageDown": "workspace::ActivatePaneRight",
+      "super-ctrl-PageUp": "pane::SwapItemLeft",
+      "super-ctrl-PageDown": "pane::SwapItemRight",
+    },
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-shift-d": ["workspace::SendKeystrokes", "ctrl-shift-alt-down"],
+      "super-ctrl-down": "editor::GoToDefinition",
+      "super-ctrl-right": [
+        "workspace::MoveItemToPaneInDirection",
+        { "direction": "right" },
+      ],
+      "super-ctrl-left": [
+        "workspace::MoveItemToPaneInDirection",
+        { "direction": "left" },
+      ],
+    },
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "enter": ["workspace::SendKeystrokes", "space"],
+    },
+  },
+]

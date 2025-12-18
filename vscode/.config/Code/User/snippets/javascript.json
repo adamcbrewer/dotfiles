@@ -1,0 +1,44 @@
+{
+    /*
+    // Place your snippets for JavaScript here. Each snippet is defined under a snippet name and has a prefix, body and
+    // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+    // same ids are connected.
+    // Example:
+    "Print to console": {
+        "prefix": "log",
+        "body": [
+            "console.log('$1');",
+            "$2"
+        ],
+        "description": "Log output to console"
+    }
+    */
+    "console.log": {
+        "prefix": "cl",
+        "description": "Put console.log",
+        "body": [
+            "console.log($TM_SELECTED_TEXT${0});"
+        ]
+    },
+    "console.group": {
+        "prefix": "cg",
+        "description": "Put console.group",
+        "body": [
+            "console.group(${0});",
+            "console.log($TM_SELECTED_TEXT${1});",
+            "console.groupEnd();"
+        ]
+    },
+    "describe-it": {
+        "prefix": "jest-desc",
+        "description": "Create a describe/it test block",
+        "body": [
+            "describe('$1', () => {",
+            "  it('should ${2:...}', () => {",
+            "    expect($3).toEqual($0);",
+            "  });",
+            "});",
+        ]
+    }
+}

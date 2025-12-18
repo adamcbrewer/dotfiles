@@ -1,0 +1,145 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+  {
+    "key": "shift+ctrl+alt+l",
+    "command": "editor.action.insertSnippet",
+    "when": "editorTextFocus && editorLangId == php",
+    "args": {
+      "name": "PHP: var_dump"
+    }
+  },
+  {
+    "key": "shift+ctrl+alt+l",
+    "command": "editor.action.insertSnippet",
+    "when": "editorTextFocus && editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescriptreact",
+    "args": {
+      "name": "console.log"
+    }
+  },
+  {
+    "key": "shift+cmd+alt+l",
+    "command": "editor.action.insertSnippet",
+    "when": "editorTextFocus && editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescriptreact",
+    "args": {
+      "name": "console.log"
+    }
+  },
+  {
+    "key": "shift+ctrl+alt+g",
+    "command": "editor.action.insertSnippet",
+    "when": "editorTextFocus && editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescriptreact",
+    "args": {
+      "name": "console.group"
+    }
+  },
+  {
+    "key": "shift+cmd+alt+g",
+    "command": "editor.action.insertSnippet",
+    "when": "editorTextFocus && editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescriptreact",
+    "args": {
+      "name": "console.group"
+    }
+  },
+  {
+    "key": "ctrl+shift+x",
+    "command": "workbench.action.toggleEditorWidths"
+  },
+  {
+    "key": "ctrl+t",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "ctrl+alt+meta+down",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "alt+`",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "-workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "-aws.previewStateMachine",
+    "when": "editorTextFocus && isCloud9 && editorLangId == 'asl' || editorTextFocus && isCloud9 && editorLangId == 'asl-yaml' || editorTextFocus && !aws.isWebExtHost && editorLangId == 'asl' || editorTextFocus && !aws.isWebExtHost && editorLangId == 'asl-yaml'"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "-markdown.showPreview",
+    "when": "!notebookEditorFocused && editorLangId == 'markdown'"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "-notebook.cell.pasteAbove",
+    "when": "notebookEditorFocused && !inputFocus"
+  },
+  {
+    "key": "ctrl+alt+meta+pageup",
+    "command": "workbench.action.moveEditorToPreviousGroup"
+  },
+  {
+    "key": "ctrl+alt+left",
+    "command": "-workbench.action.moveEditorToPreviousGroup"
+  },
+  {
+    "key": "ctrl+alt+meta+pagedown",
+    "command": "workbench.action.moveEditorToNextGroup"
+  },
+  {
+    "key": "ctrl+alt+right",
+    "command": "-workbench.action.moveEditorToNextGroup"
+  },
+  {
+    "key": "ctrl+alt+pagedown",
+    "command": "workbench.action.moveEditorRightInGroup"
+  },
+  {
+    "key": "ctrl+shift+pagedown",
+    "command": "-workbench.action.moveEditorRightInGroup"
+  },
+  {
+    "key": "ctrl+alt+pageup",
+    "command": "workbench.action.moveEditorLeftInGroup"
+  },
+  {
+    "key": "ctrl+shift+pageup",
+    "command": "-workbench.action.moveEditorLeftInGroup"
+  },
+  {
+    "key": "ctrl+k ctrl+up",
+    "command": "-workbench.action.focusAboveGroup"
+  },
+  {
+    "key": "ctrl+k ctrl+down",
+    "command": "-workbench.action.focusBelowGroup"
+  },
+  {
+    "key": "ctrl+shift+pagedown",
+    "command": "workbench.action.focusNextGroup"
+  },
+  {
+    "key": "ctrl+shift+pageup",
+    "command": "workbench.action.focusPreviousGroup"
+  },
+  {
+    "key": "ctrl+meta+down",
+    "command": "editor.action.showDefinitionPreviewHover"
+  },
+  {
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\\\r\n"
+    },
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+r",
+    "command": "workbench.files.action.showActiveFileInExplorer"
+  }
+]

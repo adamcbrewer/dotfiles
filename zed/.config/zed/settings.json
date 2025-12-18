@@ -1,0 +1,224 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  // ============================================================================
+  // APPEARANCE & THEME
+  // ============================================================================
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Noctis Uva"
+  },
+  "theme_overrides": {
+    "Nord Dark": {
+      "elevated_surface.background": "red",
+      "surface.background": "blue",
+      "background": "green",
+      "editor.background": "#242832",
+      "editor.gutter.background": "#242832",
+      "panel.background": "#242832"
+      // "panel.focused_border": "#fbafba",
+      // "pane.focused_border": "yellow",
+      // "editor.subheader.background": "#242832",
+      // "editor.active_line.background": "#3b4252",
+      // "editor.highlighted_line.background": "#f3ff3f"
+    }
+  },
+  "ui_font_family": ".ZedMono",
+  "ui_font_size": 14.0,
+  "ui_font_weight": 400.0,
+  "buffer_font_size": 14.0,
+  "minimum_contrast_for_highlights": 60.0,
+  "cursor_shape": "block",
+  "current_line_highlight": "all",
+  "scroll_beyond_last_line": "vertical_scroll_margin",
+
+  // ============================================================================
+  // UI COMPONENTS
+  // ============================================================================
+  "title_bar": {
+    "show_menus": false,
+    "show_user_picture": true,
+    "show_onboarding_banner": false,
+    "show_project_items": true,
+    "show_branch_name": true,
+    "show_branch_icon": true
+  },
+  "tab_bar": {
+    "show_nav_history_buttons": false,
+    "show": true
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+    "show_diagnostics": "all"
+  },
+  "status_bar": {
+    "cursor_position_button": true,
+    "active_language_button": true
+  },
+  "toolbar": {
+    "code_actions": true
+  },
+  "minimap": {
+    "show": "auto"
+  },
+  "gutter": {
+    "min_line_number_digits": 3,
+    "line_numbers": true
+  },
+
+  // ============================================================================
+  // PANELS & SIDEBARS
+  // ============================================================================
+  "project_panel": {
+    "hide_hidden": false,
+    "button": true,
+    "hide_root": true,
+    "scrollbar": {
+      "show": "system"
+    },
+    "indent_size": 20.0,
+    "entry_spacing": "standard",
+    "hide_gitignore": false
+  },
+  "outline_panel": {
+    "button": true,
+    "dock": "right"
+  },
+  "active_pane_modifiers": {
+    "border_size": 0,
+    "inactive_opacity": 0.5
+  },
+
+  // ============================================================================
+  // EDITOR BEHAVIOR
+  // ============================================================================
+  "tab_size": 2,
+  "show_whitespaces": "selection",
+  "show_wrap_guides": true,
+  "wrap_guides": [80],
+  "indent_guides": {
+    "coloring": "indent_aware"
+  },
+  "show_completions_on_input": true,
+  "show_edit_predictions": true,
+  "snippet_sort_order": "top",
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": false,
+    "show_parameter_hints": false,
+    "show_other_hints": true,
+    "show_background": true
+  },
+
+  // ============================================================================
+  // FILE FINDER & SCANNING
+  // ============================================================================
+  "file_finder": {
+    "modal_max_width": "medium",
+    "file_icons": true,
+    "git_status": true,
+    "include_ignored": "all"
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.cache",
+    "**/.next",
+    "**/.nx",
+    "**/.sass-cache",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.{jpg,jpeg,png,gif,webp}",
+    "**/.{ttf,otf,woff,woff2}",
+    "**/coverage",
+    "**/dist",
+    "**/node_modules",
+    "**/vendor",
+    "**/*.sqlite",
+    "**/*.log",
+    "**/*.lock",
+    "**/yarn.lock",
+    "**/package-lock.json",
+    "**/pnpm-lock.yaml",
+    "**/composer.lock"
+  ],
+  "file_scan_inclusions": [".env*"],
+  "use_smartcase_search": true,
+  "preview_tabs": {
+    "enabled": false,
+    "enable_preview_from_file_finder": false,
+    "enable_keep_preview_on_code_navigation": false
+  },
+
+  // ============================================================================
+  // GIT INTEGRATION
+  // ============================================================================
+  "git": {
+    "hunk_style": "unstaged_hollow",
+    "inline_blame": {
+      "delay_ms": 200,
+      "show_commit_summary": true
+    },
+    "branch_picker": {
+      "show_author_name": true
+    }
+  },
+  "git_panel": {
+    "default_width": 500,
+    "status_style": "label_color",
+    "sort_by_path": true
+  },
+
+  // ============================================================================
+  // DIAGNOSTICS & LINTING
+  // ============================================================================
+  "diagnostics": {
+    "button": true,
+    "inline": {
+      "enabled": false
+    }
+  },
+  "prettier": {
+    "allowed": true
+  },
+
+  // ============================================================================
+  // AI & AGENT
+  // ============================================================================
+  "disable_ai": false,
+  "agent_ui_font_size": 16,
+  "agent": {
+    "always_allow_tool_actions": false,
+    "model_parameters": []
+  },
+  "features": {
+    "edit_prediction_provider": "supermaven"
+  },
+  "edit_predictions": {
+    "disabled_globs": ["**/.env*", "**/*.md"]
+  },
+
+  // ============================================================================
+  // TERMINAL
+  // ============================================================================
+  "terminal": {
+    "toolbar": {
+      "breadcrumbs": false
+    }
+  },
+
+  // ============================================================================
+  // PRIVACY & TELEMETRY
+  // ============================================================================
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  }
+}
