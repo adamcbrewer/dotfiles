@@ -27,7 +27,11 @@ dotfiles/
 ├── vim/            # -> ~/.vimrc, ~/.vim/
 ├── starship/       # -> ~/.config/starship.toml
 ├── bin/            # -> ~/.local/bin/
-└── _nostow/        # NOT stowed (bash archive, fonts, gnome)
+├── claude/         # -> ~/.claude/CLAUDE.md
+├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
+├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
+├── gh/             # -> ~/.config/gh/config.yml
+└── _nostow/        # NOT stowed (bash, fonts, gnome, claude-skills, flameshot, vscode-ext)
 ```
 
 ## Stow Commands
@@ -36,7 +40,7 @@ dotfiles/
 cd ~/localhost/dotfiles
 
 # Install all packages
-stow -t ~ fish git tmux vim starship bin
+stow -t ~ fish git tmux vim starship bin claude vscode zed gh
 
 # Remove a package
 stow -t ~ -D fish
