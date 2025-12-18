@@ -1,39 +1,51 @@
-dotfiles
-========
+# dotfiles
+
+Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Requirements
 
-Make sure to install:
-  - zsh / fish
-  - starship
-  - tmux
-  - zoxide
+- stow
+- fish shell
+- starship
+- tmux
+- zoxide
 
-## Using Fish
+For fish shell, also install [fisher](https://github.com/jorgebucaran/fisher) + [bass](https://github.com/edc/bass) for nvm compatibility.
 
-Set the default shell
+## Installation
+
+```sh
+# Clone to ~/localhost/dotfiles (or adjust paths)
+git clone <repo> ~/localhost/dotfiles
+cd ~/localhost/dotfiles
+
+# Install all packages
+stow -t ~ fish git tmux vim starship bin
+```
+
+## Packages
+
+| Package | Symlinks to |
+|---------|------------|
+| `fish` | `~/.config/fish/` |
+| `git` | `~/.gitconfig`, `~/.editorconfig` |
+| `tmux` | `~/.tmux.conf` |
+| `vim` | `~/.vimrc`, `~/.vim/` |
+| `starship` | `~/.config/starship.toml` |
+| `bin` | `~/.local/bin/` |
+
+The `_nostow/` directory contains archived configs (bash) and reference files (fonts, gnome) that are not stowed.
+
+## Shell Setup
+
 ```sh
 chsh -s /usr/bin/fish
 ```
 
-Unfortunately `nvm` doesn't work with fish so some plugins are required:
+## Git Config
 
-- [install `fisher`](https://github.com/jorgebucaran/fisher)
-- [install `bass`](https://github.com/edc/bass)
-
-
-## Using ZSH
-
-I've decided not to use oh-my-zsh to remove complexity and keep plugins manually managed within `~/.zsh-plugins/...`
-
-Set the default shell
+After stowing, set your identity:
 ```sh
-chsh -s /usr/bin/zsh
-```
-
-
-## Git
-```bash
-git config --global user.name "$GIT_AUTHOR_NAME"
-git config --global user.email "$GIT_AUTHOR_EMAIL"
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
 ```
