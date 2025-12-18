@@ -1,77 +1,57 @@
-# CLAUDE global context
+# CLAUDE.md
 
-## General
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-- Always exclude node_modules for searching and indexing
+## Overview
 
-## Git
+Personal dotfiles for shell and terminal environment configuration. Files are meant to be symlinked to home directory.
 
-This applies to all git operations, especially commits.
+## Dependencies
 
-### Commits
+- zsh or fish shell
+- starship prompt
+- tmux (with tpm plugin manager)
+- zoxide (z command for directory jumping)
+- nvm (node version manager)
 
-#### Commit messages
+For fish: also install fisher + bass plugins for nvm compatibility.
 
-##### Subject line (first line)
+## Key Files
 
-- 50 characters max length
-- Pluralise verb (adds, fixes, improves, removes, changes, etc.)
-- Be specific and descriptive
+| File | Purpose |
+|------|---------|
+| `.zshrc` | Primary shell config, plugins in `~/.zsh-plugins/` |
+| `config.fish` | Fish shell config (alt shell) |
+| `.tmux.conf` | Tmux config, prefix is `C-s`, uses tpm |
+| `starship.toml` | Prompt config, lives at `~/.config/starship.toml` |
+| `.gitconfig` | Git aliases and settings |
+| `.vimrc` | Vim config |
 
-##### Body (optional)
+## Theme
 
-- Leave a blank line between the subject and the body
-- Explain what and why vs. how
-- Never include claude code attribution to any commit messages
-- Append 🤖 to the end of the message on a newline with a space above.
+Catppuccin Mocha is used consistently across starship and tmux.
 
+## Git Aliases
 
-##### Commit message examples
+Common shortcuts defined in `.gitconfig`:
+- `g` → git
+- `s` → status -sb
+- `co` → checkout
+- `cm` → commit -m
+- `lg` / `l` → pretty log graphs
+- `go <branch>` → checkout or create branch
 
+## Installation
+
+Symlink files to home directory:
+```sh
+ln -s ~/localhost/dotfiles/.zshrc ~/.zshrc
+ln -s ~/localhost/dotfiles/.tmux.conf ~/.tmux.conf
+ln -s ~/localhost/dotfiles/starship.toml ~/.config/starship.toml
+# etc.
 ```
-Adds login form
+
+Set default shell:
+```sh
+chsh -s /usr/bin/zsh   # or /usr/bin/fish
 ```
-
-```
-Fixes api endpoints
-
-Api endpoint misspelled and response was not parsed as json
-```
-
-```
-Fixes date utils function
-
-Undefined/null dates were not being parsed correctly and tests cases weren't covered for these cases.
-```
-
-## Style Guidelines
-
-- Always avoid comments for lower level functions.
-- Include comments for higher level functions which perform more than 3 tasks/functions. Keep comments simple.
-- Don't use JSDoc style function header comments
-- Add comments when code clarity is insufficient or to explain non-standard solutions (like using any) or hard to read / understand code sections
-- Files/Components: PascalCase for components, camelCase for utils/hooks
-- Types: Strict typing, descriptive generics, no implicit any unless a typoe cannot be easily inferred, named prop interfaces
-- Type Naming: Function types use FunctionNameArgs, class options use ClassNameOptions, hook args use UseHookNameArgs, React component props use ComponentNameProps
-- ALWAYS respect how things are written in the existing project
-- DO NOT invent your own approaches or innovations
-- STRICTLY follow the existing style of tests, resolvers, functions, and arguments
-- Before creating a new file, ALWAYS examine a similar file and follow its style exactly
-- If code doesn't include comments, DO NOT add comments unless otherwise asked to do so.
-- Follow the exact format of error handling, variable naming, and code organization used in similar files
-- if a project has any kind of prettier config  file always run prettier formatting for changed files.
-
-## Permissions
-
-- If user modifies a file between reads, assume the change is intentional
-- Always use flamboyant emojis. More emojis the better.
-- Always keep the tone of Claude Code friendly, casual
-- Favour sarcasm and being funny over being serious or formal
-
-
-## MCP
-
-### Playwright
-When taking screenshots with Playwright copy the screenshot to `~/Pictures/Screenshots/<filename>.<ext>`. Prefix the filename with YYYY-MM-DDTHH:MM:SS timestamp.  Do not try to create the directory.
-
-When using playwright, always clode the browser once the task or screenshot has finished.
