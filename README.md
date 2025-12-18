@@ -2,32 +2,82 @@
 
 Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
-## Requirements
+## Dependencies
 
-- stow
-- fish shell
-- starship
-- tmux
-- zoxide
+Install these before stowing:
 
-For fish shell, also install [fisher](https://github.com/jorgebucaran/fisher) + [bass](https://github.com/edc/bass) for nvm compatibility.
+```sh
+# Core
+sudo apt install stow fish tmux vim zoxide
+
+# Starship prompt
+curl -sS https://starship.rs/install.sh | sh
+
+# GitHub CLI
+sudo apt install gh
+
+# NVM (for Node.js version management)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+```
+
+Optional (for respective packages):
+- [VS Code](https://code.visualstudio.com/)
+- [Zed](https://zed.dev/)
+- [Claude Code](https://claude.ai/code)
 
 ## Installation
 
 ```sh
-# Clone to ~/localhost/dotfiles (or adjust paths)
+# Clone
 git clone <repo> ~/localhost/dotfiles
 cd ~/localhost/dotfiles
 
-# Install all packages
+# Stow all packages
 stow -t ~ fish git tmux vim starship bin claude vscode zed gh
+```
+
+## Post-Install Setup
+
+### Fish Shell
+
+```sh
+# Set as default shell
+chsh -s /usr/bin/fish
+
+# Install fisher (plugin manager)
+fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+
+# Install plugins from fish_plugins manifest
+fish -c "fisher update"
+```
+
+### Tmux
+
+```sh
+# Install TPM (plugin manager)
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+# Start tmux, then press: prefix + I (Ctrl-s + I) to install plugins
+```
+
+### Git
+
+```sh
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+```
+
+### VS Code Extensions (optional)
+
+```sh
+cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 ```
 
 ## Packages
 
 | Package | Symlinks to |
-|---------|------------|
-| `fish` | `~/.config/fish/` |
+|---------|-------------|
+| `fish` | `~/.config/fish/{config.fish,fish_plugins}` |
 | `git` | `~/.gitconfig`, `~/.editorconfig` |
 | `tmux` | `~/.tmux.conf` |
 | `vim` | `~/.vimrc`, `~/.vim/` |
@@ -38,24 +88,20 @@ stow -t ~ fish git tmux vim starship bin claude vscode zed gh
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
 | `gh` | `~/.config/gh/config.yml` |
 
-The `_nostow/` directory contains archived configs and reference files that are not stowed:
-- `bash/` - old bash config
-- `fonts/` - font files
-- `gnome/` - GNOME/dconf settings
-- `claude-skills/` - Claude Code custom skills
-- `flameshot/` - screenshot tool config
-- `vscode-ext/` - VS Code extensions list
+## _nostow (Reference/Backup)
 
-## Shell Setup
+Not stowed. Manual restore if needed:
 
-```sh
-chsh -s /usr/bin/fish
-```
+| Dir | Restore Command |
+|-----|-----------------|
+| `fonts/` | `cp -r _nostow/fonts/* ~/.local/share/fonts/ && fc-cache -fv` |
+| `gnome/` | `dconf load / < _nostow/gnome/<file>` |
+| `flameshot/` | `cp _nostow/flameshot/* ~/.config/flameshot/` |
+| `claude-skills/` | `cp -r _nostow/claude-skills/* ~/.claude/skills/` |
+| `vscode-ext/` | See "VS Code Extensions" above |
+| `bash/` | Archived, not used |
+| `software/` | Reference notes |
 
-## Git Config
+## Theme
 
-After stowing, set your identity:
-```sh
-git config --global user.name "Your Name"
-git config --global user.email "your@email.com"
-```
+Catppuccin Mocha across starship and tmux.
