@@ -15,6 +15,7 @@ alias localip="ipconfig getifaddr en0"
 # alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
 alias g="git"
+alias gs="g s"
 alias lsa="ls -al"
 
 # Mounted disks and usage
@@ -26,6 +27,8 @@ alias fs="stat -f \"%z bytes\""
 # cd into the PT api, process print orders on production and return to the previous directory
 alias pt="cd $HOME/localhost/api.papertrails.io/ && yarn process:prod && cd -"
 
+alias claude="/home/adam/.claude/local/claude"
+alias c="/home/adam/.claude/local/claude"
 
 function nvm
   bass source ~/.nvm/nvm.sh --no-use ';' nvm $argv

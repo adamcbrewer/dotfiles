@@ -86,6 +86,9 @@
     added = yellow
     changed = green
     untracked = cyan
+    deleted = red
+    localBranch = yellow
+    remoteBranch = blue
 
 [help]
     # Automatically correct and execute mistyped commands
