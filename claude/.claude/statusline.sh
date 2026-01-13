@@ -64,16 +64,16 @@ TEAL='\033[36m'
 RESET='\033[0m'
 
 # Choose color based on percentage
-if [ "$used_pct" -lt 40 ]; then
+if [ "$used_pct" -lt 30 ]; then
     COLOR="$GREEN"
-elif [ "$used_pct" -lt 70 ]; then
+elif [ "$used_pct" -lt 60 ]; then
     COLOR="$YELLOW"
 else
     COLOR="$RED"
 fi
 
 # Build progress bar (10 units, each = 10%)
-# Units 1-4: green, 5-7: yellow, 8-10: red/orange
+# Units 1-3: green, 4-6: yellow, 7-10: red
 # Full units use =, partial unit uses ~
 bar_width=10
 filled=$((used_pct / 10))
@@ -84,9 +84,9 @@ partial=$((used_pct % 10))
 
 bar="["
 for ((i=1; i<=bar_width; i++)); do
-    if [ "$i" -le 4 ]; then
+    if [ "$i" -le 3 ]; then
         unit_color="$GREEN"
-    elif [ "$i" -le 7 ]; then
+    elif [ "$i" -le 6 ]; then
         unit_color="$YELLOW"
     else
         unit_color="$RED"
@@ -94,7 +94,7 @@ for ((i=1; i<=bar_width; i++)); do
 
     if [ "$i" -le "$filled" ]; then
         bar+="${unit_color}=${RESET}"
-    elif [ "$i" -eq $((filled + 1)) ] && [ "$partial" -gt 0 ]; then
+    elif [ "$i" -eq $((filled + 1)) ] && [ "$filled" -lt "$bar_width" ]; then
         bar+="${unit_color}~${RESET}"
     else
         bar+=" "
