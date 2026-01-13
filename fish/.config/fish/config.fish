@@ -2,6 +2,9 @@ set fish_greeting
 
 fish_add_path ~/.local/bin
 
+set -gx EDITOR "zed --wait"
+set -gx VISUAL "zed --wait"
+
 # restore a session (default name of zero) if it exists
 # tmux new -As0
 
