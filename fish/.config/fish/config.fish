@@ -1,5 +1,7 @@
 set fish_greeting
 
+fish_add_path ~/.local/bin
+
 # restore a session (default name of zero) if it exists
 # tmux new -As0
 
