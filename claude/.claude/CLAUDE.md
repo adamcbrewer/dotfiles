@@ -31,6 +31,7 @@
 - if a project has any kind of prettier config file always run prettier formatting for changed files.
 
 
-## Plans
+## Plan Mode
 
-- At the end of each plan, give me a list of unresolved questions to answer, if any. Make the questions extremely concise. Sacrifice grammar for the sake of concision.
+- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give me a list of unresolved questions to answer, if any.
