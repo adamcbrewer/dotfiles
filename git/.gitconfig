@@ -51,6 +51,12 @@
     # force pull from upstream
     fpull       = "!f() { git fetch && git reset --hard $(git rev-parse --abbrev-ref HEAD@{u}); }; f"
 
+    # Worktrees
+    wt          = worktree
+    wta         = worktree add
+    wtl         = worktree list
+    wtr         = worktree remove
+
     # Cloning
     # Clone a repository including all submodules
     c           = clone --recursive
