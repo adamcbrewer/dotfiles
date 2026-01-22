@@ -156,6 +156,7 @@
     },
   },
   "git_panel": {
+    "tree_view": true,
     "default_width": 500,
     "status_style": "label_color",
     "sort_by_path": true,
