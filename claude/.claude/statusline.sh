@@ -5,6 +5,8 @@ input=$(cat)
 model_name=$(echo "$input" | jq -r '.model.display_name // .model.id')
 version=$(echo "$input" | jq -r '.version')
 context_size=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
+autocompact_buffer=45000
+effective_context=$((context_size - autocompact_buffer))
 current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
 session_id=$(echo "$input" | jq -r '.session_id // ""')
 session_short="${session_id: -6}"
@@ -22,9 +24,9 @@ if [ "$used_tokens" -eq 0 ]; then
     used_tokens=$(echo "$input" | jq -r '.context_window.used_tokens // 0')
 fi
 
-# Calculate percentage
-if [ "$context_size" -gt 0 ] && [ "$used_tokens" -gt 0 ]; then
-    used_pct=$((used_tokens * 100 / context_size))
+# Calculate percentage against effective context (excluding autocompact buffer)
+if [ "$effective_context" -gt 0 ] && [ "$used_tokens" -gt 0 ]; then
+    used_pct=$((used_tokens * 100 / effective_context))
 else
     used_pct=0
 fi
@@ -50,10 +52,10 @@ else
     tokens_display="$used_tokens"
 fi
 
-if [ "$context_size" -ge 1000 ]; then
-    context_display="$((context_size / 1000))k"
+if [ "$effective_context" -ge 1000 ]; then
+    context_display="$((effective_context / 1000))k"
 else
-    context_display="$context_size"
+    context_display="$effective_context"
 fi
 
 # ANSI colors
