@@ -32,9 +32,6 @@ alias fs="stat -f \"%z bytes\""
 # cd into the PT api, process print orders on production and return to the previous directory
 alias pt="cd $HOME/localhost/api.papertrails.io/ && yarn process:prod && cd -"
 
-alias claude="/home/adam/.claude/local/claude"
-alias c="/home/adam/.claude/local/claude"
-
 function nvm
   bass source ~/.nvm/nvm.sh --no-use ';' nvm $argv
 end
