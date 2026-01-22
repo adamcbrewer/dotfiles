@@ -16,22 +16,24 @@
   {
     "context": "Pane",
     "bindings": {
+      // Focus left/right pane
       "shift-ctrl-PageUp": "workspace::ActivatePaneLeft",
       "shift-ctrl-PageDown": "workspace::ActivatePaneRight",
-      "super-ctrl-PageUp": "pane::SwapItemLeft",
-      "super-ctrl-PageDown": "pane::SwapItemRight",
     },
   },
   {
     "context": "Editor",
     "bindings": {
+      // Duplicate line
       "ctrl-shift-d": ["workspace::SendKeystrokes", "ctrl-shift-alt-down"],
+      // Dive into definition
       "super-ctrl-down": "editor::GoToDefinition",
-      "super-ctrl-right": [
+      // Move tabs to left/right pane
+      "super-ctrl-PageDown": [
         "workspace::MoveItemToPaneInDirection",
         { "direction": "right" },
       ],
-      "super-ctrl-left": [
+      "super-ctrl-PageUp": [
         "workspace::MoveItemToPaneInDirection",
         { "direction": "left" },
       ],
@@ -40,7 +42,10 @@
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
+      // open selected file with enter
       "enter": ["workspace::SendKeystrokes", "space"],
+      // Escape hatch: jump back to editor panes when accidentally focused here
+      "shift-ctrl-PageDown": "workspace::ActivatePaneRight",
     },
   },
 ]
