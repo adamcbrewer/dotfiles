@@ -2,10 +2,23 @@
 
 input=$(cat)
 transcript_path=$(echo "$input" | jq -r '.transcript_path // empty')
+cwd=$(echo "$input" | jq -r '.cwd // empty')
 
 if [ -z "$transcript_path" ] || [ ! -f "$transcript_path" ]; then
   exit 0
 fi
+
+log_file="${cwd:-.}/.claude/usage.ignore.txt"
+mkdir -p "$(dirname "$log_file")"
+
+last_prompt=$(jq -r '
+  select(.type == "user") |
+  .message.content |
+  if type == "string" then . else empty end
+' "$transcript_path" 2>/dev/null \
+  | grep -v -e '<command-' -e '<local-command' -e '^\[Request' -e '^$' \
+  | tail -1 \
+  | cut -c1-120)
 
 declare -A agents
 declare -A skills
@@ -35,16 +48,16 @@ for key in "${!skills[@]}"; do
   skill_parts+=("$key (${skills[$key]})")
 done
 
-[ ${#agent_parts[@]} -eq 0 ] && [ ${#skill_parts[@]} -eq 0 ] && exit 0
-
-output="📊"
+output="📊 $(date '+%Y-%m-%d %H:%M')"
 if [ ${#agent_parts[@]} -gt 0 ]; then
-  IFS=', '; output+=" Agents: ${agent_parts[*]}"
+  IFS=', '; output+=" | Agents: ${agent_parts[*]}"
 fi
 if [ ${#skill_parts[@]} -gt 0 ]; then
-  [ ${#agent_parts[@]} -gt 0 ] && output+=" |"
-  IFS=', '; output+=" Skills: ${skill_parts[*]}"
+  IFS=', '; output+=" | Skills: ${skill_parts[*]}"
 fi
 
-echo "$output"
+{
+  [ -n "$last_prompt" ] && echo "💬 $last_prompt"
+  echo "$output"
+} > "$log_file"
 exit 0
