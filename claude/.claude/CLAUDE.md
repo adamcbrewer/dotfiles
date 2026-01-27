@@ -9,12 +9,14 @@
 - Questions are encouraged.
 - Emojies are welcome.
 
-## Git Commits
+## Git
 
 - NEVER commit unless requested to do so.
-- The subject line must be concise and specific
-- For the description, leave a blank line between the subject and the body and explain what and why vs how.
-- Never include claude code attribution to any commit messages, but rather append 🤖 to the end of the message.
+- Subject line: concise and specific
+- Description: blank line after subject, explain what/why not how
+- Append 🤖 to commit messages (no claude code attribution)
+
+**Branch naming:** `feat/`, `fix/`, `chore/` prefixes. Include issue number if exists (e.g., `feat/123-dark-mode`).
 
 
 ## Style Guidelines

@@ -188,6 +188,7 @@
     "edit_prediction_provider": "supermaven",
   },
   "edit_predictions": {
+    "mode": "subtle",
     "disabled_globs": ["**/.env*", "**/*.md"],
   },
 
