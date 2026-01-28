@@ -25,4 +25,4 @@ if [ -n "$transcript_path" ] && [ -f "$transcript_path" ]; then
   fi
 fi
 
-notify-send "Claude · $project" "✅ Done!${duration}" --icon=dialog-information
+notify-send "Claude · $project" "✅ Done!${duration}" --icon=dialog-information -t 10000

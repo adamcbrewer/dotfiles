@@ -143,6 +143,10 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/notification/play-sound.sh"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notification/notify.sh"
           }
         ]
       }

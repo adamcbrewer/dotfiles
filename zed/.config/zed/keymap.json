@@ -19,16 +19,7 @@
       // Focus left/right pane
       "shift-ctrl-PageUp": "workspace::ActivatePaneLeft",
       "shift-ctrl-PageDown": "workspace::ActivatePaneRight",
-    },
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      // Duplicate line
-      "ctrl-shift-d": ["workspace::SendKeystrokes", "ctrl-shift-alt-down"],
-      // Dive into definition
-      "super-ctrl-down": "editor::GoToDefinition",
-      // Move tabs to left/right pane
+      // Move tabs to left/right pane (in Pane context so it works from ProjectPanel too)
       "super-ctrl-PageDown": [
         "workspace::MoveItemToPaneInDirection",
         { "direction": "right" },
@@ -40,10 +31,19 @@
     },
   },
   {
+    "context": "Editor",
+    "bindings": {
+      // Duplicate line
+      "ctrl-shift-d": ["workspace::SendKeystrokes", "ctrl-shift-alt-down"],
+      // Dive into definition
+      "super-ctrl-down": "editor::GoToDefinition",
+    },
+  },
+  {
     "context": "ProjectPanel && not_editing",
     "bindings": {
-      // open selected file with enter
-      "enter": ["workspace::SendKeystrokes", "space"],
+      "enter": "project_panel::OpenPermanent",
+      "ctrl-enter": ["workspace::SendKeystrokes", "enter super-ctrl-pagedown"],
       // Escape hatch: jump back to editor panes when accidentally focused here
       "shift-ctrl-PageDown": "workspace::ActivatePaneRight",
     },
