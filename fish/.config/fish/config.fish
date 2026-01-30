@@ -64,3 +64,6 @@ end
 # ~/.config/fish/config.fish
 # You must call it on initialization or listening to directory switching won't work
 load_nvm > /dev/stderr
+
+# opencode
+fish_add_path /home/adam/.opencode/bin

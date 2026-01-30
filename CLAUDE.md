@@ -20,13 +20,14 @@ dotfiles/
 ├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
 ├── gh/             # -> ~/.config/gh/config.yml
+├── opencode/       # -> ~/.config/opencode/opencode.json
 └── _nostow/        # NOT stowed (backups, reference files)
 ```
 
 ## Dependencies
 
 - stow, fish, tmux, vim, zoxide, starship, gh, nvm
-- Optional: VS Code, Zed, Claude Code
+- Optional: VS Code, Zed, Claude Code, OpenCode
 
 ## Stow Commands
 
@@ -34,7 +35,7 @@ dotfiles/
 cd ~/localhost/dotfiles
 
 # Install all packages
-stow -t ~ fish git tmux vim starship bin claude vscode zed gh
+stow -t ~ fish git tmux vim starship bin claude vscode zed gh opencode
 
 # Remove a package
 stow -t ~ -D fish
