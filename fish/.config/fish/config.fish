@@ -10,7 +10,7 @@ set -gx VISUAL "zed --wait"
 
 zoxide init fish | source
 starship init fish | source
-
+direnv hook fish | source
 
 alias cd=z
 
