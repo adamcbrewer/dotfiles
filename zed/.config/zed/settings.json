@@ -10,16 +10,27 @@
   // ============================================================================
   // APPEARANCE & THEME
   // ============================================================================
+  "buffer_line_height": "comfortable",
+  "buffer_font_weight": 400.0,
+  "buffer_font_family": ".ZedMono",
   "theme": {
     "mode": "system",
-    "light": "One Light",
+    "light": "Noctis Viola",
     "dark": "Noctis Uva",
+  },
+  "theme_overrides": {
+    "Noctis Uva": {
+      "tab.active_background": "#4a4567",
+    },
+    "Noctis Viola": {
+      "tab.active_background": "#4a4567",
+    },
   },
   "ui_font_family": ".ZedMono",
   "ui_font_size": 14.0,
   "ui_font_weight": 400.0,
   "buffer_font_size": 14.0,
-  "minimum_contrast_for_highlights": 60.0,
+  "minimum_contrast_for_highlights": 80.0,
   "cursor_shape": "block",
   "current_line_highlight": "all",
   "scroll_beyond_last_line": "vertical_scroll_margin",
@@ -184,9 +195,9 @@
     "always_allow_tool_actions": false,
     "model_parameters": [],
   },
-  "features": {
-    "edit_prediction_provider": "supermaven",
-  },
+  // "features": {
+  //   "edit_prediction_provider": "supermaven",
+  // },
   "edit_predictions": {
     "mode": "subtle",
     "disabled_globs": ["**/.env*", "**/*.md"],
