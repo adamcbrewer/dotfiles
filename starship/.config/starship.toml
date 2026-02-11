@@ -123,7 +123,8 @@ format = '[[ $symbol $branch ](fg:base bg:green)]($style)'
 
 [git_status]
 style = "bg:teal"
-format = '[[($all_status$ahead_behind )](fg:base bg:green)]($style)'
+ahead = '\[${count}\]'
+format = '[[($untracked$conflicted$stashed$deleted$renamed$modified$staged$ahead_behind )](fg:base bg:green)]($style)'
 
 [nodejs]
 symbol = "⬢"
