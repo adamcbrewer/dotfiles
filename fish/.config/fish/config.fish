@@ -67,3 +67,7 @@ load_nvm > /dev/stderr
 
 # opencode
 fish_add_path /home/adam/.opencode/bin
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
