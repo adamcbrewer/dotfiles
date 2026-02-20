@@ -13,38 +13,72 @@ async function playRandomFile($: any, dir: string, ext: string): Promise<void> {
   } catch {}
 }
 
+async function playFile($: any, file: string): Promise<void> {
+  try {
+    await $`ffplay -v 0 -nodisp -autoexit ${file}`.quiet();
+  } catch {}
+}
+
 async function notify($: any, title: string, body: string): Promise<void> {
   try {
     await $`notify-send ${title} ${body} --icon=dialog-information -t 10000`.quiet();
   } catch {}
 }
 
-export const NotificationPlugin: Plugin = async ({ $, directory }) => {
+async function isSubagent(client: any, sessionID: string): Promise<boolean> {
+  try {
+    const session = await client.session.get({ path: { id: sessionID } });
+    return !!session.data?.parentID;
+  } catch {
+    return false;
+  }
+}
+
+export const NotificationPlugin: Plugin = async ({ $, directory, client }) => {
   const project = directory.split("/").pop() ?? "unknown";
 
   return {
     event: async ({ event }) => {
+      if (event.type === "session.compacted") {
+        await playFile($, `${HOME}/Audio/agents/session-start/smb3_pipe.wav`);
+      }
+
       if (event.type === "session.created") {
-        await playRandomFile($, `${HOME}/Audio/claude/session-start`, "*");
+        if (event.properties.info.parentID) {
+          // subagent session created
+          await playFile($, `${HOME}/Audio/agents/session-start/smb3_vine.wav`);
+        } else {
+          // main session created
+          await playFile(
+            $,
+            `${HOME}/Audio/agents/session-start/smb3_powerup.wav`,
+          );
+        }
       }
 
       if (event.type === "session.idle") {
-        await Promise.all([
-          playRandomFile($, `${HOME}/Audio/claude/stop`, "*"),
-          notify($, `OpenCode · ${project}`, "✅ Done!"),
-        ]);
+        const sub = await isSubagent(client, event.properties.sessionID);
+        if (sub) {
+          await playFile($, `${HOME}/Audio/agents/stop/smb3_pipe.wav`);
+        } else {
+          // main session finished
+          await Promise.all([
+            playFile($, `${HOME}/Audio/agents/stop/smb3_fortress_clear.wav`),
+            notify($, `OpenCode · ${project}`, "✅ Done!"),
+          ]);
+        }
       }
 
       if (event.type === "session.error") {
         await Promise.all([
-          playRandomFile($, `${HOME}/Audio/claude/notification`, "*"),
+          playRandomFile($, `${HOME}/Audio/agents/notification`, "*"),
           notify($, `OpenCode · ${project}`, "💥 Session error!"),
         ]);
       }
 
       if (event.type === "permission.asked") {
         await Promise.all([
-          playRandomFile($, `${HOME}/Audio/claude/notification`, "*"),
+          playRandomFile($, `${HOME}/Audio/agents/notification`, "*"),
           notify($, `OpenCode · ${project}`, "🔐 Needs your attention"),
         ]);
       }
