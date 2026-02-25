@@ -1,15 +1,12 @@
 ---
-name: web-design-guidelines
-description: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices".
-metadata:
-  author: vercel
-  version: "1.0.0"
-  argument-hint: <file-or-pattern>
+name: web-interface
+description: Review UI code for Web Interface Guidelines compliance. Use this skill when the user mentions a11y/accessibility, semantics or interfaces or any combination thereof in a ui/ux review.
+argument-hint: <file-or-pattern>
 ---
 
 # Web Interface Guidelines
 
-Review files for compliance: $ARGUMENTS
+Review these files for compliance: $ARGUMENTS
 
 Read files, check against rules below. Output concise but comprehensive—sacrifice grammar for brevity. High signal-to-noise.
 
@@ -181,5 +178,3 @@ src/Modal.tsx:34 - "..." → "…"
 ```
 
 State issue + location. Skip explanation unless fix non-obvious. No preamble.
-
-If no files specified, ask the user which files to review.
