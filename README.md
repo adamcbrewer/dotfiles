@@ -24,6 +24,7 @@ Optional (for respective packages):
 - [VS Code](https://code.visualstudio.com/)
 - [Zed](https://zed.dev/)
 - [Claude Code](https://claude.ai/code)
+- [OpenCode](https://opencode.ai)
 
 ## Installation
 
@@ -33,7 +34,7 @@ git clone <repo> ~/localhost/dotfiles
 cd ~/localhost/dotfiles
 
 # Stow all packages
-stow -t ~ fish git tmux vim starship bin claude vscode zed gh
+stow -t ~ fish git tmux vim starship bin claude vscode zed gh opencode
 ```
 
 ## Post-Install Setup
@@ -83,10 +84,11 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `vim` | `~/.vimrc`, `~/.vim/` |
 | `starship` | `~/.config/starship.toml` |
 | `bin` | `~/.local/bin/` |
-| `claude` | `~/.claude/CLAUDE.md` |
+| `claude` | `~/.claude/{CLAUDE.md,settings.json,skills/,hooks/,statusline.sh}` |
 | `vscode` | `~/.config/Code/User/{settings,keybindings,snippets}` |
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
 | `gh` | `~/.config/gh/config.yml` |
+| `opencode` | `~/.config/opencode/{opencode.json,plugins/}` |
 
 ## _nostow (Reference/Backup)
 

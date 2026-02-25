@@ -1,10 +1,8 @@
-# CLAUDE.md
-
-Guidance for Claude Code when working in this repository.
-
 ## Overview
 
-Personal dotfiles managed with GNU Stow. Each package directory mirrors the target structure in `$HOME`.
+- Personal dotfiles managed with GNU Stow.
+- Each package directory mirrors the target structure in `$HOME`.
+- Making changes to files stowed in this project should be done within this project, not in the user's home directory (because the files are symlinked).
 
 ## Structure
 
@@ -16,7 +14,7 @@ dotfiles/
 ├── vim/            # -> ~/.vimrc, ~/.vim/
 ├── starship/       # -> ~/.config/starship.toml
 ├── bin/            # -> ~/.local/bin/
-├── claude/         # -> ~/.claude/CLAUDE.md
+├── claude/         # -> ~/.claude/{CLAUDE.md,settings.json,skills/,hooks/,statusline.sh}
 ├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
 ├── gh/             # -> ~/.config/gh/config.yml
@@ -53,12 +51,3 @@ stow -t ~ -n -v fish
 ## Theme
 
 Catppuccin Mocha across starship and tmux.
-
-## Git Aliases
-
-Common shortcuts in `git/.gitconfig`:
-- `g` → git
-- `s` → status -sb
-- `co` → checkout
-- `cm` → commit -m
-- `go <branch>` → checkout or create branch
