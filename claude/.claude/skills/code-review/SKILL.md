@@ -1,5 +1,5 @@
 ---
-name: pragmatic-code-review
+name: code-review
 description: Thorough code review balancing engineering excellence with development velocity. Use when user types /review, /code-review, /pr-review, asks for code review, or before merging a PR. Focuses on substantive issues while addressing style.
 ---
 
