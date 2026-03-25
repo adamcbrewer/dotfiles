@@ -16,3 +16,10 @@
 - Subject line: concise and specific
 - Description: blank line after subject, explain what/why not how
 - Branch naming: `feat/`, `fix/`, `chore/` prefixes. Include issue number if exists (e.g., `feat/123-dark-mode`).
+- Ensure commits include any tickets referenced or resolved by an implementation.
+
+## Context management
+
+- Use subagents for exploration
+- Delegate research & multi-file analysis
+- Return only summarized insights
