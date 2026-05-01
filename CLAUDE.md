@@ -51,3 +51,7 @@ stow -t ~ -n -v fish
 ## Theme
 
 Catppuccin Mocha across starship and tmux.
+
+## Updating agent skills
+
+When updating agent skills, use the `source` tag in the skill's header and re-add it if it's removed during the update.
