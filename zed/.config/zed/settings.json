@@ -10,6 +10,16 @@
   // ============================================================================
   // APPEARANCE & THEME
   // ============================================================================
+  "diff_view_style": "split",
+  "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    }
+  },
+  "cli_default_open_behavior": "new_window",
+  "collaboration_panel": {
+    "dock": "left",
+  },
   "buffer_line_height": "comfortable",
   "buffer_font_weight": 400.0,
   "buffer_font_family": ".ZedMono",
@@ -44,7 +54,7 @@
     "show_onboarding_banner": false,
     "show_project_items": true,
     "show_branch_name": true,
-    "show_branch_icon": true,
+    "show_branch_status_icon": true,
   },
   "tab_bar": {
     "show_nav_history_buttons": false,
@@ -74,6 +84,7 @@
   // PANELS & SIDEBARS
   // ============================================================================
   "project_panel": {
+    "dock": "left",
     "hide_hidden": false,
     "button": true,
     "hide_root": true,
@@ -120,7 +131,6 @@
   "file_finder": {
     "modal_max_width": "medium",
     "file_icons": true,
-    "git_status": true,
     "include_ignored": "all",
   },
   "file_scan_exclusions": [
@@ -134,7 +144,6 @@
     "**/.{jpg,jpeg,png,gif,webp}",
     "**/.{ttf,otf,woff,woff2}",
     "**/coverage",
-    "**/dist",
     "**/node_modules",
     "**/vendor",
     "**/*.sqlite",
@@ -167,6 +176,7 @@
     },
   },
   "git_panel": {
+    "dock": "left",
     "tree_view": true,
     "default_width": 500,
     "status_style": "label_color",
@@ -192,7 +202,8 @@
   "disable_ai": false,
   "agent_ui_font_size": 16,
   "agent": {
-    "play_sound_when_agent_done": true,
+    "dock": "right",
+    "play_sound_when_agent_done": "always",
     "tool_permissions": {
       "default": "confirm",
     },
