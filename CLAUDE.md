@@ -55,3 +55,4 @@ Catppuccin Mocha across starship and tmux.
 ## Updating agent skills
 
 When updating agent skills, use the `source` tag in the skill's header and re-add it if it's removed during the update.
+Remove any unused files, dirs and references which have become obsolete for the upgraded skill. Likewise scan the source for sub directories and files, linked or not, and include them, but only if they are relevant to the skill itself.

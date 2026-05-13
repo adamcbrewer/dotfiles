@@ -1,5 +1,5 @@
 ---
-name: simplify code
+name: simplify
 description: Simplify and refine recently modified code while preserving functionality. Use when asked to "simplify", "deslop", "clean up" code, or after making changes that could benefit from refinement.
 source: https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-simplifier/agents/code-simplifier.md
 ---
