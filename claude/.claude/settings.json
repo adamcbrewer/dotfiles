@@ -1,4 +1,17 @@
 {
+  "alwaysThinkingEnabled": true,
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [],
+        "matcher": ""
+      }
+    ]
+  },
+  "model": "sonnet",
   "permissions": {
     "allow": [
       "Bash(npm run lint)",
@@ -113,36 +126,11 @@
       "Bash(for:*)",
       "Bash(do echo \"Processing: $id\")"
     ],
-    "deny": [],
-    "defaultMode": "acceptEdits"
-  },
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": []
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": []
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": []
-      }
-    ]
+    "defaultMode": "acceptEdits",
+    "deny": []
   },
   "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh"
-  },
-  "enabledPlugins": {
-    "typescript-lsp@claude-plugins-official": true
-  },
-  "alwaysThinkingEnabled": true,
-  "model": "sonnet"
+    "command": "~/.claude/statusline.sh",
+    "type": "command"
+  }
 }
