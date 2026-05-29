@@ -10,11 +10,16 @@
   // ============================================================================
   // APPEARANCE & THEME
   // ============================================================================
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)",
+  },
   "diff_view_style": "split",
   "agent_servers": {
     "opencode": {
-      "type": "registry"
-    }
+      "type": "registry",
+    },
   },
   "cli_default_open_behavior": "new_window",
   "collaboration_panel": {
@@ -24,8 +29,8 @@
   "buffer_font_weight": 400.0,
   "buffer_font_family": ".ZedMono",
   "theme": {
-    "mode": "system",
-    "light": "Noctis Viola",
+    "mode": "dark",
+    "light": "One Light",
     "dark": "Noctis Uva",
   },
   "theme_overrides": {
