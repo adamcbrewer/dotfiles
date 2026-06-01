@@ -23,6 +23,10 @@ alias g="git"
 alias gs="g s"
 alias lsa="ls -al"
 
+alias npqi="npq install"
+alias npqp="NPQ_PKG_MGR=pnpm npq install"
+alias pnpmf="pnpm install --frozen-lockfile"
+
 # Mounted disks and usage
 alias df="df -h"
 

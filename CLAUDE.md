@@ -14,6 +14,7 @@ dotfiles/
 ├── vim/            # -> ~/.vimrc, ~/.vim/
 ├── starship/       # -> ~/.config/starship.toml
 ├── bin/            # -> ~/.local/bin/
+├── node/           # -> ~/.npmrc, ~/.yarnrc, ~/.config/pnpm/rc
 ├── claude/         # -> ~/.claude/{CLAUDE.md,settings.json,skills/,hooks/,statusline.sh}
 ├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
@@ -25,6 +26,7 @@ dotfiles/
 ## Dependencies
 
 - stow, fish, tmux, vim, zoxide, starship, gh, nvm
+- Optional Node security tools: npq, sfw
 - Optional: VS Code, Zed, Claude Code, OpenCode
 
 ## Stow Commands
@@ -33,7 +35,7 @@ dotfiles/
 cd ~/localhost/dotfiles
 
 # Install all packages
-stow -t ~ fish git tmux vim starship bin claude vscode zed gh opencode
+stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode
 
 # Remove a package
 stow -t ~ -D fish

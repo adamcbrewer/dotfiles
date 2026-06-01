@@ -18,6 +18,9 @@ sudo apt install gh
 
 # NVM (for Node.js version management)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+# Optional Node package install hardening tools
+npm install -g npq sfw
 ```
 
 Optional (for respective packages):
@@ -34,7 +37,7 @@ git clone <repo> ~/localhost/dotfiles
 cd ~/localhost/dotfiles
 
 # Stow all packages
-stow -t ~ fish git tmux vim starship bin claude vscode zed gh opencode
+stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode
 ```
 
 ## Post-Install Setup
@@ -68,6 +71,12 @@ git config --global user.name "Your Name"
 git config --global user.email "your@email.com"
 ```
 
+### Node Security
+
+See [`SECURITY.md`](SECURITY.md) for npm, pnpm, and Yarn supply-chain hardening defaults.
+
+If `stow -t ~ node` reports conflicts, move existing package-manager config files aside first and preserve any auth tokens outside this repo. Do not use `stow --adopt` on token-bearing npm/pnpm config files.
+
 ### VS Code Extensions (optional)
 
 ```sh
@@ -84,6 +93,7 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `vim` | `~/.vimrc`, `~/.vim/` |
 | `starship` | `~/.config/starship.toml` |
 | `bin` | `~/.local/bin/` |
+| `node` | `~/.npmrc`, `~/.yarnrc`, `~/.config/pnpm/rc` |
 | `claude` | `~/.claude/{CLAUDE.md,settings.json,skills/,hooks/,statusline.sh}` |
 | `vscode` | `~/.config/Code/User/{settings,keybindings,snippets}` |
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
