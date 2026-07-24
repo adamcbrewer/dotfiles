@@ -63,9 +63,9 @@ permission:
     "git worktree list*": allow
     "git switch -c*": allow
     "git checkout -b*": allow
-    "git worktree add*": allow
-    "git worktree remove*": allow
-    "git worktree prune*": allow
+    "git worktree add*": ask
+    "git worktree remove*": ask
+    "git worktree prune*": ask
     "gh auth status*": allow
     "gh issue list*": allow
     "gh issue status*": allow
@@ -215,12 +215,10 @@ approval.
 Push is Optional unless pre-approved. PR creation is always Blocking unless
 pre-approved. After verification, ask whether to push/create a PR; never
 integrate automatically. External, paid, cloud, deployed, secret-bearing, or
-production services require approval. Dev servers/processes require approval;
-do not open UI, and prefer script-only verification. Package installs and env
-file management may be needed, but do not read/copy/parse real `.env` files.
-Copy tracked env templates or create placeholder files only, and ask before
-secrets, cloud, or production services. Only stop services started during this
-run.
+production services require approval. Dev servers/processes, package installs,
+and any env file setup/template/placeholder creation require approval; do not
+open UI, and prefer script-only verification. Never read/copy/parse real `.env`
+files. Only stop services started during this run.
 
 ## Completion
 

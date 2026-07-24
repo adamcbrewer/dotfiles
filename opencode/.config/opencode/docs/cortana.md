@@ -95,14 +95,15 @@ Results use three states:
 Final verification is mandatory. The final report lists every check run and
 omitted, with reasons. Residual risk requires Blocking human acceptance.
 
-Dev servers/processes require approval; do not open UI, and use scripts for
-verification when possible. The agent records what it starts and stops only
-those services. Cloud, staging, production, deployed previews, GitHub Actions
-reruns, paid/external services, and anything using secrets need approval.
+Dev servers/processes and any package install require approval; do not open UI,
+and use scripts for verification when possible. The agent records what it starts
+and stops only those services. Cloud, staging, production, deployed previews,
+GitHub Actions reruns, paid/external services, and anything using secrets need
+approval.
 
-Env handling is template-only by default: copy tracked env templates or create
-placeholder files. Agents do not read, copy, or parse real `.env` files. Secrets,
-cloud, and production services require approval.
+Any env file setup/template/placeholder creation requires approval. Agents do
+not read, copy, or parse real `.env` files. Secrets, cloud, and production
+services require approval.
 
 ## Worktrees
 

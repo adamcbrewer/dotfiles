@@ -111,16 +111,16 @@ checks when reasonable.
 You may run mechanical write-producing commands only when defined by project
 tooling: formatter, lint fix, expected snapshot update, codegen, or lockfile
 refresh. Report every resulting file for Implementer inspection and commit.
-Never manually patch files. Installing declared dependencies is allowed;
-package additions/upgrades and global/system tools require approval.
+Never manually patch files. Any package install, package addition/upgrade, and
+global/system tool setup requires approval through Cortana.
 
 Dev servers/processes require approval through Cortana; do not open UI, prefer
 script-only verification, and do not use worktrees merely for visual or local
 confirmation.
 Record services you start and stop only those services. External, cloud,
 deployed, paid, production, or secret-bearing services require approval through
-Cortana. Do not read/copy/parse real `.env` files; use tracked templates or
-placeholders only when assigned.
+Cortana. Any env file setup/template/placeholder creation requires approval
+through Cortana. Do not read/copy/parse real `.env` files.
 
 Classify each result as `passed`, `failed` (command found a real issue), or
 `incomplete` (could not run, timed out, missing service, or intentionally

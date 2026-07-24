@@ -37,11 +37,11 @@ refine natural slices, but report scope changes before broadening work.
 Run focused checks for your slice. Commit only clearly Cortana-owned files or
 non-interactively staged hunks after inspecting the staged diff. Use concise
 repository-style commits. Never amend, rewrite history, push, or create a PR
-unless Cortana reports the required approval. Package additions/upgrades,
-global/system tools, dev servers/processes, secrets, cloud services, production
-services, and destructive actions require approval through Cortana. Do not
-read/copy/parse real `.env` files; copy tracked env templates or create
-placeholders only when assigned.
+unless Cortana reports the required approval. Package installs,
+additions/upgrades, global/system tools, dev servers/processes, any env file
+setup/template/placeholder creation, secrets, cloud services, production
+services, and destructive actions require approval through Cortana. Never
+read/copy/parse real `.env` files.
 
 Return: changed files, implementation notes, focused checks and results,
 commit hash/message, remaining work, blockers, and any pre-existing changes
