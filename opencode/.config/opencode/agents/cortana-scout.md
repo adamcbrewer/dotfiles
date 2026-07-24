@@ -95,13 +95,17 @@ Discover:
 - repository rules and exact user-provided acceptance criteria
 - verification commands, in order: AGENTS.md; README/CONTRIBUTING/docs;
   package scripts/task runner/CI; ecosystem defaults
-- current branch and worktree ownership risks
+- current branch, default branch, and worktree ownership/fit risks
 - likely files, natural implementation slices, local service needs, and risks
 - ambiguities, tradeoffs, and agent-derived success signals
 
-Do not invent acceptance criteria. Prefer the smallest correct approach. Ask
-no user questions directly; return needed decisions to Cortana as Blocking or
-Optional.
+Do not invent acceptance criteria. Prefer the smallest correct approach. Do not
+recommend a worktree unless explicit or clearly useful enough for Cortana to ask;
+never for visual checks, local test confirmation, or convenience. Flag dev
+servers/processes, package installs, env placeholders/templates, secrets, cloud,
+production, and cleanup needs for Cortana approval. Do not read/copy/parse real
+`.env` files. Ask no user questions directly; return needed decisions to
+Cortana as Blocking or Optional.
 
 Return a concise report with: findings, user acceptance criteria, success
 signals, proposed steps/slices, verification strategy, risks, worktree notes,

@@ -37,13 +37,16 @@ The full workflow is the default:
 
 1. Cortana records the request and exact user acceptance criteria.
 2. Cortana inspects branch, status, staged/unstaged diffs, and recent history.
-3. Scout discovers project rules, architecture, risks, checks, and slices.
-4. Verifier runs baseline checks before edits.
-5. Implementer completes and commits coherent slices.
-6. Verifier runs focused checks per slice and final relevant/full checks.
-7. Reviewer assesses the accumulated final change.
-8. Blocking findings loop through Implementer, Verifier, and Reviewer.
-9. Cortana finalizes only after the definition of done is met.
+3. Cortana ensures work starts from a new branch off the default branch, asking
+   first unless the user was explicit.
+4. Scout discovers project rules, architecture, risks, checks, worktree fit, and
+   slices.
+5. Verifier runs baseline checks before edits.
+6. Implementer completes and commits coherent slices.
+7. Verifier runs focused checks per slice and final relevant/full checks.
+8. Reviewer assesses the accumulated final change.
+9. Blocking findings loop through Implementer, Verifier, and Reviewer.
+10. Cortana finalizes only after the definition of done is met.
 
 Acceptance criteria are a hard contract when supplied. Cortana records them
 verbatim and does not invent more. When none are supplied, agents use the
@@ -92,10 +95,42 @@ Results use three states:
 Final verification is mandatory. The final report lists every check run and
 omitted, with reasons. Residual risk requires Blocking human acceptance.
 
-Documented project-local services may be used. The agent records what it starts
-and stops only those services. Cloud, staging, production, deployed previews,
-GitHub Actions reruns, paid/external services, and anything using secrets need
-approval.
+Dev servers/processes require approval; do not open UI, and use scripts for
+verification when possible. The agent records what it starts and stops only
+those services. Cloud, staging, production, deployed previews, GitHub Actions
+reruns, paid/external services, and anything using secrets need approval.
+
+Env handling is template-only by default: copy tracked env templates or create
+placeholder files. Agents do not read, copy, or parse real `.env` files. Secrets,
+cloud, and production services require approval.
+
+## Worktrees
+
+Worktrees are allowed only when the user explicitly asks, or when Cortana
+suggests one and receives Blocking approval first. They are not allowed for
+visual checks, local test confirmation, or agent convenience.
+
+Strict rules:
+
+- Worktrees are AFK lanes. Main checkout remains untouched.
+- User PR review is required; agents do not self-review/integrate worktree work.
+- Default maximum is one worktree. Cortana asks before increasing it.
+- Directory format: sibling `../<original-dir>-<slug-or-issue>/`.
+- Branching: create from the default branch on a new task branch.
+- Feedback, handoffs, and subagent reports include the worktree banner below.
+- After verification Cortana asks whether to push/create a PR. No automatic
+  integration.
+- Cortana always asks before cleanup and verifies cleanup after removal.
+- If a task does not fit the protocol, Cortana stops and asks.
+
+```text
+WORKTREE LANE ACTIVE
+path: <absolute worktree path>
+branch: <task branch>
+base: <default branch>
+main checkout: untouched at <absolute original path>
+integration: no push/PR/merge without approval; user PR review required
+```
 
 ## Review
 
@@ -115,11 +150,12 @@ final summary; issues are not created automatically.
 Startup inspection is mandatory: status, staged diff, unstaged diff, recent
 log, and current branch.
 
-- Clean tree: proceed.
+- Clean tree: proceed only after branch/worktree rules are satisfied.
 - Related dirty work: preserve and proceed carefully.
 - Unrelated or unclear dirty work: Blocking ownership question.
-- `main`, `master`, or `trunk`: Blocking branch question before edits; recommend
-  `feat/`, `fix/`, or `chore/`, including a ticket ID when known.
+- Always work from a new branch off the default branch. Ask Blocking before
+  creating it unless the user explicitly named/approved it. Cortana may run
+  branch creation itself, such as `git switch -c <branch>`.
 - Staged changes are user-owned by default. Never commit or unstage them without
   explicit approval.
 - Separate same-file hunks are allowed. Overlap or unclear ownership blocks.
@@ -129,8 +165,9 @@ log, and current branch.
 - Never amend, squash, rebase, reset, force-push, or rewrite history without
   Blocking approval.
 
-Push is Optional by default. PR creation is Blocking unless explicitly
-pre-approved because it creates team-visible state.
+Push is Optional by default after verification. PR creation is Blocking unless
+explicitly pre-approved because it creates team-visible state. No automatic
+merge, integration, or cleanup.
 
 Authenticated GitHub hosting operations use the `gh` CLI, including issues,
 PRs, checks, runs, releases, and repository metadata. Repository transport uses
@@ -208,7 +245,8 @@ Cortana can finalize only when:
 Permissions reinforce role boundaries:
 
 - Cortana edits only `.opencode/runs/*.md`, invokes only `cortana-*` agents, and
-  loads only approved workflow skills. It can inspect Git and GitHub state.
+  loads only approved workflow skills. It can inspect Git/GitHub state, create
+  approved branches, and manage approved worktree setup/removal.
 - Scout, Verifier, and Reviewer can run Git and GitHub read/view commands but
   cannot mutate repository or GitHub state.
 - Implementer edits and has unrestricted Git/GitHub CLI permissions. Workflow

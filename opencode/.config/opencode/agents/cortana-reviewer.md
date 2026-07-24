@@ -96,6 +96,10 @@ user acceptance criteria. Prioritize correctness, behavioral regressions,
 security, data loss, maintainability hazards, and missing tests. Do not block
 on taste or unrelated pre-existing issues.
 
+If reviewing a worktree lane, confirm the report identifies the worktree path,
+branch, default base, untouched main checkout, and user-only PR review
+requirement. Treat missing worktree visibility as Blocking for worktree tasks.
+
 Classify findings:
 
 - Blocking: in-scope substantive issues introduced or worsened by the change,

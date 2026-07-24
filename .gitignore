@@ -21,3 +21,4 @@ ehthumbs.db
 *~
 *.lock
 .vscode/**
+.opencode/runs/
