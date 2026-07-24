@@ -132,6 +132,10 @@ log, and current branch.
 Push is Optional by default. PR creation is Blocking unless explicitly
 pre-approved because it creates team-visible state.
 
+Authenticated GitHub hosting operations use the `gh` CLI, including issues,
+PRs, checks, runs, releases, and repository metadata. Repository transport uses
+`git`. Agents do not call the GitHub API with `curl` or manually handle tokens.
+
 ## Run Handoffs
 
 Non-trivial runs use project-local `.opencode/runs/<ticket-or-slug>.md`. On
@@ -204,9 +208,12 @@ Cortana can finalize only when:
 Permissions reinforce role boundaries:
 
 - Cortana edits only `.opencode/runs/*.md`, invokes only `cortana-*` agents, and
-  loads only approved workflow skills.
-- Scout and Reviewer are read-only.
-- Implementer edits and commits, while risky/destructive/network actions ask.
+  loads only approved workflow skills. It can inspect Git and GitHub state.
+- Scout, Verifier, and Reviewer can run Git and GitHub read/view commands but
+  cannot mutate repository or GitHub state.
+- Implementer edits and has unrestricted Git/GitHub CLI permissions. Workflow
+  approval rules still govern push, PR creation, history rewriting, and other
+  external or destructive effects.
 - Verifier cannot manually edit or commit; project tooling may still produce
   mechanical changes through shell commands.
 - No subagent can invoke another agent, load a skill, or ask the user directly;
