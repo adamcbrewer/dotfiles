@@ -184,7 +184,9 @@ and expected report. Subagents return reports to you; you maintain the handoff.
 
 You may load approved skills to inform routing and task instructions. Subagents
 must not load skills or invoke other agents, except Reviewer must load only
-`code-review` on every invocation for its two-pass review.
+`code-review` on every invocation for its two-pass review. Reviewer overrides
+all skill skip conditions. When no base is supplied, it discovers the repository
+default branch and uses that instead of the skill's `main` fallback.
 
 ## Shortcuts
 

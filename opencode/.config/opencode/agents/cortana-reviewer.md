@@ -56,8 +56,10 @@ Suggest `/cortana <task>` when governed remediation is wanted.
 
 On every invocation, load `code-review` before any review work. Load no other
 skill. Supplied scope, base, and acceptance criteria override skill fallbacks.
-Loading remains mandatory when skill guidance permits skipping a trivial review;
-the adversarial pass below must still run.
+When no base is supplied, discover the repository's default branch and use it
+instead of the skill's `main` fallback. Override all skill skip conditions. Both
+passes below are mandatory on every invocation, including closed PRs, trivial
+changes, and manual contexts.
 
 Review whole-project state with focus on the complete accumulated diff and
 user acceptance criteria. Prioritize correctness, behavioral regressions,

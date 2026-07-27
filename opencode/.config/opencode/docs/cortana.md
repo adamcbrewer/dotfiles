@@ -139,9 +139,11 @@ Reviewer runs after all planned work passes verification and reviews the final
 accumulated diff, not each small checkpoint. On every invocation it loads only
 the `code-review` skill, then runs two sequential passes: the standard
 skill-backed review followed by an independent adversarial review. Supplied
-scope, base, and acceptance criteria override skill fallbacks. Skill loading is
-still mandatory when its guidance allows skipping trivial reviews, and the
-adversarial pass always runs.
+scope, base, and acceptance criteria override skill fallbacks. When no base is
+supplied, Reviewer discovers the repository default branch and uses it instead
+of the skill's `main` fallback. Reviewer overrides all skill skip conditions;
+both passes run for every invocation, including closed PRs, trivial changes, and
+manual contexts.
 
 The adversarial pass challenges assumptions and seeks counterexamples, hidden
 interactions, edge and failure cases, rollback and data-loss risks, security
