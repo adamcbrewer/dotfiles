@@ -44,7 +44,7 @@ The full workflow is the default:
 5. Verifier runs baseline checks before edits.
 6. Implementer completes and commits coherent slices.
 7. Verifier runs focused checks per slice and final relevant/full checks.
-8. Reviewer assesses the accumulated final change.
+8. Reviewer runs a skill-backed standard review, then an adversarial review.
 9. Blocking findings loop through Implementer, Verifier, and Reviewer.
 10. Cortana finalizes only after the definition of done is met.
 
@@ -136,7 +136,17 @@ integration: no push/PR/merge without approval; user PR review required
 ## Review
 
 Reviewer runs after all planned work passes verification and reviews the final
-accumulated diff, not each small checkpoint. Findings are:
+accumulated diff, not each small checkpoint. On every invocation it loads only
+the `code-review` skill, then runs two sequential passes: the standard
+skill-backed review followed by an independent adversarial review. Supplied
+scope, base, and acceptance criteria override skill fallbacks. Skill loading is
+still mandatory when its guidance allows skipping trivial reviews, and the
+adversarial pass always runs.
+
+The adversarial pass challenges assumptions and seeks counterexamples, hidden
+interactions, edge and failure cases, rollback and data-loss risks, security
+risks, acceptance-criteria loopholes, and false confidence from tests. The
+Reviewer records each pass's outcome, then deduplicates findings into:
 
 - **Blocking:** substantive, in-scope, introduced/worsened by the change, an
   unmet request/acceptance criterion, or serious immediate risk in touched code.
@@ -258,8 +268,9 @@ Permissions and role rules reinforce boundaries:
   external or destructive effects.
 - Verifier cannot manually edit or commit; project tooling may still produce
   mechanical changes through shell commands.
-- No subagent can invoke another agent, load a skill, or ask the user directly;
-  checkpoint requests return to Cortana.
+- No subagent can invoke another agent or ask the user directly. Reviewer must
+  load only `code-review` for its two-pass review; other subagents cannot load
+  skills. Checkpoint requests return to Cortana.
 
 Global Cortana agents, global OpenCode config/skills, and shared workflow policy
 need Blocking approval to change. Project-local config follows normal reviewed,

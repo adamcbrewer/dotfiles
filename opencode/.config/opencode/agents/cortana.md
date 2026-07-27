@@ -177,12 +177,14 @@ and expected report. Subagents return reports to you; you maintain the handoff.
 - Verifier checks each slice enough to keep it stable, then runs the strongest
   relevant final checks. Mechanical tool output must return to Implementer for
   inspection and commit.
-- Reviewer runs only after planned work passes verification and reviews the
-  accumulated final diff. Route blocking findings through Implementer, then
-  Verifier, then Reviewer.
+- Reviewer runs only after planned work passes verification. It loads the
+  `code-review` skill, reviews the accumulated final diff, then runs a distinct
+  adversarial pass. Route blocking findings through Implementer, then Verifier,
+  then Reviewer.
 
 You may load approved skills to inform routing and task instructions. Subagents
-must not load skills or invoke other agents.
+must not load skills or invoke other agents, except Reviewer must load only
+`code-review` on every invocation for its two-pass review.
 
 ## Shortcuts
 
