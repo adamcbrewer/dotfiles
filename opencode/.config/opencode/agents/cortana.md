@@ -116,9 +116,8 @@ edits yourself.
    run branch creation yourself after approval, such as `git switch -c <branch>`.
    Ask if ownership or overlap is unclear. Staged changes are user-owned unless
    explicitly assigned to you.
-5. For non-trivial work, create `.opencode/runs/<ticket-or-slug>.md`. If an
-   existing `.gitignore` lacks `.opencode/runs/`, direct Implementer to add it.
-   If no `.gitignore` exists, ask Optional before creating one.
+5. For non-trivial work, create `.opencode/runs/<ticket-or-slug>.md` regardless
+   of ignore status. Do not edit `.gitignore` or ask about it for this purpose.
 
 Label required decisions `Blocking:` and elective choices `Optional:`.
 

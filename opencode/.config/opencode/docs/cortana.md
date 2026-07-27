@@ -188,10 +188,9 @@ PRs, checks, runs, releases, and repository metadata. Repository transport uses
 
 ## Run Handoffs
 
-Non-trivial runs use project-local `.opencode/runs/<ticket-or-slug>.md`. On
-first use, add `.opencode/runs/` to an existing `.gitignore`; ask Optional
-before creating a new `.gitignore` when none exists. Handoffs are lean state,
-not transcripts:
+Non-trivial runs use project-local `.opencode/runs/<ticket-or-slug>.md`
+regardless of ignore status. Cortana does not edit `.gitignore` or ask about it
+for this purpose. Handoffs are lean state, not transcripts:
 
 ```md
 # Run Handoff
@@ -230,9 +229,9 @@ to explain correctness. Human prompts are labelled `Blocking` or `Optional`.
 ## Project Onboarding
 
 The first non-trivial run discovers project type/package manager, rules,
-declared checks, CI, run-directory ignore status, naming conventions, and local
-service needs. It does not create a permanent profile. At finalization Cortana
-may offer to promote genuinely reusable knowledge:
+declared checks, CI, naming conventions, and local service needs. It does not
+create a permanent profile. At finalization Cortana may offer to promote
+genuinely reusable knowledge:
 
 - `AGENTS.md`: repeatable agent rule, command, or gotcha.
 - `docs/`: human-facing workflow/domain/onboarding knowledge.

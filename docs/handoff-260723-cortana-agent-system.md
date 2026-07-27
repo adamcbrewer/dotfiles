@@ -395,10 +395,8 @@ Run handoff files are project-local only:
 
 Create only for non-trivial runs. Include ticket/issue ID in filename when provided.
 
-When first creating `.opencode/runs/*.md`:
-
-- If `.gitignore` exists and lacks `.opencode/runs/`, add it automatically.
-- If no `.gitignore` exists, ask Optional before creating one.
+Create `.opencode/runs/*.md` regardless of ignore status. Do not edit
+`.gitignore` or ask about it for this purpose.
 
 Handoff files should be lean and execution-focused. They are not logs.
 
@@ -450,7 +448,6 @@ First non-trivial Cortana run in a repo includes lightweight onboarding:
 - declared verification commands
 - CI config
 - AGENTS.md/project rules
-- `.opencode/runs/` gitignore status
 - ticket/branch naming conventions
 - obvious local service requirements
 
