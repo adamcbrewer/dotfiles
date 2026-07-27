@@ -243,13 +243,16 @@ Cortana can finalize only when:
 
 ## Permissions
 
-Permissions reinforce role boundaries:
+Permissions and role rules reinforce boundaries:
 
 - Cortana edits only `.opencode/runs/*.md`, invokes only `cortana-*` agents, and
   loads only approved workflow skills. It can inspect Git/GitHub state, create
   approved branches, and manage approved worktree setup/removal.
-- Scout, Verifier, and Reviewer can run Git and GitHub read/view commands but
-  cannot mutate repository or GitHub state.
+- Scout, Verifier, Reviewer, and Implementer can run project scripts and Git or
+  GitHub commands without routine permission prompts. Role rules still keep
+  report-only agents from making changes.
+- Direct destructive commands require confirmation. Agents must also request
+  approval before destructive scripts whose effects permissions cannot inspect.
 - Implementer edits and has unrestricted Git/GitHub CLI permissions. Workflow
   approval rules still govern push, PR creation, history rewriting, and other
   external or destructive effects.

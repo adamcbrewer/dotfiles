@@ -8,6 +8,35 @@ permission:
     "*": allow
     "rm *": ask
     "sudo *": ask
+    "git clean*": ask
+    "git reset*": ask
+    "git rebase*": ask
+    "git checkout *--force*": ask
+    "git checkout -- *": ask
+    "git restore*": ask
+    "git switch *--discard-changes*": ask
+    "git commit *--amend*": ask
+    "git branch *--delete*": ask
+    "git branch -d*": ask
+    "git branch -D*": ask
+    "git stash drop*": ask
+    "git stash clear*": ask
+    "git stash pop*": ask
+    "git tag *--delete*": ask
+    "git tag -d*": ask
+    "git remote remove*": ask
+    "git remote rename*": ask
+    "git worktree remove*": ask
+    "git worktree prune*": ask
+    "git push *--force*": ask
+    "git push *-f*": ask
+    "git push *--delete*": ask
+    "git push *--mirror*": ask
+    "git reflog delete*": ask
+    "git reflog expire*": ask
+    "git gc*": ask
+    "git prune*": ask
+    "git update-ref*": ask
   task: deny
   skill: deny
   question: deny

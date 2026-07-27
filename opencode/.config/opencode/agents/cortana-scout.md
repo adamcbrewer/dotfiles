@@ -5,80 +5,38 @@ hidden: true
 permission:
   edit: deny
   bash:
-    "*": ask
-    "git": allow
-    "git annotate*": allow
-    "git blame*": allow
-    "git status*": allow
-    "git diff*": allow
-    "git log*": allow
-    "git show*": allow
-    "git rev-parse*": allow
-    "git rev-list*": allow
-    "git merge-base*": allow
-    "git ls-files*": allow
-    "git ls-remote*": allow
-    "git ls-tree*": allow
-    "git check-attr*": allow
-    "git check-ignore*": allow
-    "git check-mailmap*": allow
-    "git cat-file*": allow
-    "git for-each-ref*": allow
-    "git grep*": allow
-    "git shortlog*": allow
-    "git describe*": allow
-    "git name-rev*": allow
-    "git range-diff*": allow
-    "git patch-id*": allow
-    "git count-objects*": allow
-    "git fsck*": allow
-    "git verify-*": allow
-    "git branch": allow
-    "git branch --show-current*": allow
-    "git branch --list*": allow
-    "git branch --all*": allow
-    "git branch --remotes*": allow
-    "git branch --contains*": allow
-    "git branch --merged*": allow
-    "git branch --no-merged*": allow
-    "git branch --points-at*": allow
-    "git branch -a*": allow
-    "git branch -r*": allow
-    "git branch -v*": allow
-    "git remote": allow
-    "git remote -v*": allow
-    "git remote --verbose*": allow
-    "git remote get-url*": allow
-    "git remote show*": allow
-    "git reflog show*": allow
-    "git stash list*": allow
-    "git stash show*": allow
-    "git submodule status*": allow
-    "git submodule summary*": allow
-    "git tag": allow
-    "git tag --list*": allow
-    "git tag -l*": allow
-    "git worktree list*": allow
-    "gh auth status*": allow
-    "gh issue list*": allow
-    "gh issue status*": allow
-    "gh issue view*": allow
-    "gh pr checks*": allow
-    "gh pr diff*": allow
-    "gh pr list*": allow
-    "gh pr status*": allow
-    "gh pr view*": allow
-    "gh release list*": allow
-    "gh release view*": allow
-    "gh repo list*": allow
-    "gh repo view*": allow
-    "gh run list*": allow
-    "gh run view*": allow
-    "gh run watch*": allow
-    "gh search *": allow
-    "gh status*": allow
-    "gh workflow list*": allow
-    "gh workflow view*": allow
+    "*": allow
+    "rm *": ask
+    "sudo *": ask
+    "git clean*": ask
+    "git reset*": ask
+    "git rebase*": ask
+    "git checkout *--force*": ask
+    "git checkout -- *": ask
+    "git restore*": ask
+    "git switch *--discard-changes*": ask
+    "git commit *--amend*": ask
+    "git branch *--delete*": ask
+    "git branch -d*": ask
+    "git branch -D*": ask
+    "git stash drop*": ask
+    "git stash clear*": ask
+    "git stash pop*": ask
+    "git tag *--delete*": ask
+    "git tag -d*": ask
+    "git remote remove*": ask
+    "git remote rename*": ask
+    "git worktree remove*": ask
+    "git worktree prune*": ask
+    "git push *--force*": ask
+    "git push *-f*": ask
+    "git push *--delete*": ask
+    "git push *--mirror*": ask
+    "git reflog delete*": ask
+    "git reflog expire*": ask
+    "git gc*": ask
+    "git prune*": ask
+    "git update-ref*": ask
   task: deny
   skill: deny
   question: deny
@@ -88,6 +46,9 @@ You are Cortana Scout. Research and plan only; never edit files, commit, or
 delegate. Follow project instructions and the scope supplied by Cortana.
 Use `gh` for authenticated GitHub hosting operations and `git` for repository
 transport; never call GitHub with `curl` or manually handle GitHub tokens.
+Before any destructive command or script, stop and return a Blocking approval
+request to Cortana. This includes deleting data, discarding changes, rewriting
+history, force pushing, or changing global/system state.
 
 Discover:
 
