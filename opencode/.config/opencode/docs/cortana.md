@@ -7,13 +7,12 @@ default agent.
 ## Architecture
 
 ```text
-                         blocking finding
-                               +-----+
-                               |     v
-Cortana -> Scout -> Baseline -> Implementer -> Verifier -> Reviewer -> Finalize
-   ^                              ^              |          |
-   |                              +--------------+----------+
-   +--------------- human checkpoints and state ----------------+
+                    +-> Scout when uncertainty warrants
+                    |
+Cortana -> classify +-> Implementer -> tiered Verifier? -> Reviewer? -> Finalize
+          risk      |       ^               |                |
+                    +-------+---------------+----------------+
+                         corrections and human checkpoints
 ```
 
 Cortana is the only governor. It owns routing, approvals, handoff state, loop
@@ -33,41 +32,44 @@ report-only modes. They do not edit, delegate, or start remediation loops.
 
 ## Workflow
 
-The full workflow is the default:
+Cortana scales the workflow to the task:
 
-1. Cortana records the request and exact user acceptance criteria.
-2. Cortana inspects branch, status, staged/unstaged diffs, and recent history.
-3. Cortana ensures work starts from a new branch off the default branch, asking
-   first unless the user was explicit.
-4. Scout discovers project rules, architecture, risks, checks, worktree fit, and
-   slices.
-5. Verifier runs baseline checks before edits.
-6. Implementer completes and commits coherent slices.
-7. Verifier runs focused checks per slice and final relevant/full checks.
-8. Reviewer runs a skill-backed standard review, then an adversarial review.
-9. Blocking findings loop through Implementer, Verifier, and Reviewer.
-10. Cortana finalizes only after the definition of done is met.
+```text
+research          -> Scout
+state/admin       -> Implementer -> direct confirmation
+docs/metadata     -> Implementer -> Tier 0 Verifier when useful
+behavior config  -> Implementer -> Tier 1 Verifier
+narrow code       -> Implementer -> Tier 1 Verifier
+normal code       -> Scout when needed -> Implementer -> Tier 2 Verifier
+high-risk/release -> Scout -> Baseline -> Implementer -> Tier 3 Verifier
+```
+
+Reviewer is added for security, authentication, permissions, money, data loss,
+migrations, public contracts, shared architecture/dependencies, broad changes,
+low confidence, explicit careful/release work, or substantive Verifier risk. It
+is skipped for narrow low-risk code that passes focused verification.
+
+All routes still begin with exact acceptance criteria, branch/status/diff
+inspection, and ownership protection. Cortana selects the route and verification
+tier before delegation, invokes agents sequentially, and finalizes only after
+the route's definition of done is met.
 
 Acceptance criteria are a hard contract when supplied. Cortana records them
 verbatim and does not invent more. When none are supplied, agents use the
 request plus clearly labelled success signals. Ambiguous success is Blocking.
 
-### Shortcuts
-
-Cortana may offer a shortcut only before implementation. The Optional prompt
-must name every skipped stage, explain why, and retain post-change Verifier.
-The user must approve. Once implementation starts, checks may be added but not
-removed.
-
-Scout approval is required only for careful mode, low confidence, broad/risky
-or destructive work, meaningful architecture tradeoffs, and unclear or
-conflicting instructions. Otherwise Scout hands directly to Implementer after
-baseline verification.
+Stage selection is risk-adaptive, not a user-approved shortcut. Cortana skips
+unnecessary stages automatically and reports what was skipped and why. User
+approval remains required for external effects, risky actions, real tradeoffs,
+and unresolved ambiguity, not merely for using a smaller workflow.
 
 ## Verification
 
-Baseline verification fingerprints existing health so regressions can be
-separated from pre-existing failures. Command discovery order:
+Baseline verification is need-based. Use it for known/possible flakiness, dirty
+or ambiguous health, broad/risky changes, failure attribution, or explicit
+careful work. Otherwise verify after implementation. A baseline uses the
+cheapest relevant fingerprint rather than the final matrix. Command discovery
+order:
 
 1. Project `AGENTS.md`.
 2. `README`, `CONTRIBUTING`, and project docs.
@@ -75,13 +77,40 @@ separated from pre-existing failures. Command discovery order:
 4. Ecosystem defaults.
 5. Human clarification when still unclear.
 
-Run cheap authoritative checks first. Scope checks when full runs are
-unreasonably expensive. A related or unclear baseline failure blocks edits;
-an unrelated pre-existing failure is recorded and does not block. A failure
-the user asked to fix is expected and does not block.
+Scout discovers these commands but does not execute them unless Cortana assigns
+one diagnostic probe to resolve a named uncertainty. A related or unclear
+baseline failure blocks edits; an unrelated pre-existing failure is recorded
+and does not block. A failure the user asked to fix is expected and does not
+block.
 
-Verifier evaluates whole-project state with diff-aware focus. Project-defined
-formatters, lint fixes, expected snapshot updates, codegen, and lockfile refresh
+Verifier uses explicit tiers. Logical validations are counted rather than shell
+calls; command chaining does not bypass a budget. Git state, diff, ownership,
+and final-state inspection are required hygiene but not acceptance checks.
+
+| Tier | Scope | Soft budget |
+| --- | --- | ---: |
+| 0 | State, metadata, docs | Direct confirmation; no suite |
+| 1 | Narrow code, behavior config | Two logical checks |
+| 2 | Subsystem | Four logical checks |
+| 3 | Broad, risky, release | Planned comprehensive checks |
+
+Every code or behavior-bearing configuration change receives at least one
+independent acceptance-focused Verifier check. Extra Tier 1/2 checks require a
+named distinct risk. Tier 3 has no numeric cap, but every check still covers a
+distinct risk. Generic confidence does not justify speculative lint, typecheck,
+build, or full-suite execution.
+
+Passing evidence records repository state, check, result, scope, producer, and
+invalidation conditions. It remains valid while relevant state and inputs are
+unchanged. A broader suite subsumes its focused subset in the same phase unless
+the focused run is an intentional fast-fail or diagnostic. Repetition requires
+concrete flakiness evidence. Corrections rerun the failed check and checks
+invalidated by changed paths. If the failed check is not independent and
+acceptance-focused, they also run one that is. Wall-clock age alone does not
+invalidate evidence.
+
+Project-defined formatters, lint fixes, expected snapshot updates, codegen, and
+lockfile refresh
 may write mechanically. Any output returns to Implementer for inspection and
 commit. Verifier never manually edits, changes logic, weakens tests, or commits.
 
@@ -92,8 +121,9 @@ Results use three states:
 - `incomplete`: it could not run, timed out, needed a missing service, or was
   omitted for scope/cost.
 
-Final verification is mandatory. The final report lists every check run and
-omitted, with reasons. Residual risk requires Blocking human acceptance.
+Required route verification is mandatory. The final report lists the tier,
+checks run and omitted, retained evidence, budget exceptions, skipped stages,
+and reasons. Residual risk requires Blocking human acceptance.
 
 Dev servers/processes and any package install require approval; do not open UI,
 and use scripts for verification when possible. The agent records what it starts
@@ -135,8 +165,9 @@ integration: no push/PR/merge without approval; user PR review required
 
 ## Review
 
-Reviewer runs after all planned work passes verification and reviews the final
-accumulated diff, not each small checkpoint. On every invocation it loads only
+When routed, Reviewer runs after all planned work passes verification and
+reviews the final accumulated diff, not each small checkpoint. On every
+invocation it loads only
 the `code-review` skill, then runs two sequential passes: the standard
 skill-backed review followed by an independent adversarial review. Supplied
 scope, base, and acceptance criteria override skill fallbacks. When no base is
@@ -144,6 +175,12 @@ supplied, Reviewer discovers the repository default branch and uses it instead
 of the skill's `main` fallback. Reviewer overrides all skill skip conditions;
 both passes run for every invocation, including closed PRs, trivial changes, and
 manual contexts.
+
+Reviewer trusts fresh Verifier evidence against unchanged relevant state. It
+does not routinely run tests, lint, typecheck, build, format, or validation. A
+command is allowed only to prove or disprove a concrete suspected defect after
+the Reviewer states that hypothesis. Read-only Git and GitHub commands needed to
+establish scope, base, and diff are exempt.
 
 The adversarial pass challenges assumptions and seeks counterexamples, hidden
 interactions, edge and failure cases, rollback and data-loss risks, security
@@ -155,8 +192,9 @@ Reviewer records each pass's outcome, then deduplicates findings into:
 - **Non-blocking:** useful follow-up, including unrelated pre-existing issues.
 
 Blocking findings must be fixed or explicitly accepted. Fixes route through
-Implementer, then Verifier, then Reviewer. Non-blocking findings appear in the
-final summary; issues are not created automatically.
+Implementer and scoped Verifier, then Reviewer when the risk still warrants
+re-review. Non-blocking findings appear in the final summary; issues are not
+created automatically.
 
 ## Git And Ownership
 
@@ -210,9 +248,9 @@ for this purpose. Handoffs are lean state, not transcripts:
 ```
 
 `Worktree Ownership` is conditional. Cortana owns the file structure, workflow
-state, shortcuts, loop counts, and outcome. Subagents own the content of their
-role reports, which they return to Cortana for recording. Harness improvement
-ideas belong in the final summary, not the handoff.
+state, route/tier decisions, evidence, loop counts, and outcome. Subagents own
+the content of their role reports, which they return to Cortana for recording.
+Harness improvement ideas belong in the final summary, not the handoff.
 
 ## Loops And Checkpoints
 
@@ -221,6 +259,9 @@ for example `Verifier -> Implementer` and `Reviewer -> Implementer`. Pause
 before the limit if the same failure repeats twice without meaningful progress.
 At the limit, stop and provide route, count, stuck point, attempts, likely
 cause, and recommended options.
+
+Each loop records which evidence the correction invalidated. Unaffected passing
+evidence is retained.
 
 Confidence drops also require a checkpoint: unclear criteria, risky domains,
 missing verification commands, broken environment, real tradeoffs, or inability
@@ -241,11 +282,12 @@ Ordinary feature summaries, one-off failures, and transcripts are not promoted.
 
 ## Definition Of Done
 
-Cortana can finalize only when:
+Cortana can finalize only when the selected route's requirements are met:
 
-- implementation is committed locally;
-- Verifier passed, or residual failures are documented and accepted;
-- Reviewer blocking findings are resolved or accepted;
+- tracked implementation is committed locally when files changed;
+- required route confirmation/Verifier passed, or residual failures are
+  documented and accepted;
+- any required Reviewer blocking findings are resolved or accepted;
 - non-blocking findings and loop counts are recorded;
 - checks run and omitted are reported;
 - push is offered unless declined;

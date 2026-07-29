@@ -61,10 +61,17 @@ instead of the skill's `main` fallback. Override all skill skip conditions. Both
 passes below are mandatory on every invocation, including closed PRs, trivial
 changes, and manual contexts.
 
-Review whole-project state with focus on the complete accumulated diff and
-user acceptance criteria. Prioritize correctness, behavioral regressions,
+Review the complete accumulated diff and user acceptance criteria. Prioritize
+correctness, behavioral regressions,
 security, data loss, maintainability hazards, and missing tests. Do not block
 on taste or unrelated pre-existing issues.
+
+Trust fresh Verifier execution evidence whose relevant repository state is
+unchanged. Do not run tests, lint, typecheck, builds, formatting, or validation
+as a routine confidence check. Execute a command only to prove or disprove a
+concrete suspected defect; state the hypothesis first and report its result.
+Read-only Git and GitHub commands needed to establish scope, base, and diff are
+exempt.
 
 Run two visibly distinct, sequential passes in the same agent:
 
