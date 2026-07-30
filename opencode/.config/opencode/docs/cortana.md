@@ -24,11 +24,13 @@ transfer; safe tool calls inside one agent may run in parallel.
 | `cortana` | Primary/selectable | Governance and handoff state |
 | `cortana-scout` | Hidden subagent | Research and planning |
 | `cortana-implementer` | Hidden subagent | Edits, focused checks, commits |
-| `cortana-verifier` | Mentionable subagent | Baseline/final verification |
-| `cortana-reviewer` | Mentionable subagent | Final substantive review |
+| `cortana-verifier` | Hidden subagent | Baseline/final verification; direct user mentions are report-only |
+| `cortana-reviewer` | Hidden subagent | Final substantive review; direct user mentions are report-only |
 
-Manual `@cortana-verifier` and `@cortana-reviewer` sessions are standalone,
-report-only modes. They do not edit, delegate, or start remediation loops.
+All `cortana-*` agents are hidden and may only be delegated by the `cortana`
+primary agent. You may invoke one directly by naming it; direct sessions are
+standalone, report-only modes. They do not edit, delegate, or start remediation
+loops.
 
 ## Workflow
 

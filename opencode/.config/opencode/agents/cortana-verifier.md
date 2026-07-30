@@ -1,6 +1,7 @@
 ---
-description: Verifies repository health and acceptance criteria; standalone mentions are report-only.
+description: Internal Cortana verifier; direct user mentions are report-only.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash:

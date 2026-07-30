@@ -1,6 +1,7 @@
 ---
-description: Reviews final changes for substantive regressions; standalone mentions are report-only.
+description: Internal Cortana reviewer; direct user mentions are report-only.
 mode: subagent
+hidden: true
 permission:
   edit: deny
   bash:

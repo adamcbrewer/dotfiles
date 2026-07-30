@@ -54,10 +54,13 @@ Visibility policy:
 - `cortana`: primary, visible/selectable.
 - `cortana-scout`: subagent, hidden.
 - `cortana-implementer`: subagent, hidden.
-- `cortana-verifier`: subagent, visible via `@mention`.
-- `cortana-reviewer`: subagent, visible via `@mention`.
+- `cortana-verifier`: subagent, hidden; direct user mentions are report-only.
+- `cortana-reviewer`: subagent, hidden; direct user mentions are report-only.
 
-Manual `@cortana-verifier` and `@cortana-reviewer` must be report-only standalone modes: no edits, no loops, no handoff to Implementer. They should suggest `/cortana` if governed remediation is needed.
+All `cortana-*` agents must be hidden and callable as subagents only by the
+`cortana` primary agent. Direct user mentions must be report-only standalone
+modes: no edits, no loops, no handoff to Implementer. They should suggest
+`/cortana` if governed remediation is needed.
 
 ## Slash Command
 
