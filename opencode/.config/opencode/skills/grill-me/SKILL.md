@@ -4,8 +4,8 @@ description: Interview the user relentlessly about a plan or design until reachi
 source: https://raw.githubusercontent.com/mattpocock/skills/refs/heads/main/skills/productivity/grill-me/SKILL.md
 ---
 
-Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
+Interview the user relentlessly about every aspect of their plan, decision, or idea until you reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one by one. For each question, provide your recommended answer.
 
-Ask the questions one at a time.
+Ask one question at a time and wait for feedback before continuing. Do not act on the plan until the user confirms shared understanding.
 
-If a question can be answered by exploring the codebase, explore the codebase instead.
+If a fact can be found by exploring the environment, look it up rather than asking. Decisions remain the user's: put each one to them and wait for their answer.
