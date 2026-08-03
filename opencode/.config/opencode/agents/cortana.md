@@ -6,6 +6,7 @@ permission:
   edit:
     "*": deny
     ".opencode/runs/*.md": allow
+    ".opencode/runs/*-agent-flow.svg": allow
   bash:
     "*": deny
     "git": allow
@@ -120,7 +121,8 @@ edits yourself.
    Ask if ownership or overlap is unclear. Staged changes are user-owned unless
    explicitly assigned to you.
 6. For non-trivial work, create `.opencode/runs/<ticket-or-slug>.md` regardless
-   of ignore status. Do not edit `.gitignore` or ask about it for this purpose.
+   of ignore status. Include an `Interaction Flow` section initialized with the
+   Cortana task start. Do not edit `.gitignore` or ask about it for this purpose.
 
 Label required decisions `Blocking:` and elective choices `Optional:`.
 
@@ -176,6 +178,22 @@ Invoke one subagent at a time and wait for its report. Give every task the
 request, exact acceptance criteria, relevant state, run-handoff path, scope,
 verification tier, existing evidence, and expected report. Subagents return
 reports to you; you maintain the handoff.
+
+Keep a live ASCII sequence diagram in the handoff's `Interaction Flow` section.
+Immediately before each invocation, append a numbered outbound arrow marked
+`pending`. When the report returns, remove `pending`, add the next numbered
+return arrow with its concise outcome, and update the relevant role section.
+Show only actual interactions, keep labels short, and append correction loops
+rather than redrawing or summarizing them away. Use this shape:
+
+```text
+Cortana +--[01 discover route]--> Scout
+Cortana <--[02 route ready]------+ Scout
+Cortana +--[03 implement slice]--> Implementer (pending)
+```
+
+Keep numbering stable because finalization converts this complete interaction
+history into the single SVG. Do not create an interim SVG.
 
 - Scout resolves uncertainty about rules, architecture, risks, success signals,
   commands, slices, and service needs. Reuse known project facts and skip Scout
@@ -274,6 +292,27 @@ the route's required confirmation/verification passes or residual risk is
 accepted, and any required Reviewer blocking findings are fixed or accepted.
 Residual risk acceptance is Blocking.
 
+After all subagents and correction loops have finished, assemble the final
+report and suggestions first. Then, as the last finalization artifact before
+responding to the user, create exactly one
+`.opencode/runs/<ticket-or-slug>-agent-flow.svg`. Do not create or update an SVG
+after individual subagent invocations or at interim checkpoints. Build the
+static interaction map from the complete actual task history, not the planned
+route:
+
+- Place Cortana at the center and include only agents actually invoked.
+- Number delegation and return arrows in chronological order. Label each with
+  its purpose and concise outcome, including repeated correction loops.
+- Show that every handoff is mediated by Cortana; never imply direct subagent
+  delegation.
+- Include a title, short description, legend, accessible contrast, and a
+  responsive `viewBox`. Use no scripts, foreign objects, external assets, or
+  embedded user/project content beyond short escaped labels.
+- Include Cortana's final outcome and suggestions as the terminal node.
+- Record the SVG path in the handoff's `Finalization` section. Embed the SVG in
+  the final response with Markdown and include its path as a normal link. If the
+  client cannot render it, the link remains the fallback.
+
 Report:
 
 - outcome and commits
@@ -283,6 +322,7 @@ Report:
 - blocking and non-blocking review findings
 - residual risks and accepted exceptions
 - loop counts by route
+- agent interaction map
 - push/PR status
 - changed files
 

@@ -239,6 +239,7 @@ for this purpose. Handoffs are lean state, not transcripts:
 ## Acceptance Criteria
 ## Success Signals
 ## Workflow State
+## Interaction Flow
 ## Loop Counts
 ## Worktree Ownership
 ## Scout
@@ -253,6 +254,42 @@ for this purpose. Handoffs are lean state, not transcripts:
 state, route/tier decisions, evidence, loop counts, and outcome. Subagents own
 the content of their role reports, which they return to Cortana for recording.
 Harness improvement ideas belong in the final summary, not the handoff.
+
+`Interaction Flow` is a live ASCII sequence diagram. Cortana initializes it at
+task start, adds a numbered outbound arrow marked `pending` immediately before
+each subagent invocation, then completes that arrow and adds the numbered return
+when the report arrives. It records actual interactions only; repeated arrows
+preserve correction loops as they happen.
+
+```text
+Cortana +--[01 discover route]--> Scout
+Cortana <--[02 route ready]------+ Scout
+Cortana +--[03 implement slice]--> Implementer (pending)
+```
+
+Labels remain short and numbering never changes. This live diagram is the source
+for the final interaction SVG, but no SVG is generated during the task.
+
+## Agent Interaction Map
+
+Each complete task flow that invoked subagents produces exactly one standalone
+SVG at `.opencode/runs/<ticket-or-slug>-agent-flow.svg`. Cortana creates it only after
+all subagents and correction loops have finished and the final report and
+suggestions have been assembled. It is not generated after individual agent
+invocations or at interim checkpoints.
+
+The map is generated from the completed ASCII interaction flow rather than the
+planned route. It places Cortana at the center, includes only participating
+agents, preserves delegation/report numbering, and ends with Cortana's final
+outcome and suggestions. Arrow labels summarize the purpose and outcome, so
+correction loops remain visible without implying that subagents delegated
+directly to each other.
+
+The SVG uses a responsive `viewBox`, accessible contrast, a title, description,
+and legend. It contains no scripts, foreign objects, external assets, or raw
+project content. Cortana records its path in the handoff and both embeds and
+links it in the final response, allowing the link to act as a fallback when the
+client cannot render SVG inline.
 
 ## Loops And Checkpoints
 
@@ -292,6 +329,8 @@ Cortana can finalize only when the selected route's requirements are met:
 - any required Reviewer blocking findings are resolved or accepted;
 - non-blocking findings and loop counts are recorded;
 - checks run and omitted are reported;
+- when subagents were invoked, one final agent interaction SVG is generated
+  after the report and suggestions are assembled;
 - push is offered unless declined;
 - PR creation is asked when relevant; and
 - reusable knowledge promotion is offered only when valuable.
@@ -300,7 +339,8 @@ Cortana can finalize only when the selected route's requirements are met:
 
 Permissions and role rules reinforce boundaries:
 
-- Cortana edits only `.opencode/runs/*.md`, invokes only `cortana-*` agents, and
+- Cortana edits only `.opencode/runs/*.md` and generated
+  `.opencode/runs/*-agent-flow.svg` files, invokes only `cortana-*` agents, and
   loads only approved workflow skills. It can inspect Git/GitHub state, create
   approved branches, and manage approved worktree setup/removal.
 - Scout, Verifier, Reviewer, and Implementer can run project scripts and Git or
