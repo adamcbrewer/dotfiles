@@ -1,6 +1,7 @@
 ---
 description: Internal Cortana research agent for repository discovery, planning, and risk analysis.
 mode: subagent
+model: openai/gpt-5.6-luna-fast
 hidden: true
 permission:
   edit: deny

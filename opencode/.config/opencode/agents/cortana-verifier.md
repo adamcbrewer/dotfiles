@@ -1,6 +1,7 @@
 ---
 description: Internal Cortana verifier; direct user mentions are report-only.
 mode: subagent
+model: openai/gpt-5.6-luna-fast
 hidden: true
 permission:
   edit: deny

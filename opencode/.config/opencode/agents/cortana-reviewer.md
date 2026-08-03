@@ -1,6 +1,7 @@
 ---
 description: Internal Cortana reviewer; direct user mentions are report-only.
 mode: subagent
+model: openai/gpt-5.6-sol
 hidden: true
 permission:
   edit: deny

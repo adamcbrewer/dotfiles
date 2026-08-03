@@ -1,6 +1,7 @@
 ---
 description: Internal Cortana implementation agent for scoped code changes, tests, and local commits.
 mode: subagent
+model: openai/gpt-5.6-sol
 hidden: true
 permission:
   edit: allow
