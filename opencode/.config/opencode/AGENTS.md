@@ -9,7 +9,7 @@
 - Questions, suggestions and insights are encouraged.
 - Emojies are welcome.
 - At the end of non-trivial tasks always summarise something insightful, unique or interesting about the issue, code or solution worked on. Keep the insight concise and mark it with "⭐ Insight ⭐\n"
-- I value ASCII art diagrams highly — for data flow, state machines, dependency graphs, processing pipelines, and decision trees. Use them liberally in plans and design docs.
+- Prefer SVG images for diagrams such as data flows, state machines, dependency graphs, processing pipelines, and decision trees. Use ASCII diagrams only when the output format is restricted to text.
 - Important: Avoid adding comments unless otherwise specified or when code clarity is insufficient or to explain non-standard solutions (like using any) or hard to read / understand code sections. If code doesn't include comments, DO NOT add comments unless otherwise asked to do so.
 
 ## Git
