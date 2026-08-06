@@ -95,6 +95,7 @@ permission:
     verify: allow
     test-analyzer: allow
     code-review: allow
+    security-review: allow
     simplify: allow
     frontend-design: allow
     vercel-react-best-practices: allow

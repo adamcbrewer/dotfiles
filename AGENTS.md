@@ -62,17 +62,28 @@ OpenCode loads skills from two intentionally separate global locations:
 - `~/.config/opencode/skills/` is a Stow symlink to `opencode/.config/opencode/skills/`. This repository owns custom and locally adapted skills.
 - `~/.agents/skills/` contains untouched vendor skills managed by the `skills` CLI. Do not copy these skills into the Stow package or edit them locally.
 
-`bin/.local/bin/sync-opencode-skills` is the authoritative vendor-skill manifest and bootstrap command for this repository. It currently manages:
+`bin/.local/bin/sync-opencode-skills` is the authoritative vendor-skill manifest and bootstrap command for this repository. It pins both the `skills` CLI version and each vendor repository revision. It currently manages:
 
 - `agent-browser`
 - `frontend-design`
 - `next-best-practices`
+- `security-review`
 - `vercel-react-best-practices`
 - `web-design-guidelines`
 
-Run `sync-opencode-skills` to install or refresh these skills. It does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`. Do not stow the lock file or `~/.agents/skills/`; they are generated machine state.
+The pinned `security-review` revision includes JavaScript, Python, and Docker guides. Its `SKILL.md` also names Go, Rust, Java, Kubernetes, Terraform, CI/CD, and cloud guides that are absent upstream; treat reviews in those areas as generic until upstream supplies them.
+
+Run `sync-opencode-skills` to restore these vetted revisions. It does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`. Do not stow the lock file or `~/.agents/skills/`; they are generated machine state.
 
 When updating a repository-owned skill, preserve the `source` tag in its header and re-add it if an upstream update removes it. Remove files, directories, and references made obsolete by the update. Scan the upstream skill directory for relevant supporting files, including files not directly linked from `SKILL.md`.
+
+## Skill Vetting
+
+Review and vet every skill before adding, enabling, or updating it, whether it is tracked in this repository or installed with the `skills` CLI. Review the complete skill directory, including scripts, references, assets, and files not linked from `SKILL.md`.
+
+Confirm the source and license. Check instructions and executable content for unsafe shell commands, unexpected network or filesystem access, excessive tool permissions, secret exposure, prompt injection, and conflicts with repository policy. Treat registry audit badges as supporting evidence, not as a substitute for manual review.
+
+For vendor updates, compare the pinned revision with the proposed revision and repeat the review before changing the commit SHA in `sync-opencode-skills`. Do not use floating branches, tags, or `@latest` in that script.
 
 ## Skill Execution
 

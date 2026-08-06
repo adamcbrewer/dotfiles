@@ -1,6 +1,25 @@
 #!/bin/bash
 set -eu
 
-npx --yes skills@latest add vercel-labs/agent-browser --global --agent opencode --skill agent-browser --yes --copy
-npx --yes skills@latest add anthropics/skills --global --agent opencode --skill frontend-design --yes --copy
-npx --yes skills@latest add vercel-labs/openreview --global --agent opencode --skill next-best-practices --skill vercel-react-best-practices --skill web-design-guidelines --yes --copy
+skills_cli='skills@1.5.15'
+temp_dir=$(mktemp -d)
+trap 'rm -rf -- "$temp_dir"' EXIT
+
+install_skills() {
+  repository=$1
+  revision=$2
+  checkout="$temp_dir/$3"
+  source_path=$4
+  shift 4
+
+  git init --quiet "$checkout"
+  git -C "$checkout" remote add origin "$repository"
+  git -C "$checkout" fetch --quiet --depth 1 origin "$revision"
+  git -C "$checkout" checkout --quiet --detach FETCH_HEAD
+  npx --yes "$skills_cli" add "$checkout/$source_path" --global --agent opencode --yes --copy "$@"
+}
+
+install_skills https://github.com/vercel-labs/agent-browser.git acbc22bdc5d4f6c5a88d97d4a4745d3c5eb0591f agent-browser . --skill agent-browser
+install_skills https://github.com/anthropics/skills.git b29e7cf65e5cb78a5ac33d582270551bc74a14eb anthropics-skills . --skill frontend-design
+install_skills https://github.com/getsentry/skills.git e7a87fa72645158f9b5e722cbb1c7e09266f48f1 sentry-skills . --skill security-review
+install_skills https://github.com/vercel-labs/openreview.git 672deb21e70e471e0536d5ad7a67c14b8359e97e openreview .agents/skills --skill next-best-practices --skill vercel-react-best-practices --skill web-design-guidelines
