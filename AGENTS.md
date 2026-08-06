@@ -62,7 +62,7 @@ OpenCode loads skills from two intentionally separate global locations:
 - `~/.config/opencode/skills/` is a Stow symlink to `opencode/.config/opencode/skills/`. This repository owns custom and locally adapted skills.
 - `~/.agents/skills/` contains untouched vendor skills managed by the `skills` CLI. Do not copy these skills into the Stow package or edit them locally.
 
-`bin/.local/bin/sync-opencode-skills` is the authoritative vendor-skill manifest and bootstrap command. It currently manages:
+`bin/.local/bin/sync-opencode-skills` is the authoritative vendor-skill manifest and bootstrap command for this repository. It currently manages:
 
 - `agent-browser`
 - `frontend-design`
@@ -70,7 +70,7 @@ OpenCode loads skills from two intentionally separate global locations:
 - `vercel-react-best-practices`
 - `web-design-guidelines`
 
-Run `sync-opencode-skills` to install or refresh that exact set. The CLI records global source and update state in `~/.agents/.skill-lock.json`. Do not stow the lock file or `~/.agents/skills/`; they are generated machine state.
+Run `sync-opencode-skills` to install or refresh these skills. It does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`. Do not stow the lock file or `~/.agents/skills/`; they are generated machine state.
 
 When updating a repository-owned skill, preserve the `source` tag in its header and re-add it if an upstream update removes it. Remove files, directories, and references made obsolete by the update. Scan the upstream skill directory for relevant supporting files, including files not directly linked from `SKILL.md`.
 

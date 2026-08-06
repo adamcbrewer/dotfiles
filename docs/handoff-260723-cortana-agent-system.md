@@ -120,7 +120,7 @@ Likely routing:
 - `test-analyzer`: failing tests.
 - `code-review`: reviewer behavior.
 - `simplify`: cleanup after implementation if useful.
-- `frontend-design`, `react-best-practices`, `web-interface`: relevant frontend/UI work.
+- `frontend-design`, `vercel-react-best-practices`, `web-design-guidelines`: relevant frontend/UI work.
 
 Subagents should not independently trigger workflow skills unless Cortana directs them.
 
