@@ -77,6 +77,16 @@ See [`SECURITY.md`](SECURITY.md) for npm, pnpm, and Yarn supply-chain hardening 
 
 If `stow -t ~ node` reports conflicts, move existing package-manager config files aside first and preserve any auth tokens outside this repo. Do not use `stow --adopt` on token-bearing npm/pnpm config files.
 
+### OpenCode Skills
+
+Install or refresh vendor-managed skills after stowing `bin` and `opencode`:
+
+```sh
+sync-opencode-skills
+```
+
+Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor skills and their update metadata live under `~/.agents/`.
+
 ### VS Code Extensions (optional)
 
 ```sh
@@ -98,7 +108,7 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `vscode` | `~/.config/Code/User/{settings,keybindings,snippets}` |
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
 | `gh` | `~/.config/gh/config.yml` |
-| `opencode` | `~/.config/opencode/{opencode.json,plugins/}` |
+| `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
 
 ## _nostow (Reference/Backup)
 

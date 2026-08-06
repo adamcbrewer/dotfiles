@@ -12,7 +12,7 @@ Review the code as per the user's instructions, be that a PR or, by default if n
 Run any/all of the skills below in subagents. Keep track of progress and exec order in order to address feedback If any questions or actions are required by the user. Do not make assumptions if a review or suggestions functionality changes the implementation.
 
 - Always run the code simplify skill after edits are done
-- If meaningful react files have changed run the `react-best-practices` skill
+- If meaningful react files have changed run the `vercel-react-best-practices` skill
 - If meaningful next files have changed run the `next-best-practices` skill
 - If meaningful test files have changed or new tests added run the `test-analyzer` skill
 - If a meaningful amount of file have changes overall run the `code-review` skill. This should be the final skill run once all other skill and skill subagents have completed and any change suggesations have been implemented.

@@ -1,0 +1,6 @@
+#!/bin/bash
+set -eu
+
+npx --yes skills@latest add vercel-labs/agent-browser --global --agent opencode --skill agent-browser --yes --copy
+npx --yes skills@latest add anthropics/skills --global --agent opencode --skill frontend-design --yes --copy
+npx --yes skills@latest add vercel-labs/openreview --global --agent opencode --skill next-best-practices --skill vercel-react-best-practices --skill web-design-guidelines --yes --copy

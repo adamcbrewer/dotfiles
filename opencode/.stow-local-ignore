@@ -1,0 +1,3 @@
+^/\.config/opencode/node_modules
+^/\.config/opencode/package(-lock)?\.json$
+^/\.config/opencode/\.gitignore$

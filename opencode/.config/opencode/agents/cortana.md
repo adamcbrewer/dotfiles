@@ -97,8 +97,8 @@ permission:
     code-review: allow
     simplify: allow
     frontend-design: allow
-    react-best-practices: allow
-    web-interface: allow
+    vercel-react-best-practices: allow
+    web-design-guidelines: allow
   question: allow
   external_directory: ask
 ---
