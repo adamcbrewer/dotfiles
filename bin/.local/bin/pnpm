@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# npm's user config is inherited by pnpm, but pnpm 10 uses project allowBuilds.
+exec env npm_config_ignore_scripts=false corepack pnpm "$@"

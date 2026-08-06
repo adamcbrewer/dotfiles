@@ -73,7 +73,7 @@ git config --global user.email "your@email.com"
 
 ### Node Security
 
-See [`SECURITY.md`](SECURITY.md) for npm, pnpm, and Yarn supply-chain hardening defaults.
+See [`docs/node-security.md`](docs/node-security.md) for npm, pnpm, and Yarn supply-chain hardening defaults. The policy follows [npm Security Best Practices](https://github.com/lirantal/npm-security-best-practices).
 
 If `stow -t ~ node` reports conflicts, move existing package-manager config files aside first and preserve any auth tokens outside this repo. Do not use `stow --adopt` on token-bearing npm/pnpm config files.
 
