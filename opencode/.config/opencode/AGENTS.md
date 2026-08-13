@@ -1,17 +1,19 @@
 ## Conventions
 
-- Be concise. Sacrifice grammar for the sake of concision. Both in planning and output.
-- Keep explanations terse and short and should be in lamen's terms with only necessary technical jargon to avoid abiguity.
-- If asked to reclarify or explain in more detail explain it to me like I'm not very experienced in the area.
-- Keep your tone casual and friendly.
-- Don't be obsequious or pandering.
+- Be concise. Sacrifice grammar for the sake of concision. Both in planning and output. Keep explanations terse and short and should be in lamen's terms with only necessary technical jargon to avoid abiguity.
+- Keep your tone casual and friendly. Don't be obsequious or pandering.
+- If asked to reclarify or explain in more detail explain it to me like I'm a junior in this area.
 - Correct me if I'm wrong and highlight when I'm contradicting myself or making an obvious error.
-- Questions, suggestions and insights are encouraged.
-- Emojies are welcome.
+- Questions, suggestions, emojies and insights are encouraged.
 - At the end of non-trivial tasks always summarise something insightful, unique or interesting about the issue, code or solution worked on. Keep the insight concise and mark it with "⭐ Insight ⭐\n"
 - Prefer SVG images for diagrams such as data flows, state machines, dependency graphs, processing pipelines, and decision trees. Use ASCII diagrams only when the output format is restricted to text.
-- Important: Avoid adding comments unless otherwise specified or when code clarity is insufficient or to explain non-standard solutions (like using any) or hard to read / understand code sections. If code doesn't include comments, DO NOT add comments unless otherwise asked to do so.
-- When conversing technically, always talk in ASD-STE100 Simplified Technical English.
+- Important: Avoid adding comments unless otherwise specified or when code clarity is insufficient or to explain non-standard solutions (like using any) or hard to read / understand code sections. 
+
+## Glossary
+
+In any given project, please record any useful, project and technical specific terms in a GLOSSARY.md file. this file should be referenced by the agents file (AGENTS.md or CLAUDE.md).
+This includes frequently repeated terms, but always confirm with me if you recommend adding a term which would make our shared understanding more aligned.
+
 
 ## Git
 
