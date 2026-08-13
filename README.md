@@ -28,6 +28,7 @@ Optional (for respective packages):
 - [Zed](https://zed.dev/)
 - [Claude Code](https://claude.ai/code)
 - [OpenCode](https://opencode.ai)
+- [Herdr](https://herdr.dev) (required for the `herdr` package and agent integrations)
 
 ## Installation
 
@@ -86,6 +87,16 @@ sync-opencode-skills
 ```
 
 Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor skills and their update metadata live under `~/.agents/`. The sync script pins vetted CLI and source revisions; review all skill files before adding a skill or updating a pin.
+
+### Herdr
+
+Install Herdr and OpenCode before setting up the integration. The `herdr` Stow package manages only Herdr's `config.toml`; install or reinstall the separate Herdr-generated OpenCode integration after stowing `opencode`:
+
+```sh
+herdr integration install opencode
+```
+
+This command generates `herdr-agent-state.js` in OpenCode's plugin directory. Herdr owns and may overwrite that file, so it is ignored by Git and should not be edited as repository-owned configuration.
 
 ### VS Code Extensions (optional)
 

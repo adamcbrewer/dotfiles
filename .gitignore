@@ -22,3 +22,6 @@ ehthumbs.db
 *.lock
 .vscode/**
 .opencode/runs/
+
+# Herdr-generated integrations
+opencode/.config/opencode/plugins/herdr-agent-state.js

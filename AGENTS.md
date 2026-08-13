@@ -28,7 +28,7 @@ dotfiles/
 
 - stow, fish, tmux, vim, zoxide, starship, gh, nvm
 - Optional Node security tools: npq, sfw
-- Optional: VS Code, Zed, Claude Code, OpenCode
+- Optional: VS Code, Zed, Claude Code, OpenCode, Herdr
 
 ## Stow Commands
 
@@ -51,10 +51,17 @@ stow -t ~ -n -v fish
 - Tmux: Clone TPM to `~/.tmux/plugins/tpm`, then `prefix + I`
 - Git: Set user.name and user.email
 - OpenCode: Run `sync-opencode-skills` after stowing `bin` and `opencode`
+- Herdr: Install Herdr and OpenCode, then run `herdr integration install opencode` after stowing `opencode`
 
 ## Theme
 
 Catppuccin Mocha across starship and tmux.
+
+## Herdr Integration Ownership
+
+The `herdr` Stow package owns only `~/.config/herdr/config.toml`. Herdr's OpenCode integration is generated separately by `herdr integration install opencode` in the stowed OpenCode plugin directory. The generated `herdr-agent-state.js` is ignored by Git, may be overwritten when Herdr installs or updates the integration, and must not be edited as repository-owned configuration.
+
+Install both Herdr and OpenCode before running the integration command. Run the same command to reinstall or refresh the integration.
 
 ## OpenCode Skill Ownership
 
