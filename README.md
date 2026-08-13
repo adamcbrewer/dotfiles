@@ -37,7 +37,7 @@ git clone <repo> ~/localhost/dotfiles
 cd ~/localhost/dotfiles
 
 # Stow all packages
-stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode
+stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode herdr
 ```
 
 ## Post-Install Setup
@@ -109,6 +109,7 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
 | `gh` | `~/.config/gh/config.yml` |
 | `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
+| `herdr` | `~/.config/herdr/config.toml` |
 
 ## _nostow (Reference/Backup)
 

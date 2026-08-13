@@ -20,6 +20,7 @@ dotfiles/
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
 ├── gh/             # -> ~/.config/gh/config.yml
 ├── opencode/       # -> ~/.config/opencode/{opencode.json,agents/,plugins/,skills/}
+├── herdr/          # -> ~/.config/herdr/config.toml
 └── _nostow/        # NOT stowed (backups, reference files)
 ```
 
@@ -35,7 +36,7 @@ dotfiles/
 cd ~/localhost/dotfiles
 
 # Install all packages
-stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode
+stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode herdr
 
 # Remove a package
 stow -t ~ -D fish
