@@ -25,3 +25,9 @@ ehthumbs.db
 
 # Herdr-generated integrations
 opencode/.config/opencode/plugins/herdr-agent-state.js
+
+# Generated machine and authentication state
+fish/.config/fish/fish_variables
+gh/.config/gh/hosts.yml
+herdr/.config/herdr/release-notes.json
+herdr/.config/herdr/session.json

@@ -16,8 +16,7 @@ curl -sS https://starship.rs/install.sh | sh
 # GitHub CLI
 sudo apt install gh
 
-# NVM (for Node.js version management)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+# Omarchy includes Mise for Node.js and tool version management
 
 # Optional Node package install hardening tools
 npm install -g npq sfw
@@ -37,8 +36,12 @@ Optional (for respective packages):
 git clone <repo> ~/localhost/dotfiles
 cd ~/localhost/dotfiles
 
-# Stow all packages
-stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode herdr
+# Stow packages without generated runtime state
+stow -t ~ git tmux vim starship bin node mise vscode zed opencode
+
+# Keep generated Fish, GitHub CLI, and Herdr state outside the repository
+mkdir -p ~/.config/{fish,gh,herdr}
+stow --no-folding -t ~ fish gh herdr
 ```
 
 ## Post-Install Setup
@@ -78,6 +81,16 @@ See [`docs/node-security.md`](docs/node-security.md) for npm, pnpm, and Yarn sup
 
 If `stow -t ~ node` reports conflicts, move existing package-manager config files aside first and preserve any auth tokens outside this repo. Do not use `stow --adopt` on token-bearing npm/pnpm config files.
 
+### Mise
+
+Install the globally configured tools after stowing `mise`:
+
+```sh
+mise install
+```
+
+Project `mise.toml` files belong in their projects. Keep machine-specific `mise.local.toml` files untracked.
+
 ### OpenCode Skills
 
 Install or refresh vendor-managed skills after stowing `bin` and `opencode`:
@@ -90,7 +103,7 @@ Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor ski
 
 ### Herdr
 
-Install Herdr and OpenCode before setting up the integration. The `herdr` Stow package manages only Herdr's `config.toml`; install or reinstall the separate Herdr-generated OpenCode integration after stowing `opencode`:
+Install Herdr and OpenCode before setting up the integration. The `herdr` Stow package manages only Herdr's `config.toml`; use `stow --no-folding -t ~ herdr` so runtime state stays outside the repository. Install or reinstall the separate Herdr-generated OpenCode integration after stowing `opencode`:
 
 ```sh
 herdr integration install opencode
@@ -109,13 +122,13 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | Package | Symlinks to |
 |---------|-------------|
 | `fish` | `~/.config/fish/{config.fish,fish_plugins}` |
-| `git` | `~/.gitconfig`, `~/.editorconfig` |
+| `git` | `~/.gitconfig`, `~/.editorconfig`, `~/.gitignore`, `~/.gitattributes` |
 | `tmux` | `~/.tmux.conf` |
 | `vim` | `~/.vimrc`, `~/.vim/` |
 | `starship` | `~/.config/starship.toml` |
 | `bin` | `~/.local/bin/` |
 | `node` | `~/.npmrc`, `~/.yarnrc`, `~/.config/pnpm/rc` |
-| `claude` | `~/.claude/{CLAUDE.md,settings.json,skills/,hooks/,statusline.sh}` |
+| `mise` | `~/.config/mise/config.toml` |
 | `vscode` | `~/.config/Code/User/{settings,keybindings,snippets}` |
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
 | `gh` | `~/.config/gh/config.yml` |
@@ -131,7 +144,6 @@ Not stowed. Manual restore if needed:
 | `fonts/` | `cp -r _nostow/fonts/* ~/.local/share/fonts/ && fc-cache -fv` |
 | `gnome/` | `dconf load / < _nostow/gnome/<file>` |
 | `flameshot/` | `cp _nostow/flameshot/* ~/.config/flameshot/` |
-| `claude-skills/` | `cp -r _nostow/claude-skills/* ~/.claude/skills/` |
 | `vscode-ext/` | See "VS Code Extensions" above |
 | `bash/` | Archived, not used |
 | `software/` | Reference notes |

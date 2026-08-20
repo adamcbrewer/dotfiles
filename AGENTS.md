@@ -9,13 +9,13 @@
 ```
 dotfiles/
 ├── fish/           # -> ~/.config/fish/{config.fish,fish_plugins}
-├── git/            # -> ~/.gitconfig, ~/.editorconfig
+├── git/            # -> ~/.gitconfig, ~/.editorconfig, ~/.gitignore, ~/.gitattributes
 ├── tmux/           # -> ~/.tmux.conf
 ├── vim/            # -> ~/.vimrc, ~/.vim/
 ├── starship/       # -> ~/.config/starship.toml
 ├── bin/            # -> ~/.local/bin/
 ├── node/           # -> ~/.npmrc, ~/.yarnrc, ~/.config/pnpm/rc
-├── claude/         # -> ~/.claude/{CLAUDE.md,settings.json,skills/,hooks/,statusline.sh}
+├── mise/           # -> ~/.config/mise/config.toml
 ├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
 ├── gh/             # -> ~/.config/gh/config.yml
@@ -26,7 +26,7 @@ dotfiles/
 
 ## Dependencies
 
-- stow, fish, tmux, vim, zoxide, starship, gh, nvm
+- stow, fish, tmux, vim, zoxide, starship, gh, mise
 - Optional Node security tools: npq, sfw
 - Optional: VS Code, Zed, Claude Code, OpenCode, Herdr
 
@@ -35,8 +35,12 @@ dotfiles/
 ```sh
 cd ~/localhost/dotfiles
 
-# Install all packages
-stow -t ~ fish git tmux vim starship bin node claude vscode zed gh opencode herdr
+# Install packages without generated runtime state
+stow -t ~ git tmux vim starship bin node mise vscode zed opencode
+
+# Keep generated Fish, GitHub CLI, and Herdr state outside the repository
+mkdir -p ~/.config/{fish,gh,herdr}
+stow --no-folding -t ~ fish gh herdr
 
 # Remove a package
 stow -t ~ -D fish
@@ -50,6 +54,7 @@ stow -t ~ -n -v fish
 - Fish: Install fisher, then `fisher update` to install plugins
 - Tmux: Clone TPM to `~/.tmux/plugins/tpm`, then `prefix + I`
 - Git: Set user.name and user.email
+- Mise: Run `mise install` after stowing `mise`
 - OpenCode: Run `sync-opencode-skills` after stowing `bin` and `opencode`
 - Herdr: Install Herdr and OpenCode, then run `herdr integration install opencode` after stowing `opencode`
 
@@ -59,7 +64,7 @@ Catppuccin Mocha across starship and tmux.
 
 ## Herdr Integration Ownership
 
-The `herdr` Stow package owns only `~/.config/herdr/config.toml`. Herdr's OpenCode integration is generated separately by `herdr integration install opencode` in the stowed OpenCode plugin directory. The generated `herdr-agent-state.js` is ignored by Git, may be overwritten when Herdr installs or updates the integration, and must not be edited as repository-owned configuration.
+The `herdr` Stow package owns only `~/.config/herdr/config.toml`. Create `~/.config/herdr` first and use `stow --no-folding -t ~ herdr` so Herdr's logs, sockets, session state, and release state remain outside the repository. Herdr's OpenCode integration is generated separately by `herdr integration install opencode` in the stowed OpenCode plugin directory. The generated `herdr-agent-state.js` is ignored by Git, may be overwritten when Herdr installs or updates the integration, and must not be edited as repository-owned configuration.
 
 Install both Herdr and OpenCode before running the integration command. Run the same command to reinstall or refresh the integration.
 
