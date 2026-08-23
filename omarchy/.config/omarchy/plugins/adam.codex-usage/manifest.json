@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "adam.codex-usage",
+  "name": "Codex Usage",
+  "version": "0.1.0",
+  "author": "Adam Brewer",
+  "description": "Codex usage limits from the local Codex CLI.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Codex Usage",
+    "description": "Codex usage windows, reset times, plan, and credits.",
+    "category": "AI",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

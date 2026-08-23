@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "adam.altswitch",
+  "name": "Alt Switch",
+  "version": "1.0.0",
+  "author": "Adam Brewer",
+  "description": "A themed, Windows-style Alt+Tab switcher with application icons.",
+  "kinds": [
+    "panel"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "panel": "AltSwitch.qml"
+  }
+}

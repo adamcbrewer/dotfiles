@@ -39,13 +39,15 @@ cd ~/localhost/dotfiles
 # Stow packages without generated runtime state
 stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 
-# Keep generated Fish, GitHub CLI, and Herdr state outside the repository
-mkdir -p ~/.config/{fish,gh,herdr}
+# Keep generated Fish, GitHub CLI, Herdr, Omarchy, and Hyprland state outside the repository
+mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
 stow --no-folding -t ~ fish gh herdr
 
-# Desktop-only Hyprland settings plus portable overrides
-mkdir -p ~/.config/hypr
-stow --no-folding -t ~ hypr-common hypr-desktop
+# Own the complete user plugin directory, including plugins added later
+stow -t ~ omarchy
+
+# Desktop-only settings plus portable Hyprland overrides
+stow --no-folding -t ~ hypr hypr-desktop omarchy-desktop
 ```
 
 ## Post-Install Setup
@@ -138,7 +140,9 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `gh` | `~/.config/gh/config.yml` |
 | `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
 | `herdr` | `~/.config/herdr/config.toml` |
-| `hypr-common` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
+| `omarchy` | `~/.config/omarchy/plugins/` |
+| `omarchy-desktop` | `~/.config/omarchy/shell.json` |
+| `hypr` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
 | `hypr-desktop` | `~/.config/hypr/input.lua` |
 
 ## _nostow (Reference/Backup)
@@ -157,3 +161,39 @@ Not stowed. Manual restore if needed:
 ## Theme
 
 Catppuccin Mocha across starship and tmux.
+
+## Omarchy And Hyprland
+
+`hypr` owns portable Hyprland overrides. `hypr-desktop` owns this
+machine's keyboard and pointer settings. A future laptop package may own the
+laptop's `input.lua`; never stow both machine packages on one machine.
+`monitors.lua` remains local and unmanaged because display layouts are
+machine-specific. The `omarchy` package owns the complete user plugin directory,
+while `omarchy-desktop` owns this machine's shell layout and plugin settings.
+Plugins added under `~/.config/omarchy/plugins/` therefore become repository
+changes automatically.
+
+Omarchy defaults under `/usr/share/omarchy`, generated state under
+`~/.local/state/omarchy`, and cache data under `~/.cache/omarchy` are never
+repository-owned. Keep `~/.config/hypr` and `~/.config/omarchy` as real
+directories. Use regular Stow folding for `omarchy` so it owns `plugins/` as a
+directory link; use `--no-folding` for the other packages.
+
+```sh
+# Inspect before applying or refreshing links
+stow --simulate --verbose=2 -t ~ omarchy
+stow --simulate --verbose=2 --no-folding -t ~ hypr hypr-desktop omarchy-desktop
+
+# Refresh this desktop's links
+stow --restow --verbose=2 -t ~ omarchy
+stow --restow --verbose=2 --no-folding -t ~ hypr hypr-desktop omarchy-desktop
+
+# Remove this desktop's links
+stow --delete --verbose=2 -t ~ omarchy
+stow --delete --verbose=2 --no-folding -t ~ hypr hypr-desktop omarchy-desktop
+```
+
+After every `omarchy update`, inspect `git status`, simulate a restow, and run
+`hyprctl configerrors`. Omarchy refreshes or migrations may modify a repository
+file through a leaf symlink or replace the symlink with a regular file. Review
+the result before restoring links; never use `stow --adopt`.

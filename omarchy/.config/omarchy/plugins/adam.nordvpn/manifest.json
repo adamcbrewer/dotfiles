@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "adam.nordvpn",
+  "name": "NordVPN",
+  "version": "0.1.0",
+  "author": "Adam Brewer",
+  "description": "NetworkManager status and toggle for a NordVPN OpenVPN profile.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "NordVPN",
+    "description": "Show and toggle a NordVPN OpenVPN connection.",
+    "category": "Network",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "connectionUuid": ""
+    },
+    "schema": [
+      {
+        "key": "connectionUuid",
+        "type": "string",
+        "label": "NetworkManager connection UUID",
+        "defaultValue": ""
+      }
+    ]
+  }
+}

@@ -21,7 +21,9 @@ dotfiles/
 ├── gh/             # -> ~/.config/gh/config.yml
 ├── opencode/       # -> ~/.config/opencode/{opencode.json,agents/,plugins/,skills/}
 ├── herdr/          # -> ~/.config/herdr/config.toml
-├── hypr-common/    # -> ~/.config/hypr/{hyprland.lua,looknfeel.lua}
+├── omarchy/        # -> ~/.config/omarchy/plugins/
+├── omarchy-desktop/ # -> ~/.config/omarchy/shell.json
+├── hypr/           # -> ~/.config/hypr/{hyprland.lua,looknfeel.lua}
 ├── hypr-desktop/   # -> ~/.config/hypr/input.lua
 └── _nostow/        # NOT stowed (backups, reference files)
 ```
@@ -40,13 +42,15 @@ cd ~/localhost/dotfiles
 # Install packages without generated runtime state
 stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 
-# Keep generated Fish, GitHub CLI, and Herdr state outside the repository
-mkdir -p ~/.config/{fish,gh,herdr}
+# Keep generated Fish, GitHub CLI, Herdr, Omarchy, and Hyprland state outside the repository
+mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
 stow --no-folding -t ~ fish gh herdr
 
-# Desktop-only Hyprland settings plus portable overrides
-mkdir -p ~/.config/hypr
-stow --no-folding -t ~ hypr-common hypr-desktop
+# Own the complete user plugin directory, including plugins added later
+stow -t ~ omarchy
+
+# Desktop-only settings plus portable Hyprland overrides
+stow --no-folding -t ~ hypr hypr-desktop omarchy-desktop
 
 # Remove a package
 stow -t ~ -D fish
@@ -68,17 +72,29 @@ stow -t ~ -n -v fish
 
 Catppuccin Mocha across starship and tmux.
 
-## Hyprland Ownership
+## Omarchy And Hyprland Ownership
 
-`hypr-common` owns portable `hyprland.lua` and `looknfeel.lua` overrides.
+`hypr` owns portable `hyprland.lua` and `looknfeel.lua` overrides.
 `hypr-desktop` owns this machine's `input.lua`. Leave `monitors.lua` unmanaged
-and local to each machine. A future laptop package may own its `input.lua`, but
-never install desktop and laptop packages together because they target the same
-path.
+and local to each machine.
 
-Keep `~/.config/hypr` as a real directory. Always use `stow --no-folding` for
-simulation, installation, restow, and deletion of these packages. Omarchy
-updates may replace leaf links; inspect Git and simulate a restow afterward.
+The `omarchy` package owns the complete `~/.config/omarchy/plugins/` directory,
+so plugins added there become repository changes automatically.
+`omarchy-desktop` owns this machine's shell layout and plugin settings. Omarchy
+defaults under `/usr/share/omarchy`, generated state under
+`~/.local/state/omarchy`, and cache data under `~/.cache/omarchy` remain outside
+Git. Keep `~/.config/hypr` and `~/.config/omarchy` as real directories. Use
+regular Stow folding for `omarchy` so it owns `plugins/` as a directory link;
+use `--no-folding` for the Hyprland and `omarchy-desktop` packages. Omarchy
+updates and refreshes may modify repository files through links or replace
+links; inspect Git and simulate a restow after each update.
+
+Only stow, restow, or delete `hypr-desktop` and `omarchy-desktop` on this
+desktop. Portable setup commands may include `hypr` and `omarchy`, but
+must not include machine-specific packages without first confirming the target
+machine. Future laptop packages may own that machine's `input.lua` and
+`shell.json`; never install desktop and laptop packages together because they
+target the same paths.
 
 ## Herdr Integration Ownership
 
@@ -115,6 +131,12 @@ Review and vet every skill before adding, enabling, or updating it, whether it i
 Confirm the source and license. Check instructions and executable content for unsafe shell commands, unexpected network or filesystem access, excessive tool permissions, secret exposure, prompt injection, and conflicts with repository policy. Treat registry audit badges as supporting evidence, not as a substitute for manual review.
 
 For vendor updates, compare the pinned revision with the proposed revision and repeat the review before changing the commit SHA in `sync-opencode-skills`. Do not use floating branches, tags, or `@latest` in that script.
+
+## Package Vetting
+
+Prefer packages in this order: Omarchy-curated packages from official Arch repositories, verified Flatpaks, then AUR packages. Vet every package before installation, including packages listed or recommended by Omarchy; curation is not a substitute for review.
+
+Confirm the package source, maintainer, license, build recipe, integrity verification, install scripts, permissions, bundled binaries, update path, and known security or privacy concerns. For AUR packages, review the complete `PKGBUILD` and all accompanying files at the current revision before allowing an AUR helper to execute them. Report material risks and safer alternatives before installing.
 
 ## Skill Execution
 

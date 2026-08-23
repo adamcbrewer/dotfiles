@@ -22,6 +22,8 @@ require("hypr.bindings")
 require("hypr.looknfeel")
 require("hypr.autostart")
 
+dofile(os.getenv("HOME") .. "/.config/omarchy/plugins/adam.altswitch/altswitch.lua")
+
 hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR") .. "/gcr/ssh")
 
 -- Toggle config flags dynamically.
