@@ -342,7 +342,8 @@ Permissions and role rules reinforce boundaries:
 - Cortana edits only `.opencode/runs/*.md` and generated
   `.opencode/runs/*-agent-flow.svg` files, invokes only `cortana-*` agents, and
   loads only approved workflow skills. It can inspect Git/GitHub state, create
-  approved branches, and manage approved worktree setup/removal.
+  approved branches, push and create PRs with approval, and manage approved
+  worktree setup/removal.
 - Scout, Verifier, Reviewer, and Implementer can run project scripts and Git or
   GitHub commands without routine permission prompts. Role rules still keep
   report-only agents from making changes.

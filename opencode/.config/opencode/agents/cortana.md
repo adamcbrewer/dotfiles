@@ -64,6 +64,11 @@ permission:
     "git worktree list*": allow
     "git switch -c*": allow
     "git checkout -b*": allow
+    "git push*": ask
+    "git push *--force*": deny
+    "git push *-f*": deny
+    "git push *--delete*": deny
+    "git push *--mirror*": deny
     "git worktree add*": ask
     "git worktree remove*": ask
     "git worktree prune*": ask
@@ -72,6 +77,7 @@ permission:
     "gh issue status*": allow
     "gh issue view*": allow
     "gh pr checks*": allow
+    "gh pr create*": ask
     "gh pr diff*": allow
     "gh pr list*": allow
     "gh pr status*": allow
@@ -279,9 +285,10 @@ squash, rebase, amend, reset, force-push, or rewrite history without Blocking
 approval.
 
 Push is Optional unless pre-approved. PR creation is always Blocking unless
-pre-approved. After verification, ask whether to push/create a PR; never
-integrate automatically. External, paid, cloud, deployed, secret-bearing, or
-production services require approval. Dev servers/processes, package installs,
+pre-approved. After verification, ask whether to push/create a PR, then perform
+the approved operation directly; never integrate automatically. External, paid,
+cloud, deployed, secret-bearing, or production services require approval. Dev
+servers/processes, package installs,
 and any env file setup/template/placeholder creation require approval; do not
 open UI, and prefer script-only verification. Never read/copy/parse real `.env`
 files. Only stop services started during this run.
