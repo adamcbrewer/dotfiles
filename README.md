@@ -42,6 +42,10 @@ stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 # Keep generated Fish, GitHub CLI, and Herdr state outside the repository
 mkdir -p ~/.config/{fish,gh,herdr}
 stow --no-folding -t ~ fish gh herdr
+
+# Desktop-only Hyprland settings plus portable overrides
+mkdir -p ~/.config/hypr
+stow --no-folding -t ~ hypr-common hypr-desktop
 ```
 
 ## Post-Install Setup
@@ -134,6 +138,8 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `gh` | `~/.config/gh/config.yml` |
 | `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
 | `herdr` | `~/.config/herdr/config.toml` |
+| `hypr-common` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
+| `hypr-desktop` | `~/.config/hypr/input.lua` |
 
 ## _nostow (Reference/Backup)
 

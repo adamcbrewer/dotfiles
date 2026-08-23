@@ -21,6 +21,8 @@ dotfiles/
 ├── gh/             # -> ~/.config/gh/config.yml
 ├── opencode/       # -> ~/.config/opencode/{opencode.json,agents/,plugins/,skills/}
 ├── herdr/          # -> ~/.config/herdr/config.toml
+├── hypr-common/    # -> ~/.config/hypr/{hyprland.lua,looknfeel.lua}
+├── hypr-desktop/   # -> ~/.config/hypr/input.lua
 └── _nostow/        # NOT stowed (backups, reference files)
 ```
 
@@ -42,6 +44,10 @@ stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 mkdir -p ~/.config/{fish,gh,herdr}
 stow --no-folding -t ~ fish gh herdr
 
+# Desktop-only Hyprland settings plus portable overrides
+mkdir -p ~/.config/hypr
+stow --no-folding -t ~ hypr-common hypr-desktop
+
 # Remove a package
 stow -t ~ -D fish
 
@@ -61,6 +67,18 @@ stow -t ~ -n -v fish
 ## Theme
 
 Catppuccin Mocha across starship and tmux.
+
+## Hyprland Ownership
+
+`hypr-common` owns portable `hyprland.lua` and `looknfeel.lua` overrides.
+`hypr-desktop` owns this machine's `input.lua`. Leave `monitors.lua` unmanaged
+and local to each machine. A future laptop package may own its `input.lua`, but
+never install desktop and laptop packages together because they target the same
+path.
+
+Keep `~/.config/hypr` as a real directory. Always use `stow --no-folding` for
+simulation, installation, restow, and deletion of these packages. Omarchy
+updates may replace leaf links; inspect Git and simulate a restow afterward.
 
 ## Herdr Integration Ownership
 
