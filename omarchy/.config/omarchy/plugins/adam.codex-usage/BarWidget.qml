@@ -51,8 +51,7 @@ BarWidget {
     if (durationSeconds <= 0 || Number(window.resets_at) <= 0) return ""
     var timeRemaining = Math.max(0, Math.min(100, secondsRemaining / durationSeconds * 100))
     var difference = Math.round(Number(window.remaining) - timeRemaining)
-    if (difference === 0) return "0◇"
-    return Math.abs(difference) + (difference > 0 ? "△" : "▽")
+    return (difference > 0 ? "+" : "") + difference
   }
 
   function date(unixSeconds) {
