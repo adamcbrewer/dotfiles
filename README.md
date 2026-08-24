@@ -46,8 +46,8 @@ stow --no-folding -t ~ fish gh herdr
 # Own the complete user plugin directory, including plugins added later
 stow -t ~ omarchy
 
-# Desktop-only settings plus portable Hyprland overrides
-stow --no-folding -t ~ hypr hypr-desktop omarchy-desktop
+# This laptop's settings plus shared Hyprland overrides
+stow --no-folding -t ~ hypr hypr-laptop
 ```
 
 ## Post-Install Setup
@@ -140,10 +140,10 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `gh` | `~/.config/gh/config.yml` |
 | `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
 | `herdr` | `~/.config/herdr/config.toml` |
-| `omarchy` | `~/.config/omarchy/plugins/` |
-| `omarchy-desktop` | `~/.config/omarchy/shell.json` |
+| `omarchy` | `~/.config/omarchy/{plugins/,shell.json}` |
 | `hypr` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
 | `hypr-desktop` | `~/.config/hypr/input.lua` |
+| `hypr-laptop` | `~/.config/hypr/input.lua` |
 
 ## _nostow (Reference/Backup)
 
@@ -164,12 +164,13 @@ Catppuccin Mocha across starship and tmux.
 
 ## Omarchy And Hyprland
 
-`hypr` owns portable Hyprland overrides. `hypr-desktop` owns this
-machine's keyboard and pointer settings. A future laptop package may own the
-laptop's `input.lua`; never stow both machine packages on one machine.
+`hypr` owns portable Hyprland overrides. `hypr-desktop` owns the desktop's
+keyboard and pointer settings; `hypr-laptop` owns this laptop's settings. Never
+stow both machine packages on one machine because they target the same
+`input.lua`.
 `monitors.lua` remains local and unmanaged because display layouts are
-machine-specific. The `omarchy` package owns the complete user plugin directory,
-while `omarchy-desktop` owns this machine's shell layout and plugin settings.
+machine-specific. The `omarchy` package owns the complete user plugin directory
+and shared shell layout and plugin settings.
 Plugins added under `~/.config/omarchy/plugins/` therefore become repository
 changes automatically.
 
@@ -182,15 +183,25 @@ directory link; use `--no-folding` for the other packages.
 ```sh
 # Inspect before applying or refreshing links
 stow --simulate --verbose=2 -t ~ omarchy
-stow --simulate --verbose=2 --no-folding -t ~ hypr hypr-desktop omarchy-desktop
+stow --simulate --verbose=2 --no-folding -t ~ hypr hypr-laptop
 
-# Refresh this desktop's links
+# Refresh this laptop's links
 stow --restow --verbose=2 -t ~ omarchy
-stow --restow --verbose=2 --no-folding -t ~ hypr hypr-desktop omarchy-desktop
+stow --restow --verbose=2 --no-folding -t ~ hypr hypr-laptop
 
-# Remove this desktop's links
+# Remove this laptop's links
 stow --delete --verbose=2 -t ~ omarchy
-stow --delete --verbose=2 --no-folding -t ~ hypr hypr-desktop omarchy-desktop
+stow --delete --verbose=2 --no-folding -t ~ hypr hypr-laptop
+```
+
+When migrating from the removed `omarchy-desktop` package, remove its stale
+link before stowing `omarchy`:
+
+```sh
+case "$(readlink ~/.config/omarchy/shell.json)" in
+  *omarchy-desktop*) unlink ~/.config/omarchy/shell.json ;;
+esac
+stow -t ~ omarchy
 ```
 
 After every `omarchy update`, inspect `git status`, simulate a restow, and run

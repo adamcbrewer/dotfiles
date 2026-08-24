@@ -54,8 +54,7 @@
           "id": "omarchy.bluetooth"
         },
         {
-          "id": "adam.nordvpn",
-          "connectionUuid": "83ee5ca4-523c-4e59-bf31-e31972a53ad0"
+          "id": "adam.nordvpn"
         },
         {
           "id": "omarchy.network"
@@ -67,7 +66,8 @@
           "id": "omarchy.monitor"
         },
         {
-          "id": "omarchy.power"
+          "id": "omarchy.power",
+          "showPercentage": true
         }
       ]
     },

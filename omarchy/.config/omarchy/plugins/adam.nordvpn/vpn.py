@@ -19,6 +19,45 @@ def run(*args):
     )
 
 
+def nordvpn_profiles():
+    connections = run("-t", "-f", "UUID,TYPE", "connection", "show")
+    if connections.returncode != 0:
+        return []
+
+    active = run("-t", "-f", "UUID", "connection", "show", "--active").stdout.splitlines()
+    profiles = []
+    for line in connections.stdout.splitlines():
+        uuid, separator, connection_type = line.partition(":")
+        if not separator or connection_type != "vpn":
+            continue
+        details = run("-g", "vpn.service-type,vpn.data", "connection", "show", "uuid", uuid)
+        if details.returncode != 0 or "openvpn" not in details.stdout or "nordvpn.com" not in details.stdout:
+            continue
+        name = run("-g", "connection.id", "connection", "show", "uuid", uuid).stdout.strip()
+        profiles.append({"uuid": uuid, "name": name or "NordVPN", "connected": uuid in active})
+    return profiles
+
+
+def choose_profile(profiles):
+    result = subprocess.run(
+        [
+            "/usr/bin/zenity",
+            "--list",
+            "--title=Choose NordVPN profile",
+            "--text=Select a server to connect to.",
+            "--column=Profile",
+            "--column=UUID",
+            "--hide-column=2",
+            "--print-column=2",
+            *[value for profile in profiles for value in (profile["name"], profile["uuid"])],
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
 def service_password(uuid):
     result = subprocess.run(
         ["/usr/bin/secret-tool", "lookup", "application", "adam.nordvpn", "uuid", uuid],
@@ -118,9 +157,28 @@ def main():
         raise SystemExit("usage: vpn.py <status|toggle> <connection-uuid>")
 
     action, uuid = sys.argv[1:]
-    if not re.fullmatch(r"[0-9a-fA-F-]{36}", uuid):
+    if uuid and not re.fullmatch(r"[0-9a-fA-F-]{36}", uuid):
         print(json.dumps({"available": False, "connected": False, "error": "Configure a valid VPN UUID", "name": "NordVPN"}))
         return
+
+    if not uuid:
+        profiles = nordvpn_profiles()
+        if not profiles:
+            print(json.dumps({"available": False, "connected": False, "error": "NordVPN profile not found", "name": "NordVPN"}))
+            return
+        connected = [profile for profile in profiles if profile["connected"]]
+        if connected:
+            uuid = connected[0]["uuid"]
+        elif len(profiles) == 1:
+            uuid = profiles[0]["uuid"]
+        elif action == "toggle":
+            uuid = choose_profile(profiles)
+            if not uuid:
+                print(json.dumps({"available": True, "connected": False, "error": "", "name": "NordVPN"}))
+                return
+        else:
+            print(json.dumps({"available": True, "connected": False, "error": "", "name": "Choose NordVPN profile"}))
+            return
 
     status = profile_status(uuid)
     if action == "toggle" and status["available"]:
