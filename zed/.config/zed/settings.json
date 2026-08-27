@@ -181,8 +181,9 @@
     },
   },
   "git_panel": {
+    "group_by": "staging",
     "dock": "left",
-    "tree_view": true,
+    "tree_view": false,
     "default_width": 500,
     "status_style": "label_color",
     "sort_by_path": true,

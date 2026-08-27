@@ -2,6 +2,7 @@
 codex = "latest"
 gh = "latest"
 node = "26.7.0"
+"npm:corepack" = "0.35.0"
 opencode = "latest"
 
 [settings]
