@@ -12,7 +12,7 @@ split_vertical = "prefix+|"
 split_horizontal = "prefix+backslash"
 
 [theme]
-name = "tokyo-night"
+name = "terminal"
 
 auto_switch = false
 [ui]
