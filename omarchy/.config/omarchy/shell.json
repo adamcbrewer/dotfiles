@@ -81,6 +81,9 @@
   "plugins": [
     {
       "id": "adam.altswitch"
+    },
+    {
+      "id": "adam.voxtype-overlay"
     }
   ],
   "version": 1
