@@ -105,7 +105,7 @@ Install or refresh vendor-managed skills after stowing `bin` and `opencode`:
 sync-opencode-skills
 ```
 
-Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor skills and their update metadata live under `~/.agents/`. The sync script pins vetted CLI and source revisions; review all skill files before adding a skill or updating a pin.
+Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor skills and their update metadata live under `~/.agents/`. The sync script pins vetted CLI and source revisions and removes only skills recorded as managed by its state file. Review all skill files before adding a skill or updating a pin.
 
 ### Herdr
 

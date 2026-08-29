@@ -3,13 +3,64 @@ set -eu
 
 skills_cli='skills@1.5.15'
 temp_dir=$(mktemp -d)
+state_dir=${XDG_STATE_HOME:-$HOME/.local/state}/sync-opencode-skills
+managed_skills_file=$state_dir/managed-skills
+if [ -n "${XDG_STATE_HOME:-}" ]; then
+  skill_lock_file=$XDG_STATE_HOME/skills/.skill-lock.json
+else
+  skill_lock_file=$HOME/.agents/.skill-lock.json
+fi
+desired_skills=(
+  agent-browser
+  frontend-design
+  security-review
+  next-best-practices
+  vercel-react-best-practices
+  web-design-guidelines
+)
 trap 'rm -rf -- "$temp_dir"' EXIT
 
+remove_managed_skill() {
+  local skill=$1
+  if [[ ! $skill =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+    printf 'Invalid managed skill name: %s\n' "$skill" >&2
+    exit 1
+  fi
+
+  npx --yes "$skills_cli" remove --global --yes "$skill"
+
+  # The CLI skips lock-only entries when the installed directory is already gone.
+  if [ -f "$skill_lock_file" ]; then
+    node -e '
+      const fs = require("node:fs");
+      const [path, name] = process.argv.slice(1);
+      const lock = JSON.parse(fs.readFileSync(path, "utf8"));
+      if (lock.skills && Object.hasOwn(lock.skills, name)) {
+        delete lock.skills[name];
+        const temporaryPath = `${path}.${process.pid}.tmp`;
+        fs.writeFileSync(temporaryPath, `${JSON.stringify(lock, null, 2)}\n`);
+        fs.renameSync(temporaryPath, path);
+      }
+    ' "$skill_lock_file" "$skill"
+  fi
+}
+
+is_desired_skill() {
+  local candidate=$1
+  local desired_skill
+  for desired_skill in "${desired_skills[@]}"; do
+    [ "$candidate" = "$desired_skill" ] && return 0
+  done
+  return 1
+}
+
+mkdir -p "$state_dir"
+
 install_skills() {
-  repository=$1
-  revision=$2
-  checkout="$temp_dir/$3"
-  source_path=$4
+  local repository=$1
+  local revision=$2
+  local checkout="$temp_dir/$3"
+  local source_path=$4
   shift 4
 
   git init --quiet "$checkout"
@@ -23,3 +74,13 @@ install_skills https://github.com/vercel-labs/agent-browser.git acbc22bdc5d4f6c5
 install_skills https://github.com/anthropics/skills.git b29e7cf65e5cb78a5ac33d582270551bc74a14eb anthropics-skills . --skill frontend-design
 install_skills https://github.com/getsentry/skills.git e7a87fa72645158f9b5e722cbb1c7e09266f48f1 sentry-skills . --skill security-review
 install_skills https://github.com/vercel-labs/openreview.git 672deb21e70e471e0536d5ad7a67c14b8359e97e openreview .agents/skills --skill next-best-practices --skill vercel-react-best-practices --skill web-design-guidelines
+
+if [ -f "$managed_skills_file" ]; then
+  while IFS= read -r skill; do
+    if [ -n "$skill" ] && ! is_desired_skill "$skill"; then
+      remove_managed_skill "$skill"
+    fi
+  done < "$managed_skills_file"
+fi
+
+printf '%s\n' "${desired_skills[@]}" > "$managed_skills_file"

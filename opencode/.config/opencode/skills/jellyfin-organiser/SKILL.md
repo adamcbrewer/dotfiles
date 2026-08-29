@@ -56,9 +56,12 @@ Extract movie name and year from filenames, cleaning quality indicators and rele
    - Verify counts match exactly
    - List and verify each moved file exists in new location
 3. **Only remove directories that are confirmed empty** using safe methods:
-   - Use `find . -type d -empty -delete` for truly empty directories
+   - Build an explicit list of absolute source directories involved in this run
+   - Show that list to the user before cleanup
+   - Use `rmdir -- "$source_directory"` for each listed directory, one at a time
+   - Never discover cleanup targets recursively or use `.` as the cleanup root
    - NEVER use wildcard patterns with `rm -rf` on directories that might contain moved files
-   - Manually verify each directory is empty before removal
+   - Verify each exact directory is empty before removal
 4. **Two-phase cleanup approach**:
    - Phase 1: Move all files and verify success
    - Phase 2: Only after verification, remove confirmed empty source directories one by one
@@ -75,7 +78,7 @@ Extract movie name and year from filenames, cleaning quality indicators and rele
 - **Web sources**: Prefer official sources (IMDb, TheTVDB, Wikipedia) for metadata
 - **Directory creation**: Create all directories before moving files to prevent errors
 - **Verification checkpoints**: Always verify file operations succeeded before cleanup
-- **Safe cleanup**: Never use `rm -rf` with wildcards; only delete confirmed empty directories
+- **Safe cleanup**: Delete only explicit, absolute source paths confirmed empty during this run
 
 ## Example
 

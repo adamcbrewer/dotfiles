@@ -9,12 +9,6 @@
 - Prefer SVG images for diagrams such as data flows, state machines, dependency graphs, processing pipelines, and decision trees. Use ASCII diagrams only when the output format is restricted to text.
 - Important: Avoid adding comments unless otherwise specified or when code clarity is insufficient or to explain non-standard solutions (like using any) or hard to read / understand code sections. 
 
-## Glossary
-
-In any given project, please record any useful, project and technical specific terms in a GLOSSARY.md file. this file should be referenced by the agents file (AGENTS.md or CLAUDE.md).
-This includes frequently repeated terms, but always confirm with me if you recommend adding a term which would make our shared understanding more aligned.
-
-
 ## Git
 
 - Subject line: concise and specific

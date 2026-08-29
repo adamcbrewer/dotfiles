@@ -119,7 +119,7 @@ OpenCode loads skills from two intentionally separate global locations:
 
 The pinned `security-review` revision includes JavaScript, Python, and Docker guides. Its `SKILL.md` also names Go, Rust, Java, Kubernetes, Terraform, CI/CD, and cloud guides that are absent upstream; treat reviews in those areas as generic until upstream supplies them.
 
-Run `sync-opencode-skills` to restore these vetted revisions. It does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`. Do not stow the lock file or `~/.agents/skills/`; they are generated machine state.
+Run `sync-opencode-skills` to restore these vetted revisions. It reconciles only skills previously managed by the script and does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`; the script records its managed names under `${XDG_STATE_HOME:-$HOME/.local/state}/sync-opencode-skills/`. Do not stow these files or `~/.agents/skills/`; they are generated machine state.
 
 When updating a repository-owned skill, preserve the `source` tag in its header and re-add it if an upstream update removes it. Remove files, directories, and references made obsolete by the update. Scan the upstream skill directory for relevant supporting files, including files not directly linked from `SKILL.md`.
 
@@ -155,7 +155,6 @@ Keep these in the primary conversation because they need user interaction or sha
 
 Use these as primary-context orchestrators that delegate bounded work to Task subagents:
 
-- `verify`: delegate specialist reviews, then run ordered checks in the primary context.
 - `improve-codebase-architecture`: delegate exploration and alternative designs; keep report presentation and grilling in the primary context.
 - `jellyfin-organiser`: delegate independent metadata research; keep file operations and verification in the primary context.
 - `grilling`: delegate fact-finding; keep the decision tree and user questions in the primary context.

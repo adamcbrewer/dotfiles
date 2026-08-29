@@ -98,7 +98,6 @@ permission:
     "cortana-*": allow
   skill:
     "*": deny
-    verify: allow
     test-analyzer: allow
     code-review: allow
     security-review: allow
