@@ -22,6 +22,21 @@ require("hypr.bindings")
 require("hypr.looknfeel")
 require("hypr.autostart")
 
+hl.unbind("SUPER + J")
+o.bind("SUPER + J", "Toggle window split", function()
+  local workspace = hl.get_active_special_workspace() or hl.get_active_workspace()
+
+  if not workspace then
+    return
+  end
+
+  if workspace.tiled_layout == "scrolling" then
+    hl.dispatch(hl.dsp.layout("consume_or_expel prev"))
+  elseif workspace.tiled_layout == "dwindle" then
+    hl.dispatch(hl.dsp.layout("togglesplit"))
+  end
+end)
+
 dofile(os.getenv("HOME") .. "/.config/omarchy/plugins/adam.altswitch/altswitch.lua")
 
 hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR") .. "/gcr/ssh")
