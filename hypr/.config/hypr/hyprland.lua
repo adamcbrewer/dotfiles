@@ -22,9 +22,13 @@ require("hypr.bindings")
 require("hypr.looknfeel")
 require("hypr.autostart")
 
+local function get_active_workspace()
+  return hl.get_active_special_workspace() or hl.get_active_workspace()
+end
+
 hl.unbind("SUPER + J")
 o.bind("SUPER + J", "Toggle window split", function()
-  local workspace = hl.get_active_special_workspace() or hl.get_active_workspace()
+  local workspace = get_active_workspace()
 
   if not workspace then
     return
@@ -37,6 +41,32 @@ o.bind("SUPER + J", "Toggle window split", function()
   end
 end)
 
+hl.unbind("SUPER + L")
+o.bind("SUPER + L", "Toggle workspace layout", function()
+  local workspace = get_active_workspace()
+
+  if not workspace then
+    return
+  elseif not workspace.special then
+    hl.exec_cmd("omarchy-hyprland-workspace-layout-toggle")
+    return
+  end
+
+  local layout = workspace.tiled_layout == "dwindle" and "scrolling" or "dwindle"
+  local layouts_dir = (os.getenv("XDG_STATE_HOME") or os.getenv("HOME") .. "/.local/state") .. "/omarchy/workspace-layouts"
+
+  os.execute("mkdir -p " .. o.shell_quote(layouts_dir))
+
+  local file = io.open(layouts_dir .. "/" .. workspace.id .. ".lua", "w")
+  if file then
+    file:write(string.format("hl.workspace_rule({ workspace = %q, layout = %q })\n", workspace.name, layout))
+    file:close()
+  end
+
+  hl.workspace_rule({ workspace = workspace.name, layout = layout })
+  hl.exec_cmd(o.notify("Workspace layout set to " .. layout))
+end)
+
 dofile(os.getenv("HOME") .. "/.config/omarchy/plugins/adam.altswitch/altswitch.lua")
 
 hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR") .. "/gcr/ssh")
@@ -47,6 +77,5 @@ require("default.hypr.toggles")
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
 
-o.window({ workspace = "special:scratchpad" }, { opacity = "1.0 override 1.0 override", dim_around = true })
 hl.workspace_rule({ workspace = "special:scratchpad", gaps_out = 40 })
 hl.workspace_rule({ workspace = "f[1] s[true] w[2-2147483647]", gaps_out = 60 })
