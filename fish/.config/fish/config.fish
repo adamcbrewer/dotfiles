@@ -70,6 +70,7 @@ alias pt="cd $HOME/localhost/papertrails.io/ && pnpm process:prod && cd -"
 
 # opencode
 fish_add_path /home/adam/.opencode/bin
+alias o="opencode"
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"

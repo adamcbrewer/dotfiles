@@ -16,7 +16,8 @@ name = "terminal"
 
 auto_switch = false
 [ui]
-sidebar_width = 36
+sidebar_width = 44
+sidebar_max_width = 44
 show_agent_labels_on_pane_borders = true
 
 agent_panel_sort = "priority"
@@ -24,7 +25,7 @@ agent_panel_sort = "priority"
 status_indicators = "symbols"
 [ui.sidebar.agents]
 row_gap = 0
-rows = [["state_icon", "workspace"], ["agent", "state_text"]]
+rows = [["state_icon", "workspace", "tab", "pane"], ["agent", { token = "state_text", bold = true }]]
 
 [ui.sidebar.spaces]
 row_gap = 0

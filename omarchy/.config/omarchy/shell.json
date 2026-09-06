@@ -42,6 +42,9 @@
           ]
         },
         {
+          "id": "omarchy.tailscale"
+        },
+        {
           "id": "adam.order-stats"
         },
         {
