@@ -14,7 +14,7 @@ dotfiles/
 ├── vim/            # -> ~/.vimrc, ~/.vim/
 ├── starship/       # -> ~/.config/starship.toml
 ├── bin/            # -> ~/.local/bin/
-├── node/           # -> ~/.npmrc, ~/.yarnrc, ~/.config/pnpm/rc
+├── node/           # -> ~/.npmrc, ~/.yarnrc, ~/.bunfig.toml, ~/.config/{pnpm/config.yaml,aube/config.toml}
 ├── mise/           # -> ~/.config/mise/config.toml
 ├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}

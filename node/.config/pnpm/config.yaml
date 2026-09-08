@@ -1,0 +1,5 @@
+# Source: https://github.com/lirantal/npm-security-best-practices
+minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+strictDepBuilds: true
+blockExoticSubdeps: true

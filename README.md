@@ -83,19 +83,19 @@ git config --global user.email "your@email.com"
 
 ### Node Security
 
-See [`docs/node-security.md`](docs/node-security.md) for npm, pnpm, and Yarn supply-chain hardening defaults. The policy follows [npm Security Best Practices](https://github.com/lirantal/npm-security-best-practices).
+See [`docs/node-security.md`](docs/node-security.md) for npm, pnpm, Bun, aube, Yarn, and mise supply-chain hardening defaults. The policy follows [npm Security Best Practices](https://github.com/lirantal/npm-security-best-practices).
 
 If `stow -t ~ node` reports conflicts, move existing package-manager config files aside first and preserve any auth tokens outside this repo. Do not use `stow --adopt` on token-bearing npm/pnpm config files.
 
 ### Mise
 
-Install the globally configured tools after stowing `mise`:
+Install the globally configured tools after stowing `mise` and `node` (which also supplies aube's strict dependency cooldown):
 
 ```sh
 mise install
 ```
 
-Project `mise.toml` files belong in their projects. Keep machine-specific `mise.local.toml` files untracked.
+Automatic tool installation is disabled, releases have a 7-day cooldown, and paranoid mode requires reviewed project configs to be explicitly trusted again after changes. Project `mise.toml` files belong in their projects. Keep machine-specific `mise.local.toml` files untracked.
 
 ### OpenCode Skills
 
@@ -133,7 +133,7 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `vim` | `~/.vimrc`, `~/.vim/` |
 | `starship` | `~/.config/starship.toml` |
 | `bin` | `~/.local/bin/` |
-| `node` | `~/.npmrc`, `~/.yarnrc`, `~/.config/pnpm/rc` |
+| `node` | `~/.npmrc`, `~/.yarnrc`, `~/.bunfig.toml`, `~/.config/pnpm/config.yaml`, `~/.config/aube/config.toml` |
 | `mise` | `~/.config/mise/config.toml` |
 | `vscode` | `~/.config/Code/User/{settings,keybindings,snippets}` |
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
