@@ -32,8 +32,5 @@ gh/.config/gh/hosts.yml
 herdr/.config/herdr/release-notes.json
 herdr/.config/herdr/session.json
 
-# Private local plugins
-omarchy/.config/omarchy/plugins/adam.order-stats/
-
-# Git-managed community plugins
-omarchy/.config/omarchy/plugins/io.github.adamcbrewer.voxtype-aura/
+# Omarchy plugins belong in the separate private omarchy-plugins repository
+omarchy/.config/omarchy/plugins/

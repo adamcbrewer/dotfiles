@@ -67,7 +67,12 @@ o.bind("SUPER + L", "Toggle workspace layout", function()
   hl.exec_cmd(o.notify("Workspace layout set to " .. layout))
 end)
 
-dofile(os.getenv("HOME") .. "/.config/omarchy/plugins/adam.altswitch/altswitch.lua")
+local altswitch_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.altswitch/altswitch.lua"
+local altswitch_file = io.open(altswitch_path, "r")
+if altswitch_file then
+  altswitch_file:close()
+  dofile(altswitch_path)
+end
 
 hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR") .. "/gcr/ssh")
 

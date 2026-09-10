@@ -43,8 +43,8 @@ stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
 stow --no-folding -t ~ fish gh herdr
 
-# Own the complete user plugin directory, including plugins added later
-stow -t ~ omarchy
+# Share shell settings; plugins are stowed from the private omarchy-plugins repo
+stow --no-folding -t ~ omarchy
 
 # This laptop's settings plus shared Hyprland overrides
 stow --no-folding -t ~ hypr hypr-laptop
@@ -140,7 +140,7 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `gh` | `~/.config/gh/config.yml` |
 | `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
 | `herdr` | `~/.config/herdr/config.toml` |
-| `omarchy` | `~/.config/omarchy/{plugins/,shell.json}` |
+| `omarchy` | `~/.config/omarchy/shell.json` |
 | `hypr` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
 | `hypr-desktop` | `~/.config/hypr/input.lua` |
 | `hypr-laptop` | `~/.config/hypr/input.lua` |
@@ -169,28 +169,46 @@ keyboard and pointer settings; `hypr-laptop` owns this laptop's settings. Never
 stow both machine packages on one machine because they target the same
 `input.lua`.
 `monitors.lua` remains local and unmanaged because display layouts are
-machine-specific. The `omarchy` package owns the complete user plugin directory
-and shared shell layout and plugin settings.
-Plugins added under `~/.config/omarchy/plugins/` therefore become repository
-changes automatically.
+machine-specific. The `omarchy` package owns only the shared `shell.json`.
+All personal and community plugins live in the private
+[`omarchy-plugins`](https://github.com/adamcbrewer/omarchy-plugins) repository.
+Its `omarchy` Stow package owns `~/.config/omarchy/plugins/` as a directory link,
+so newly installed plugins land in that checkout.
+
+Plugin IDs can remain in `shell.json` without the private repository installed:
+missing plugins are not loaded, and missing bar widgets render nothing.
+Hyprland's AltSwitch integration also skips loading when its file is absent.
+Plugin settings can still be written into the public `shell.json`; keep tokens,
+private endpoints, and customer data out of it. Credentials and generated data
+belong outside both repositories. See also the
+[secrets guidance](https://github.com/lirantal/npm-security-best-practices#9-no-plaintext-secrets-in-env-files).
+
+To add the private plugins on another machine:
+
+```sh
+git clone --recurse-submodules git@github.com:adamcbrewer/omarchy-plugins.git ~/localhost/omarchy-plugins
+mkdir -p ~/.config/omarchy
+stow --dir="$HOME/localhost/omarchy-plugins" --simulate --verbose=2 -t ~ omarchy
+stow --dir="$HOME/localhost/omarchy-plugins" -t ~ omarchy
+```
 
 Omarchy defaults under `/usr/share/omarchy`, generated state under
 `~/.local/state/omarchy`, and cache data under `~/.cache/omarchy` are never
 repository-owned. Keep `~/.config/hypr` and `~/.config/omarchy` as real
-directories. Use regular Stow folding for `omarchy` so it owns `plugins/` as a
-directory link; use `--no-folding` for the other packages.
+directories. Use `--no-folding` for this repository's `omarchy` and Hyprland
+packages; use regular folding for the private plugin package.
 
 ```sh
 # Inspect before applying or refreshing links
-stow --simulate --verbose=2 -t ~ omarchy
+stow --simulate --verbose=2 --no-folding -t ~ omarchy
 stow --simulate --verbose=2 --no-folding -t ~ hypr hypr-laptop
 
 # Refresh this laptop's links
-stow --restow --verbose=2 -t ~ omarchy
+stow --restow --verbose=2 --no-folding -t ~ omarchy
 stow --restow --verbose=2 --no-folding -t ~ hypr hypr-laptop
 
 # Remove this laptop's links
-stow --delete --verbose=2 -t ~ omarchy
+stow --delete --verbose=2 --no-folding -t ~ omarchy
 stow --delete --verbose=2 --no-folding -t ~ hypr hypr-laptop
 ```
 
@@ -201,7 +219,7 @@ link before stowing `omarchy`:
 case "$(readlink ~/.config/omarchy/shell.json)" in
   *omarchy-desktop*) unlink ~/.config/omarchy/shell.json ;;
 esac
-stow -t ~ omarchy
+stow --no-folding -t ~ omarchy
 ```
 
 After every `omarchy update`, inspect `git status`, simulate a restow, and run

@@ -21,7 +21,7 @@ dotfiles/
 ├── gh/             # -> ~/.config/gh/config.yml
 ├── opencode/       # -> ~/.config/opencode/{opencode.json,agents/,plugins/,skills/}
 ├── herdr/          # -> ~/.config/herdr/config.toml
-├── omarchy/        # -> ~/.config/omarchy/{plugins/,shell.json}
+├── omarchy/        # -> ~/.config/omarchy/shell.json
 ├── hypr/           # -> ~/.config/hypr/{hyprland.lua,looknfeel.lua}
 ├── hypr-desktop/   # -> ~/.config/hypr/input.lua
 ├── hypr-laptop/    # -> ~/.config/hypr/input.lua
@@ -46,8 +46,8 @@ stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
 stow --no-folding -t ~ fish gh herdr
 
-# Own the complete user plugin directory, including plugins added later
-stow -t ~ omarchy
+# Share shell settings; plugins are stowed from the private omarchy-plugins repo
+stow --no-folding -t ~ omarchy
 
 # Machine-specific settings plus portable Hyprland overrides
 stow --no-folding -t ~ hypr hypr-laptop
@@ -78,14 +78,19 @@ Catppuccin Mocha across starship and tmux.
 `hypr-desktop` owns the desktop's `input.lua`; `hypr-laptop` owns this laptop's
 `input.lua`. Leave `monitors.lua` unmanaged and local to each machine.
 
-The `omarchy` package owns the complete `~/.config/omarchy/plugins/` directory
-and the shared `shell.json`, so plugins and shell settings become repository
-changes automatically. Omarchy
-defaults under `/usr/share/omarchy`, generated state under
+The `omarchy` package owns only the shared `~/.config/omarchy/shell.json`.
+All user plugins belong in the separate private `~/localhost/omarchy-plugins`
+repository. Its `omarchy` Stow package owns the complete
+`~/.config/omarchy/plugins/` directory using regular Stow folding. Never add
+plugin source to this public repository. Plugin IDs may remain in `shell.json`
+when the plugins are absent; keep direct Hyprland plugin loads optional.
+Plugin settings can be persisted into the public `shell.json`, so keep secrets
+and private data out of those settings and out of both repositories.
+
+Omarchy defaults under `/usr/share/omarchy`, generated state under
 `~/.local/state/omarchy`, and cache data under `~/.cache/omarchy` remain outside
 Git. Keep `~/.config/hypr` and `~/.config/omarchy` as real directories. Use
-regular Stow folding for `omarchy` so it owns `plugins/` as a directory link;
-use `--no-folding` for the Hyprland packages. Omarchy
+`--no-folding` for this repository's `omarchy` and Hyprland packages. Omarchy
 updates and refreshes may modify repository files through links or replace
 links; inspect Git and simulate a restow after each update.
 
