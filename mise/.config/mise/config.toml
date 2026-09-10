@@ -10,3 +10,6 @@ idiomatic_version_file_enable_tools = ["node"]
 minimum_release_age = "7d"
 auto_install = false
 paranoid = true
+
+[settings.upgrade]
+auto_prune = false

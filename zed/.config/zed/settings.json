@@ -208,6 +208,14 @@
   "disable_ai": false,
   "agent_ui_font_size": 16,
   "agent": {
+    "default_model": {
+      "provider": "openai-subscribed",
+      "model": "gpt-5.6-sol",
+      "enable_thinking": true,
+      "effort": "high"
+    },
+    "terminal_init_command": "opencode",
+    "single_file_review": true,
     "dock": "right",
     "play_sound_when_agent_done": "always",
     "tool_permissions": {
