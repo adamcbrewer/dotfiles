@@ -1,15 +1,8 @@
-local switcher = { windows = {}, index = 1, active = false }
+local switcher = { windows = {}, index = 1, active = false, session = 0, revision = 0 }
+local controller = tostring(switcher)
 
 local function shell_quote(value)
   return "'" .. tostring(value):gsub("'", "'\\''") .. "'"
-end
-
-local function send(method, argument)
-  local command = "omarchy-shell -q adam-altswitch " .. method
-  if argument then
-    command = command .. " " .. shell_quote(argument)
-  end
-  hl.exec_cmd(command)
 end
 
 local function json_string(value)
@@ -34,16 +27,25 @@ local function payload()
   end
 
   return string.format(
-    '{"windows":[%s],"index":%d}',
+    '{"controller":%s,"revision":%d,"session":%d,"active":%s,"windows":[%s],"index":%d}',
+    json_string(controller),
+    switcher.revision,
+    switcher.session,
+    tostring(switcher.active),
     table.concat(rows, ","),
     switcher.index - 1
   )
 end
 
+local function send()
+  switcher.revision = switcher.revision + 1
+  hl.exec_cmd("omarchy-shell -q adam-altswitch sync " .. shell_quote(payload()))
+end
+
 local function teardown()
   switcher.active = false
   switcher.windows = {}
-  send("hide")
+  send()
 end
 
 local function commit()
@@ -77,7 +79,7 @@ end
 local function step(delta)
   if switcher.active then
     switcher.index = (switcher.index - 1 + delta) % #switcher.windows + 1
-    send("select", tostring(switcher.index - 1))
+    send()
     return
   end
 
@@ -85,27 +87,40 @@ local function step(delta)
   if #switcher.windows < 2 then return end
 
   switcher.index = delta % #switcher.windows + 1
+  switcher.session = switcher.session + 1
   switcher.active = true
-  send("show", payload())
+  send()
 end
 
-_G.__adam_altswitch_cancel = teardown
+_G.__adam_altswitch_cancel = function(session, owner)
+  if session == switcher.session and owner == controller then teardown() end
+end
 
-hl.unbind("ALT + TAB")
-hl.unbind("ALT + SHIFT + TAB")
-hl.bind("ALT + TAB", function() step(1) end, { description = "Switch window" })
-hl.bind("ALT + SHIFT + TAB", function() step(-1) end, { description = "Switch window (reverse)" })
-hl.bind("ALT + ESCAPE", teardown, { non_consuming = true, description = "Cancel window switch" })
+_G.__adam_altswitch_choose = function(index, session, owner, activate)
+  if not switcher.active or session ~= switcher.session or owner ~= controller then return end
+  if type(index) ~= "number" or index % 1 ~= 0 or index < 0 or index >= #switcher.windows then return end
 
-local ALT_KEYCODES = {
-  [37] = true,
-  [64] = true,
-  [105] = true,
-  [108] = true,
+  switcher.index = index + 1
+  if activate then commit() else send() end
+end
+
+hl.layer_rule({ match = { namespace = "^adam-altswitch$" }, no_anim = true, animation = "none" })
+
+hl.unbind("SUPER + TAB")
+hl.unbind("SUPER + SHIFT + TAB")
+hl.bind("SUPER + TAB", function() step(1) end, { description = "Switch window" })
+hl.bind("SUPER + SHIFT + TAB", function() step(-1) end, { description = "Switch window (reverse)" })
+hl.bind("SUPER + SHIFT + ESCAPE", teardown, { non_consuming = true, description = "Cancel window switch" })
+
+local SUPER_KEYCODES = {
+  [125] = true,
+  [126] = true,
+  [133] = true,
+  [134] = true,
 }
 
 hl.on("input.keyboard.key", function(keycode, _, state)
-  if state == 0 and switcher.active and ALT_KEYCODES[keycode] then
+  if state == 0 and switcher.active and SUPER_KEYCODES[keycode] then
     commit()
   end
 end)

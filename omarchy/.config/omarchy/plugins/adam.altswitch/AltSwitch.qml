@@ -13,8 +13,10 @@ Item {
   property bool opened: false
   property var windows: []
   property int selectedIndex: 0
+  property string controller: ""
+  property int revision: -1
+  property int session: -1
 
-  readonly property var appLibrary: shell ? shell.appLibrary : null
   readonly property var mainScreen: screenByName("DP-2")
   readonly property int rowHeight: Style.space(66)
   readonly property int headerHeight: Style.space(52)
@@ -48,12 +50,11 @@ Item {
     try { startup = root.normalized(entry.startupWmClass || entry.startupWMClass) } catch (e) { }
     if (app && (app === id || app === startup)) return 100
     if (app && root.tail(appClass) === root.tail(entry.id)) return 80
-    if (app && (app.indexOf(id) >= 0 || id.indexOf(app) >= 0)) return 60
+    if (app && id && (app.indexOf(id) >= 0 || id.indexOf(app) >= 0)) return 60
     return 0
   }
 
   function iconForClass(appClass) {
-    if (!root.appLibrary) return ""
     var entries = DesktopEntries.applications.values || []
     var best = null
     var bestScore = 0
@@ -64,7 +65,11 @@ Item {
         bestScore = score
       }
     }
-    return best && best.icon ? root.appLibrary.iconSource(best.icon) : ""
+    if (!best || !best.icon) return ""
+    var icon = String(best.icon)
+    if (icon.indexOf("file://") === 0 || icon.indexOf("image://") === 0) return icon
+    if (icon.charAt(0) === "/") return Util.fileUrl(icon)
+    return Quickshell.iconPath(icon, true)
   }
 
   function initials(value) {
@@ -74,8 +79,7 @@ Item {
     return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase()
   }
 
-  function show(payloadJson) {
-    watchdog.restart()
+  function sync(payloadJson) {
     var payload
     try {
       payload = JSON.parse(payloadJson)
@@ -85,6 +89,24 @@ Item {
       return
     }
 
+    if (payload.controller === root.controller && payload.revision <= root.revision) return
+    var newSession = payload.controller !== root.controller || payload.session !== root.session
+    root.controller = payload.controller
+    root.revision = payload.revision
+    root.session = payload.session
+    if (!payload.active) {
+      root.hide()
+      return
+    }
+
+    watchdog.restart()
+    if (!newSession) {
+      root.selectedIndex = Math.max(0, Math.min(payload.index, root.windows.length - 1))
+      return
+    }
+
+    root.hide()
+    watchdog.restart()
     var sourceWindows = Array.isArray(payload.windows) ? payload.windows : []
     var enriched = []
     for (var i = 0; i < sourceWindows.length; i++) {
@@ -99,17 +121,27 @@ Item {
 
     root.windows = enriched
     root.selectedIndex = Math.max(0, Math.min(Number(payload.index) || 0, enriched.length - 1))
-    root.opened = enriched.length > 0
+    if (enriched.length > 0) showDelay.restart()
   }
 
-  function select(index) {
-    root.selectedIndex = Math.max(0, Math.min(Number(index) || 0, root.windows.length - 1))
+  function choose(index, activate) {
+    if (!root.opened) return
+    root.selectedIndex = index
     watchdog.restart()
+    Quickshell.execDetached(["hyprctl", "eval", "__adam_altswitch_choose(" + index + ", " + root.session + ", " + JSON.stringify(root.controller) + ", " + activate + ")"])
+    if (activate) root.hide()
   }
 
   function hide() {
+    showDelay.stop()
     watchdog.stop()
     root.opened = false
+  }
+
+  Timer {
+    id: showDelay
+    interval: 150
+    onTriggered: root.opened = true
   }
 
   Timer {
@@ -117,25 +149,15 @@ Item {
     interval: 10000
     onTriggered: {
       root.hide()
-      Quickshell.execDetached(["hyprctl", "eval", "__adam_altswitch_cancel()"])
+      Quickshell.execDetached(["hyprctl", "eval", "__adam_altswitch_cancel(" + root.session + ", " + JSON.stringify(root.controller) + ")"])
     }
   }
 
   IpcHandler {
     target: "adam-altswitch"
 
-    function show(payloadJson: string): string {
-      root.show(payloadJson)
-      return "ok"
-    }
-
-    function select(index: int): string {
-      root.select(index)
-      return "ok"
-    }
-
-    function hide(): string {
-      root.hide()
+    function sync(payloadJson: string): string {
+      root.sync(payloadJson)
       return "ok"
     }
 
@@ -327,6 +349,15 @@ Item {
                 }
               }
             }
+
+            MouseArea {
+              anchors.fill: parent
+              hoverEnabled: true
+              acceptedButtons: Qt.LeftButton
+              cursorShape: Qt.PointingHandCursor
+              onPositionChanged: if (containsMouse && row.index !== root.selectedIndex) root.choose(row.index, false)
+              onClicked: root.choose(row.index, true)
+            }
           }
         }
 
@@ -352,7 +383,7 @@ Item {
           Item { Layout.fillWidth: true }
 
           Text {
-            text: "RELEASE ALT TO OPEN"
+            text: "RELEASE SUPER TO OPEN"
             color: Color.muted
             font.family: Style.font.menuFamily
             font.pixelSize: Style.font.caption
@@ -361,6 +392,4 @@ Item {
       }
     }
   }
-
-  Component.onCompleted: if (root.appLibrary) root.appLibrary.refreshIcons()
 }

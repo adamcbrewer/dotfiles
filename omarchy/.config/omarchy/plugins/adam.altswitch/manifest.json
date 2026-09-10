@@ -4,7 +4,7 @@
   "name": "Alt Switch",
   "version": "1.0.0",
   "author": "Adam Brewer",
-  "description": "A themed, Windows-style Alt+Tab switcher with application icons.",
+  "description": "A themed, hold-to-switch Super+Tab window switcher with application icons.",
   "kinds": [
     "panel"
   ],
