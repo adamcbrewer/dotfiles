@@ -74,6 +74,13 @@ if altswitch_file then
   dofile(altswitch_path)
 end
 
+local downloads_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.downloads/downloads.lua"
+local downloads_file = io.open(downloads_path, "r")
+if downloads_file then
+  downloads_file:close()
+  dofile(downloads_path)
+end
+
 hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR") .. "/gcr/ssh")
 
 -- Toggle config flags dynamically.
