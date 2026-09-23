@@ -1,0 +1,17 @@
+#!/bin/bash
+
+exec > >(systemd-cat -t omarchy-startup-volume) 2>&1
+printf 'Startup volume hook started.\n'
+
+for ((attempt = 0; attempt < 15; attempt++)); do
+  sink="$(omarchy audio output sink)"
+  if [[ -n $sink ]] && pactl set-sink-volume "$sink" 10%; then
+    printf 'Set startup volume to 10%% on %s (attempt %d).\n' "$sink" "$((attempt + 1))"
+    pactl get-sink-volume "$sink"
+    exit 0
+  fi
+  sleep 1
+done
+
+printf 'Could not set startup audio volume to 10%%.\n' >&2
+exit 1

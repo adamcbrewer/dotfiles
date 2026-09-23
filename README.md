@@ -140,7 +140,7 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `gh` | `~/.config/gh/config.yml` |
 | `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
 | `herdr` | `~/.config/herdr/config.toml` |
-| `omarchy` | `~/.config/omarchy/shell.json` |
+| `omarchy` | `~/.config/omarchy/shell.json`, `~/.config/omarchy/hooks/post-boot.d/10-audio-volume` |
 | `hypr` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
 | `hypr-desktop` | `~/.config/hypr/input.lua` |
 | `hypr-laptop` | `~/.config/hypr/input.lua` |
@@ -169,7 +169,8 @@ keyboard and pointer settings; `hypr-laptop` owns this laptop's settings. Never
 stow both machine packages on one machine because they target the same
 `input.lua`.
 `monitors.lua` remains local and unmanaged because display layouts are
-machine-specific. The `omarchy` package owns only the shared `shell.json`.
+machine-specific. The `omarchy` package owns the shared `shell.json` and a
+post-boot hook that sets the active audio output to 10% at login.
 All personal and community plugins live in the private
 [`omarchy-plugins`](https://github.com/adamcbrewer/omarchy-plugins) repository.
 Its `omarchy` Stow package owns `~/.config/omarchy/plugins/` as a directory link,

@@ -42,7 +42,13 @@
           ]
         },
         {
-          "id": "omarchy.tailscale"
+          "id": "adam.feeds"
+        },
+        {
+          "id": "adam.downloads"
+        },
+        {
+          "id": "adam.nordvpn"
         },
         {
           "id": "adam.order-stats"
@@ -54,16 +60,10 @@
           "id": "omarchy.agents"
         },
         {
+          "id": "omarchy.tailscale"
+        },
+        {
           "id": "omarchy.bluetooth"
-        },
-        {
-          "id": "adam.feeds"
-        },
-        {
-          "id": "adam.downloads"
-        },
-        {
-          "id": "adam.nordvpn"
         },
         {
           "id": "omarchy.network"

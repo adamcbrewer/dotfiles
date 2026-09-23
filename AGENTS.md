@@ -78,7 +78,8 @@ Catppuccin Mocha across starship and tmux.
 `hypr-desktop` owns the desktop's `input.lua`; `hypr-laptop` owns this laptop's
 `input.lua`. Leave `monitors.lua` unmanaged and local to each machine.
 
-The `omarchy` package owns only the shared `~/.config/omarchy/shell.json`.
+The `omarchy` package owns the shared `~/.config/omarchy/shell.json` and the
+`hooks/post-boot.d/10-audio-volume` hook, which sets the active output to 10% at login.
 All user plugins belong in the separate private `~/localhost/omarchy-plugins`
 repository. Its `omarchy` Stow package owns the complete
 `~/.config/omarchy/plugins/` directory using regular Stow folding. Never add
