@@ -32,7 +32,7 @@ row_gap = 0
 rows = [["state_icon", "workspace"], ["branch", "git_status"]]
 
 [ui.toast]
-delivery = "herdr"
+delivery = "terminal"
 
 [ui.sound]
 enabled = true
