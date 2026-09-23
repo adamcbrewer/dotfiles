@@ -10,6 +10,14 @@
   // ============================================================================
   // APPEARANCE & THEME
   // ============================================================================
+  "languages": {
+    "Rust": {
+      "inlay_hints": {
+        "show_parameter_hints": true,
+        "show_type_hints": true
+      }
+    }
+  },
   "icon_theme": {
     "mode": "dark",
     "light": "Zed (Default)",
@@ -31,7 +39,7 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Noctis Uva",
+    "dark": "One Dark",
   },
   "theme_overrides": {
     "Noctis Uva": {
@@ -208,6 +216,12 @@
   "disable_ai": false,
   "agent_ui_font_size": 16,
   "agent": {
+    "sandbox_permissions": {
+      "network_hosts": [
+        "zed.dev",
+        "raw.githubusercontent.com"
+      ]
+    },
     "default_model": {
       "provider": "openai-subscribed",
       "model": "gpt-5.6-sol",
