@@ -11,6 +11,7 @@
 
 ## Git
 
+- Before drafting, revising, or posting a commit message, PR, issue, or comment on an external service, call the Skill tool with `author-git-content`, even when the writing arises during other work.
 - Subject line: concise and specific
 - Description: blank line after subject, explain what/why not how
 - Branch naming: `feat/`, `fix/`, `chore/` prefixes. Include issue number if exists (e.g., `feat/123-dark-mode`).
