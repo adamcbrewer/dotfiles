@@ -1,5 +1,8 @@
 onboarding = false
 
+[session]
+resume_agents_on_restore = false
+
 [keys]
 prefix = "backtick"
 focus_agent = "alt+1..9"
