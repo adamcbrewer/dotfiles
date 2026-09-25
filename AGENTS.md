@@ -117,13 +117,24 @@ OpenCode loads skills from two intentionally separate global locations:
 `bin/.local/bin/sync-opencode-skills` is the authoritative vendor-skill manifest and bootstrap command for this repository. It pins both the `skills` CLI version and each vendor repository revision. It currently manages:
 
 - `agent-browser`
+- `domain-web`
 - `frontend-design`
+- `m05-type-driven`
+- `m14-mental-model`
 - `next-best-practices`
+- `rust-best-practices`
+- `rust-patterns`
+- `rust-testing`
 - `security-review`
 - `vercel-react-best-practices`
 - `web-design-guidelines`
 
 The pinned `security-review` revision includes JavaScript, Python, and Docker guides. Its `SKILL.md` also names Go, Rust, Java, Kubernetes, Terraform, CI/CD, and cloud guides that are absent upstream; treat reviews in those areas as generic until upstream supplies them.
+
+The local `/rust-workflow` command orchestrates the six Rust skills with parallel
+analysis and verification, sequential type design, and a single writer. Its
+`skills/rust-workflow/SETUP.md` records source reviews and the Actionbook license
+declaration caveat. Vendor references do not override project instructions.
 
 Run `sync-opencode-skills` to restore these vetted revisions. It reconciles only skills previously managed by the script and does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`; the script records its managed names under `${XDG_STATE_HOME:-$HOME/.local/state}/sync-opencode-skills/`. Do not stow these files or `~/.agents/skills/`; they are generated machine state.
 
@@ -161,6 +172,7 @@ Keep these in the primary conversation because they need user interaction or sha
 
 Use these as primary-context orchestrators that delegate bounded work to Task subagents:
 
+- `rust-workflow`: delegate paired constraint analysis, implementation/test planning, and final review/verification; keep type decisions and edits in the primary context.
 - `improve-codebase-architecture`: delegate exploration and alternative designs; keep report presentation and grilling in the primary context.
 - `jellyfin-organiser`: delegate independent metadata research; keep file operations and verification in the primary context.
 - `grilling`: delegate fact-finding; keep the decision tree and user questions in the primary context.

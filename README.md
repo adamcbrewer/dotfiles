@@ -107,6 +107,16 @@ sync-opencode-skills
 
 Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor skills and their update metadata live under `~/.agents/`. The sync script pins vetted CLI and source revisions and removes only skills recorded as managed by its state file. Review all skill files before adding a skill or updating a pin.
 
+After syncing, restart OpenCode and run `/rust-workflow <task>` to coordinate all
+six Rust skills. With no arguments, `/rust-workflow` reviews the current branch's
+Rust changes, including uncommitted changes. For implementation, use something like
+`/rust-workflow implement request validation for the users endpoint`. The workflow
+uses parallel analysis and final checks, with sequential type decisions and one
+writer. See [setup and source reviews](opencode/.config/opencode/skills/rust-workflow/SETUP.md)
+for dependencies, license caveats, and the
+[npm security guidance](https://github.com/lirantal/npm-security-best-practices)
+used for setup.
+
 ### Herdr
 
 Install Herdr and OpenCode before setting up the integration. The `herdr` Stow package manages only Herdr's `config.toml`; use `stow --no-folding -t ~ herdr` so runtime state stays outside the repository. Install or reinstall the separate Herdr-generated OpenCode integration after stowing `opencode`:

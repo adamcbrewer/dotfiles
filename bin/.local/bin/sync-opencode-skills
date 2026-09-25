@@ -12,7 +12,13 @@ else
 fi
 desired_skills=(
   agent-browser
+  domain-web
   frontend-design
+  m05-type-driven
+  m14-mental-model
+  rust-best-practices
+  rust-patterns
+  rust-testing
   security-review
   next-best-practices
   vercel-react-best-practices
@@ -74,6 +80,9 @@ install_skills https://github.com/vercel-labs/agent-browser.git acbc22bdc5d4f6c5
 install_skills https://github.com/anthropics/skills.git b29e7cf65e5cb78a5ac33d582270551bc74a14eb anthropics-skills . --skill frontend-design
 install_skills https://github.com/getsentry/skills.git e7a87fa72645158f9b5e722cbb1c7e09266f48f1 sentry-skills . --skill security-review
 install_skills https://github.com/vercel-labs/openreview.git 672deb21e70e471e0536d5ad7a67c14b8359e97e openreview .agents/skills --skill next-best-practices --skill vercel-react-best-practices --skill web-design-guidelines
+install_skills https://github.com/affaan-m/ecc.git e482e579415fde18357cafce70f177ae19fd7f03 ecc-rust skills --skill rust-patterns --skill rust-testing
+install_skills https://github.com/actionbook/rust-skills.git 5c40d3ad785193231b7d0dbfb8e1eb447e5edd94 actionbook-rust skills --skill domain-web --skill m05-type-driven --skill m14-mental-model
+install_skills https://github.com/apollographql/skills.git 6b51584fb648d4463b1573e8e9c325c24f44c5b1 apollo-skills skills --skill rust-best-practices
 
 if [ -f "$managed_skills_file" ]; then
   while IFS= read -r skill; do
