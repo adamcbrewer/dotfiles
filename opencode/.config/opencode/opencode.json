@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "openai/gpt-6-sol",
+  "model": "openai/gpt-6.1-sol",
   "permission": {
     "task": {
       "cortana-*": "deny"
@@ -8,15 +8,15 @@
   },
   "agent": {
     "build": {
-      "model": "openai/gpt-6-sol",
+      "model": "openai/gpt-6.1-sol",
       "variant": "medium"
     },
     "plan": {
-      "model": "openai/gpt-6-sol",
-      "variant": "xhigh"
+      "model": "openai/gpt-6.1-sol",
+      "variant": "high"
     },
     "general": {
-      "model": "openai/gpt-6-sol",
+      "model": "openai/gpt-6.1-sol",
       "variant": "medium"
     },
     "explore": {
