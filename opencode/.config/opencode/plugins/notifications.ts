@@ -63,7 +63,7 @@ export const NotificationPlugin: Plugin = async ({ $, directory, client }) => {
         } else {
           // main session finished
           await Promise.all([
-            playFile($, `${HOME}/Audio/agents/stop/smb3_fortress_clear.wav`),
+            playFile($, `${HOME}/Audio/agents/stop/smb3_1-up.wav`),
             notify($, `OpenCode · ${project}`, "✅ Done!"),
           ]);
         }

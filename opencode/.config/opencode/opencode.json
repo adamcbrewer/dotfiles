@@ -1,6 +1,22 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "openai/gpt-6.1-sol",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-6.1-sol": {
+          "options": {
+            "reasoningEffort": "xhigh"
+          }
+        },
+        "gpt-6-astra": {
+          "options": {
+            "reasoningEffort": "high"
+          }
+        }
+      }
+    }
+  },
   "permission": {
     "task": {
       "cortana-*": "deny"
@@ -9,15 +25,15 @@
   "agent": {
     "build": {
       "model": "openai/gpt-6.1-sol",
-      "variant": "medium"
+      "variant": "xhigh"
     },
     "plan": {
       "model": "openai/gpt-6.1-sol",
-      "variant": "high"
+      "variant": "xhigh"
     },
     "general": {
       "model": "openai/gpt-6.1-sol",
-      "variant": "medium"
+      "variant": "xhigh"
     },
     "explore": {
       "model": "openai/gpt-5.6-terra-fast",
