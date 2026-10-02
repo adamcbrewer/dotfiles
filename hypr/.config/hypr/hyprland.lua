@@ -81,7 +81,15 @@ if downloads_file then
   dofile(downloads_path)
 end
 
+local camera_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.camera/camera.lua"
+local camera_file = io.open(camera_path, "r")
+if camera_file then
+  camera_file:close()
+  dofile(camera_path)
+end
+
 hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR") .. "/gcr/ssh")
+hl.env("QT_LOGGING_RULES", "qt.multimedia.*=false")
 
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")
