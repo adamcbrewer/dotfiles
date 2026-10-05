@@ -8,10 +8,9 @@ source: https://github.com/mattpocock/skills/blob/main/skills/engineering/improv
 
 Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
 
-This skill is _informed_ by the project's domain model and built on a shared design vocabulary:
+Use the project's terminology and existing architecture decisions. A **deep module** hides substantial complexity behind a small interface; a **shallow module** exposes nearly as much complexity as it implements. A **seam** is where a dependency can be replaced, and an **adapter** is an implementation of that dependency's interface.
 
-- Load the `codebase-design` skill for the architecture vocabulary (**module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**) and its principles (the deletion test, "the interface is the test surface", "one adapter = hypothetical seam, two = real"). Use these terms exactly in every suggestion — don't drift into "component," "service," "API," or "boundary."
-- The domain language in `CONTEXT.md` gives names to good seams; ADRs in `docs/adr/` record decisions this skill should not re-litigate.
+Prefer changes that simplify callers, concentrate related behavior, and can be tested through the module's interface. Introduce dependency interfaces where something actually varies, rather than creating hypothetical abstractions.
 
 ## Process
 
@@ -22,7 +21,7 @@ This skill is _informed_ by the project's domain model and built on a shared des
 - If the user named a direction — a module, a subsystem, a pain point — take it, and skip the inference below.
 - Otherwise, walk back a good stretch of the commit history (`git log --oneline`) to find the codebase's hot spots — the files and areas that keep coming up — and let those paths pull your attention first. If the changes are scattered with no clear hot spot, widen the net.
 
-Read the project's domain glossary (`CONTEXT.md`) and any ADRs in the area you're touching first.
+Read existing project documentation, any glossary (`GLOSSARY.md` or `CONTEXT.md`), and relevant ADRs first. Do not require or create glossary files for the review.
 
 Then use the Task tool with `subagent_type=explore` to walk the codebase. Don't follow rigid heuristics — explore organically and note where you experience friction:
 
@@ -45,13 +44,13 @@ For each candidate, render a card with:
 - **Files** — which files/modules are involved
 - **Problem** — why the current architecture is causing friction
 - **Solution** — plain English description of what would change
-- **Benefits** — explained in terms of locality and leverage, and how tests would improve
+- **Benefits** — how callers become simpler, related behavior stays together, and tests improve
 - **Before / After diagram** — side-by-side, custom-drawn, illustrating the shallowness and the deepening
 - **Recommendation strength** — one of `Strong`, `Worth exploring`, `Speculative`, rendered as a badge
 
 End the report with a **Top recommendation** section: which candidate you'd tackle first and why.
 
-**Use CONTEXT.md vocabulary for the domain, and the `codebase-design` vocabulary for the architecture.** If `CONTEXT.md` defines "Order," talk about "the Order intake module" — not "the FooBarHandler," and not "the Order service."
+**Use the project's domain terms.** If the project calls something an "Order," use that term rather than an incidental implementation name such as "FooBarHandler."
 
 **ADR conflicts**: if a candidate contradicts an existing ADR, only surface it when the friction is real enough to warrant revisiting the ADR. Mark it clearly in the card (e.g. a warning callout: _"contradicts ADR-0007 — but worth reopening because…"_). Don't list every theoretical refactor an ADR forbids.
 
@@ -63,9 +62,7 @@ Do NOT propose interfaces yet. After the file is written, ask the user: "Which o
 
 Once the user picks a candidate, load the `grilling` skill to walk the decision tree with them — constraints, dependencies, the shape of the deepened module, what sits behind the seam, what tests survive.
 
-Side effects happen inline as decisions crystallize. Load the `domain-modeling` skill to keep the domain model current as you go:
+When decisions crystallize:
 
-- **Naming a deepened module after a concept not in `CONTEXT.md`?** Add the term to `CONTEXT.md`. Create the file lazily if it doesn't exist.
-- **Sharpening a fuzzy term during the conversation?** Update `CONTEXT.md` right there.
-- **User rejects the candidate with a load-bearing reason?** Offer an ADR, framed as: _"Want me to record this as an ADR so future architecture reviews don't re-suggest it?"_ Only offer when the reason would actually be needed by a future explorer to avoid re-suggesting the same thing — skip ephemeral reasons ("not worth it right now") and self-evident ones.
-- **Want to explore alternative interfaces for the deepened module?** Load the `codebase-design` skill and use its design-it-twice parallel sub-agent pattern.
+- **User rejects the candidate with a lasting, non-obvious reason?** Offer to record an ADR using the project's conventions so future reviews do not re-suggest it. Write it only if the user agrees.
+- **Want to explore alternative interfaces for the deepened module?** Use parallel sub-agents with different constraints: minimize the interface, maximize flexibility, and optimize for the most common caller. Give each the same files, constraints, and dependencies. Compare their interfaces, hidden complexity, dependency strategies, and trade-offs, then recommend a design.

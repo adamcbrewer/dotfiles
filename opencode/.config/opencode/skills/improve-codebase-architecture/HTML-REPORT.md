@@ -68,4 +68,4 @@ Keep diagrams around 320px tall. Use red only for leakage, amber for warnings, a
 
 ## Tone
 
-Keep prose sparse and use the `codebase-design` vocabulary: module, interface, implementation, depth, deep, shallow, seam, adapter, leverage, and locality. Prefer concrete claims tied to files and observed behavior.
+Keep prose sparse and use the project's terminology. Explain how callers become simpler, related behavior stays together, and tests improve. Prefer concrete claims tied to files and observed behavior.

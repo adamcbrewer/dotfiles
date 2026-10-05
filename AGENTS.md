@@ -119,15 +119,19 @@ OpenCode loads skills from two intentionally separate global locations:
 - `agent-browser`
 - `domain-web`
 - `frontend-design`
+- `grill-me`
+- `grilling`
 - `m05-type-driven`
 - `m14-mental-model`
 - `next-best-practices`
+- `retro`
 - `rust-best-practices`
 - `rust-patterns`
 - `rust-testing`
 - `security-review`
 - `vercel-react-best-practices`
 - `web-design-guidelines`
+- `writing-for-agents`
 
 The pinned `security-review` revision includes JavaScript, Python, and Docker guides. Its `SKILL.md` also names Go, Rust, Java, Kubernetes, Terraform, CI/CD, and cloud guides that are absent upstream; treat reviews in those areas as generic until upstream supplies them.
 
@@ -167,8 +171,7 @@ Prefer a Task subagent for:
 Keep these in the primary conversation because they need user interaction or shared decisions:
 
 - `grill-me`
-- `codebase-design`
-- `domain-modeling`
+- `retro`: run when the user requests a retrospective; keep candidate selection in the primary context.
 
 Use these as primary-context orchestrators that delegate bounded work to Task subagents:
 
