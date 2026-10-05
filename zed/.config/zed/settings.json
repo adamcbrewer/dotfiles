@@ -26,6 +26,10 @@
   "diff_view_style": "split",
   "agent_servers": {
     "opencode": {
+      "default_config_options": {
+        "model": "openai/gpt-6-astra",
+        "effort": "high"
+      },
       "type": "registry",
     },
   },
@@ -225,9 +229,9 @@
     },
     "default_model": {
       "provider": "openai-subscribed",
-      "model": "gpt-6.1-sol",
+      "model": "gpt-6-astra",
       "enable_thinking": true,
-      "effort": "medium"
+      "effort": "high"
     },
     "terminal_init_command": "opencode",
     "single_file_review": true,
