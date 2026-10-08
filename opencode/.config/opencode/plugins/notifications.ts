@@ -19,12 +19,6 @@ async function playFile($: any, file: string): Promise<void> {
   } catch {}
 }
 
-async function notify($: any, title: string, body: string): Promise<void> {
-  try {
-    await $`notify-send ${title} ${body} --icon=dialog-information -t 10000`.quiet();
-  } catch {}
-}
-
 async function isSubagent(client: any, sessionID: string): Promise<boolean> {
   try {
     const session = await client.session.get({ path: { id: sessionID } });
@@ -34,9 +28,7 @@ async function isSubagent(client: any, sessionID: string): Promise<boolean> {
   }
 }
 
-export const NotificationPlugin: Plugin = async ({ $, directory, client }) => {
-  const project = directory.split("/").pop() ?? "unknown";
-
+export const NotificationPlugin: Plugin = async ({ $, client }) => {
   return {
     event: async ({ event }) => {
       if (event.type === "session.compacted") {
@@ -62,25 +54,16 @@ export const NotificationPlugin: Plugin = async ({ $, directory, client }) => {
           await playFile($, `${HOME}/Audio/agents/stop/smb3_pipe.wav`);
         } else {
           // main session finished
-          await Promise.all([
-            playFile($, `${HOME}/Audio/agents/stop/smb3_1-up.wav`),
-            notify($, `OpenCode · ${project}`, "✅ Done!"),
-          ]);
+          await playFile($, `${HOME}/Audio/agents/stop/smb3_1-up.wav`);
         }
       }
 
       if (event.type === "session.error") {
-        await Promise.all([
-          playRandomFile($, `${HOME}/Audio/agents/notification`, "*"),
-          notify($, `OpenCode · ${project}`, "💥 Session error!"),
-        ]);
+        await playRandomFile($, `${HOME}/Audio/agents/notification`, "*");
       }
 
       if (event.type === "permission.asked") {
-        await Promise.all([
-          playRandomFile($, `${HOME}/Audio/agents/notification`, "*"),
-          notify($, `OpenCode · ${project}`, "🔐 Needs your attention"),
-        ]);
+        await playRandomFile($, `${HOME}/Audio/agents/notification`, "*");
       }
     },
   };

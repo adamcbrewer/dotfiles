@@ -1,4 +1,5 @@
 [tools]
+claude = "latest"
 codex = "latest"
 gh = "latest"
 node = "26.7.0"
