@@ -1,6 +1,6 @@
 # Setup and provenance
 
-The local skill and `/rust-workflow` command are owned by this Stow package.
+The local skill and `/rust-stack` command are owned by this Stow package.
 Untouched vendor skills live outside the repository and are restored with:
 
 ```sh

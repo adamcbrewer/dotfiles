@@ -1,10 +1,10 @@
 ---
-name: rust-workflow
-description: Rust workflow combining six skills for design, implementation, testing, and review. Use only when explicitly requested by name or through /rust-workflow.
+name: rust-stack
+description: Rust workflow combining six skills for design, implementation, testing, and review. Use only when explicitly requested by name or through /rust-stack.
 source: local
 ---
 
-# Rust Workflow
+# Rust Stack
 
 Orchestrate all six skills below. Keep decisions and edits in the primary
 conversation; use `general` Task subagents for bounded analysis and verification.

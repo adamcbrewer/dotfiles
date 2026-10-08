@@ -3,7 +3,7 @@ description: Run the six-skill Rust design, implementation, testing, and review 
 agent: build
 ---
 
-Load and follow the `rust-workflow` skill for the request below.
+Load and follow the `rust-stack` skill for the request below.
 
 If no arguments are provided, review the Rust changes on the current Git branch.
 Determine its intended base branch from repository context and review changes
