@@ -27,7 +27,10 @@ Resolve these installed vendor skills:
 - `rust-testing`
 - `rust-best-practices`
 
-Load each with the Skill tool in its assigned stage. If it is not advertised,
+Load each with the Skill tool in its assigned stage. Verification planning and
+execution also follow the local `verify-change` skill at
+`~/.config/opencode/skills/verify-change/SKILL.md`; read that file if it is not
+advertised. If a vendor skill is not advertised,
 read its complete `SKILL.md` from the vendor installation, normally
 `~/.agents/skills/<name>/`. Use the loader's actual location when XDG paths differ.
 Resolve supporting paths relative to that skill's directory, not the project.
@@ -84,6 +87,9 @@ behavior, and the task's requirements. See **Applying upstream guidance** below.
 cases agree on the same API and behavior. Every recommendation is accepted,
 rejected with a reason, or raised as an unresolved decision.
 
+State the agreed verification scope before implementation. Update the user when
+findings change that scope or a long-running check has no visible milestone.
+
 ## 5. Implement — single writer
 
 For implementation requests, the primary agent owns source and test edits. Use
@@ -107,6 +113,10 @@ On a stable snapshot, launch:
   blockers. For planning or explanation, check the proposed tests and examples
   without inventing a Cargo project or claiming execution.
 
+Include `verify-change` and its absolute path in the verifier handoff. Retain exact
+commands, snapshot identity, logs and exit-status receipts so an interrupted
+handoff can be recovered without repeating completed checks.
+
 Keep edits paused until both finish. Resolve findings in the primary conversation;
 after changes, rerun affected checks and re-review affected findings. For review
 requests, report findings rather than fixing them. Avoid unrelated test expansion
@@ -115,7 +125,9 @@ once relevant checks pass.
 **Done:** each finding is resolved or reported, every planned check has a result
 or explicit blocker, and all six skills have an application or not-applicable
 record. Finish with the outcome, key decisions/findings, checks actually run,
-and any remaining limitations. Never equate skill loading with verification.
+and any remaining limitations. For a user-facing change, give the exact preview
+command and a way to identify the running build; report publication and evidence
+status separately. Never equate skill loading with verification.
 
 ## Subagent handoff
 

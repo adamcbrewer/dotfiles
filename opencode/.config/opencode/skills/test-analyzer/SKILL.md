@@ -18,11 +18,14 @@ Analyze tests using the repository's framework, conventions, and available comma
 When tests are failing:
 
 - First examine the failing test output and error messages
+- Reproduce the exact failing case and confirm a non-empty selection
 - Review recent changes to the tested functions/components
 - Compare current implementation with test expectations
 - Identify if tests need updating or if code introduced bugs
 - Highlight non-trivial changes that require attention
 - Provide clear recommendations on whether to fix code or update tests
+- Check the runner, active build/page, input target and synchronization before attributing a timeout to product code
+- Separate confirmed product defects, environment/harness failures and unresolved causes; use `verify-change` for authorised reruns and their completion receipt
 
 ## Edge Case Coverage
 
@@ -63,3 +66,5 @@ Consider these when relevant to the behavior under test:
 - Put tests where the repository's existing conventions require
 
 Provide specific recommendations tied to observed behavior and repository evidence.
+Finish with the root-cause confidence, smallest justified repair and affected rerun
+scope. Preserve valid earlier results; broader coverage needs a concrete reason.

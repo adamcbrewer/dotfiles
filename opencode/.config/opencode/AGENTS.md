@@ -9,6 +9,8 @@
 - Prefer SVG images for diagrams such as data flows, state machines, dependency graphs, processing pipelines, and decision trees. Use ASCII diagrams only when the output format is restricted to text.
 - Important: Avoid adding comments unless otherwise specified or when code clarity is insufficient or to explain non-standard solutions (like using any) or hard to read / understand code sections. 
 
+- Browser automation: follow [browser preflight](docs/browser-automation.md) before choosing a runner, measuring a page, or uploading evidence.
+
 ## Git
 
 - Before drafting, revising, or posting a commit message, PR, issue, or comment on an external service, call the Skill tool with `author-git-content`, even when the writing arises during other work.
