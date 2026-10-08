@@ -14,6 +14,16 @@ desired_skills=(
   agent-browser
   domain-web
   frontend-design
+  golang-code-style
+  golang-concurrency
+  golang-database
+  golang-error-handling
+  golang-modernize
+  golang-observability
+  golang-performance
+  golang-project-layout
+  golang-security
+  golang-testing
   grill-me
   grilling
   m05-type-driven
@@ -88,6 +98,7 @@ install_skills https://github.com/vercel-labs/agent-skills.git 063bee94c3f4df845
 install_skills https://github.com/affaan-m/ecc.git e482e579415fde18357cafce70f177ae19fd7f03 ecc-rust skills --skill rust-patterns --skill rust-testing
 install_skills https://github.com/actionbook/rust-skills.git 5c40d3ad785193231b7d0dbfb8e1eb447e5edd94 actionbook-rust skills --skill domain-web --skill m05-type-driven --skill m14-mental-model
 install_skills https://github.com/apollographql/skills.git 6b51584fb648d4463b1573e8e9c325c24f44c5b1 apollo-skills skills --skill rust-best-practices
+install_skills https://github.com/samber/cc-skills-golang.git 8e899e20ff0cd4dc524af3993e4c62d8ee8c5717 samber-go skills --skill golang-code-style --skill golang-concurrency --skill golang-database --skill golang-error-handling --skill golang-modernize --skill golang-observability --skill golang-performance --skill golang-project-layout --skill golang-security --skill golang-testing
 install_skills https://github.com/mattpocock/skills.git f6abdeb8dd2a9be64f924ab44c7af374cb76726d mattpocock-skills skills --skill grill-me --skill grilling --skill retro --skill writing-for-agents
 
 if [ -f "$managed_skills_file" ]; then

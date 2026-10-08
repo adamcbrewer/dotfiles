@@ -8,13 +8,13 @@ sync-opencode-skills
 ```
 
 Stow `bin` and `opencode` first if they are not already linked. Quit and restart
-OpenCode after setup so it discovers the command and all six dependencies.
+OpenCode after setup so it discovers the command and available vendor skills.
+Installing all six makes them available; the table in `SKILL.md` decides which
+ones this task needs. Missing skipped skills do not block a run.
 
-The authoritative CLI version, upstream commit pins, and managed-skill list are in
-`bin/.local/bin/sync-opencode-skills` in the dotfiles repository. Normal workflow
-invocations read installed skills and do not run `npx skills use` or access the
-network to refresh guidance. Updates require reviewing the complete changed
-skill directories before changing pins.
+`bin/.local/bin/sync-opencode-skills` owns the CLI version, source pins, and managed
+names. Stack runs read installed skills; they do not fetch newer guidance.
+Review the full changed skill directories before updating a pin.
 
 ## Reviewed sources
 
@@ -34,7 +34,7 @@ The Actionbook license declaration lacks a standalone grant text; preserve that
 provenance caveat when updating or redistributing it. The workflow installs vendor
 content separately rather than copying it into this public repository.
 
-Known content caveats are handled under **Applying upstream guidance** in
+Known content caveats are handled under **Handoffs and vendor guidance** in
 `SKILL.md`: overly broad test quotas and style rules, examples needing adaptation,
 toolchain-version inconsistencies, and simplified ownership/lifetime explanations.
 

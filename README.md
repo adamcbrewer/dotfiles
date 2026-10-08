@@ -107,8 +107,8 @@ sync-opencode-skills
 
 Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor skills and their update metadata live under `~/.agents/`. The sync script pins vetted CLI and source revisions and removes only skills recorded as managed by its state file. Review all skill files before adding a skill or updating a pin.
 
-After syncing, restart OpenCode and run `/rust-stack <task>` to coordinate all
-six Rust skills. With no arguments, `/rust-stack` reviews the current branch's
+After syncing, restart OpenCode and run `/rust-stack <task>` to select the relevant
+Rust skills. With no arguments, `/rust-stack` reviews the current branch's
 Rust changes, including uncommitted changes. For implementation, use something like
 `/rust-stack implement request validation for the users endpoint`. The workflow
 uses parallel analysis and final checks, with sequential type decisions and one
@@ -116,6 +116,22 @@ writer. See [setup and source reviews](opencode/.config/opencode/skills/rust-sta
 for dependencies, license caveats, and the
 [npm security guidance](https://github.com/lirantal/npm-security-best-practices)
 used for setup.
+
+Use `/go-stack <task>` for Go work, or `/go-stack` to review the current branch's
+Go changes, including uncommitted changes. It selects focused skills for the task,
+orders dependent decisions, and parallelises independent analysis and checks with
+one writer. `/go-stack set up a new Go CLI project` also selects
+`golang-project-layout` before scaffolding. Database, observability, concurrency,
+security, performance, and modernisation guidance run only when their triggers
+apply. See the [routing table](opencode/.config/opencode/skills/go-stack/SKILL.md)
+and [setup/source review](opencode/.config/opencode/skills/go-stack/SETUP.md).
+
+Both stacks select skills before loading them, skip irrelevant stages, and finish
+with a **Skills used** table showing actual primary/subagent use, the matching
+task/code evidence, and where each skill was consulted or applied. The receipt
+includes verification helpers actually used, not merely the planned selection.
+See the [Rust routing table](opencode/.config/opencode/skills/rust-stack/SKILL.md)
+and [receipt rules](opencode/.config/opencode/docs/stack-skill-receipt.md).
 
 ### Herdr
 

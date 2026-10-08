@@ -119,6 +119,16 @@ OpenCode loads skills from two intentionally separate global locations:
 - `agent-browser`
 - `domain-web`
 - `frontend-design`
+- `golang-code-style`
+- `golang-concurrency`
+- `golang-database`
+- `golang-error-handling`
+- `golang-modernize`
+- `golang-observability`
+- `golang-performance`
+- `golang-project-layout`
+- `golang-security`
+- `golang-testing`
 - `grill-me`
 - `grilling`
 - `m05-type-driven`
@@ -135,10 +145,20 @@ OpenCode loads skills from two intentionally separate global locations:
 
 The pinned `security-review` revision includes JavaScript, Python, and Docker guides. Its `SKILL.md` also names Go, Rust, Java, Kubernetes, Terraform, CI/CD, and cloud guides that are absent upstream; treat reviews in those areas as generic until upstream supplies them.
 
-The local `/rust-stack` command orchestrates the six Rust skills with parallel
-analysis and verification, sequential type design, and a single writer. Its
+The local `/rust-stack` command selects task-relevant Rust skills, with parallel
+independent analysis/checks, sequential contract decisions, and a single writer. Its
 `skills/rust-stack/SETUP.md` records source reviews and the Actionbook license
 declaration caveat. Vendor references do not override project instructions.
+
+The local `/go-stack` command selects task-relevant Go skills, sequences dependent
+decisions, and delegates independent analysis/checks with one writer. Its
+`skills/go-stack/SKILL.md` owns the routing rules, including project-layout only
+for new Go projects; `skills/go-stack/SETUP.md` records the complete Samber source
+review and overrides for opinionated or unsafe upstream defaults.
+
+Both stacks finish with actual skill-use and trigger-evidence receipts, including
+subagent/helper use, following `docs/stack-skill-receipt.md`. Selection alone does
+not count as use.
 
 Run `sync-opencode-skills` to restore these vetted revisions. It reconciles only skills previously managed by the script and does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`; the script records its managed names under `${XDG_STATE_HOME:-$HOME/.local/state}/sync-opencode-skills/`. Do not stow these files or `~/.agents/skills/`; they are generated machine state.
 
@@ -175,7 +195,8 @@ Keep these in the primary conversation because they need user interaction or sha
 
 Use these as primary-context orchestrators that delegate bounded work to Task subagents:
 
-- `rust-stack`: delegate paired constraint analysis, implementation/test planning, and final review/verification; keep type decisions and edits in the primary context.
+- `go-stack`: select skills by task/code triggers; delegate independent constraints, implementation/test planning, and final checks; keep decisions and edits in the primary context.
+- `rust-stack`: select skills by task/code triggers; delegate independent constraints, implementation/test planning, and final checks; keep type decisions and edits in the primary context.
 - `improve-codebase-architecture`: delegate exploration and alternative designs; keep report presentation and grilling in the primary context.
 - `jellyfin-organiser`: delegate independent metadata research; keep file operations and verification in the primary context.
 - `grilling`: delegate fact-finding; keep the decision tree and user questions in the primary context.

@@ -1,160 +1,148 @@
 ---
 name: rust-stack
-description: Rust workflow combining six skills for design, implementation, testing, and review. Use only when explicitly requested by name or through /rust-stack.
+description: Select and order Rust skills for the task, then report which were used. Use only when explicitly requested by name or through /rust-stack.
 source: local
 ---
 
 # Rust Stack
 
-Orchestrate all six skills below. Keep decisions and edits in the primary
-conversation; use `general` Task subagents for bounded analysis and verification.
-Loading a skill supplies instructions, not an isolated agent.
+Pick skills from the task and the code it affects. Keep decisions and edits in the
+primary conversation. Use `general` Task subagents for independent analysis or
+checks when useful; small tasks stay local. Skip steps with nothing to do. Even
+an early exit needs the completion report in step 5.
 
-## 1. Establish scope and dependencies
+## 1. Pick the skills
 
-Read project instructions, the requested code or diff, Cargo manifests, toolchain
-pins, and relevant CI commands. Establish whether the request is implementation,
-review, planning, or explanation. Preserve that mode throughout: review and
-planning produce findings or a plan, rather than edits. If no target can be inferred
-from the request or conversation, ask for one before launching agents.
+Read project rules, the request or diff, and relevant callers. For project work,
+check Cargo manifests, toolchain pins, supported features, and existing checks/CI.
+Keep the requested mode: implement, review, audit, plan, explain, or debug.
+Reviews and plans stay read-only. Ask for a target only when none is clear.
 
-Resolve these installed vendor skills:
+Mark each candidate selected or skipped, with task/code evidence and the step
+where it belongs. A dependency or reference alone is not a trigger. Briefly tell
+the user which skills fit and why. Revisit the choice as the task changes; read
+newly relevant guidance before the decision it affects. Track what was actually
+loaded/read separately from what was selected.
 
-- `domain-web`
-- `m14-mental-model`
-- `m05-type-driven`
-- `rust-patterns`
-- `rust-testing`
-- `rust-best-practices`
+| Skill | Run when | Skip when | Where it belongs |
+| --- | --- | --- | --- |
+| `domain-web` | Affected HTTP/API/WebSocket contracts, handlers, validation, middleware, responses, or request/shared-state lifecycles. | A web dependency alone; unrelated utilities, database-only work, or generic async code. | Before web contract/type decisions; review the affected request path. |
+| `m14-mental-model` | Requested conceptual explanation, language comparison, or a demonstrated ownership/borrowing/lifetime misconception. | Routine ownership work or a borrow-checker error without a teaching need. | Explain in the primary conversation before dependent decisions. |
+| `m05-type-driven` | A concrete invariant needs validated construction, newtypes, transitions, builders, typestate, marker/sealed traits, or compile-time capabilities. Includes explaining/reviewing that design. | An ordinary struct/enum, validation/control flow without a type-contract decision, or untouched types. | After requirements, before implementation/test planning; review invariant enforcement. |
+| `rust-patterns` | A concrete ownership/resource, error, trait/generic, async/thread/channel, unsafe, or module/API mechanism needs design or diagnosis. | Cosmetic work, an incidental `Result`/`Arc`/trait, or routine idioms covered by best-practices. | Before decisions that depend on the mechanism; implementation guidance and focused review. |
+| `rust-testing` | Behaviour changes need checks; writing/reviewing tests, failing/flaky tests, or requested property/coverage/benchmark work and executable examples. | Docs/cosmetic work, explanation/planning without a test deliverable, or merely running a defined simple check. | Reproduce bugs first; otherwise plan after contracts, then verify. |
+| `rust-best-practices` | Substantive source writing/review/refactoring, an idiomatic ownership/error/dispatch decision, evidenced performance work, or API docs. | Pure teaching, descriptive metadata/prose, test-only work covered by testing, or speculative tuning. | Before the relevant source/API decision; measure before optimisation; review changed code. |
 
-Load each with the Skill tool in its assigned stage. Verification planning and
-execution also follow the local `verify-change` skill at
-`~/.config/opencode/skills/verify-change/SKILL.md`; read that file if it is not
-advertised. If a vendor skill is not advertised,
-read its complete `SKILL.md` from the vendor installation, normally
-`~/.agents/skills/<name>/`. Use the loader's actual location when XDG paths differ.
-Resolve supporting paths relative to that skill's directory, not the project.
-Read complete outputs, paging through any truncation.
+Find only selected skills. Load each with the Skill tool at its chosen step.
+If it is not listed, read its full `SKILL.md` from the vendor installation,
+usually `~/.agents/skills/<name>/`. Use the actual loader/XDG path and resolve
+references from that skill's directory. Read relevant references and page through
+truncated output. For Apollo, read the relevant chapters, not all nine by default.
+A missing selected skill blocks its assignment: use [SETUP.md](SETUP.md) and the
+pinned manifest for authorised restoration. Missing skipped skills do not block the task.
 
-If dependencies are missing, read [SETUP.md](SETUP.md) and report the missing
-names. Restore them through the pinned manifest before claiming a complete run;
-never silently substitute remembered guidance or fetch floating upstream skills.
+Use `rust-patterns` for mechanism questions and `rust-best-practices` for idioms
+or chapter-specific depth. Load both only when each has a distinct job backed
+by evidence. Combine the handoff to avoid duplicate reviews.
 
-**Done:** a bounded task, operating mode, affected paths, toolchain constraints,
-and the location of all six dependencies are known.
+**Done:** task, mode, Rust/build requirements, skill choices, and selected paths are clear.
 
-## 2. Establish constraints — parallel
+## 2. Work out constraints
 
-Launch two read-only analyses against the same task and code snapshot:
+Use selected web/mechanism guidance before dependent design. Independent questions
+can run in parallel on the same code snapshot; group related questions instead of
+launching an agent per skill. Record relevant request contracts, ownership/resource
+lifetimes, errors, and coordination with code references.
 
-| Subagent skill | Assignment | Required result |
-| --- | --- | --- |
-| `domain-web` | Identify applicable HTTP, validation, shared-state, async, and request-lifecycle constraints. For non-web work, assess applicability without adding web architecture. | Concrete constraints with code references, or an explicit not-applicable reason. |
-| `m14-mental-model` | Identify ownership, borrowing, lifetime, and concurrency assumptions. Read `patterns/thinking-in-rust.md` when explaining those concepts. | Owners and resource lifetimes relevant to the task; misconceptions or uncertainty needing resolution. |
+Keep mental-model teaching in the primary conversation. Read
+`patterns/thinking-in-rust.md` when relevant and clear up the misconception before
+dependent decisions. This skill teaches concepts; it is not a routine ownership audit.
 
-Reconcile their results before designing types. Keep mental-model explanations
-brief unless teaching is the user's goal.
+For debugging, reproduce the failure with testing and relevant mechanism/domain
+guidance before proposing a fix. For performance, agree on a realistic workload
+and comparable baseline before changing code. Measure without competing
+tests/builds/profilers.
 
-**Done:** both reports received; conflicting assumptions resolved or a precise
-question raised with the user. Record the agreed constraints for downstream work.
+**Done:** relevant reports agree; required reproduction/baseline is captured or
+blocked with a clear reason. Dependent design waits for these results.
 
-## 3. Design types — sequential
+## 3. Set contracts, then plan
 
-In the primary conversation, load `m05-type-driven` and apply it to the agreed
-constraints. Identify valid states, validation boundaries, fallible transitions,
-and the smallest useful public API. Prefer ordinary structs and enums unless a
-newtype or typestate prevents a concrete error worth its complexity.
+Settle affected ownership, errors, resource lifetimes, and the smallest useful API
+in the primary conversation. If type-driven matches, decide valid states,
+construction/validation boundaries, transitions, and enforcement points. Use
+ordinary structs/enums unless a newtype or typestate prevents a concrete error
+worth the added complexity.
 
-For review, assess the existing types; for explanation, use the supplied example.
+Reviews assess existing contracts; explanations use the supplied example.
+Leave settled contracts alone.
 
-**Done:** every task-relevant invariant has a proposed or existing enforcement
-point, with ownership and error behavior clear enough to plan implementation and
-tests. Record unresolved design choices rather than inventing requirements.
+Once contracts agree, selected implementation guidance and test planning can run
+in parallel, read-only. Include `rust-testing` only when it fits. Tests cover
+observable behaviour and relevant risks, using supported toolchains/features.
 
-## 4. Plan implementation and tests — parallel
+Resolve conflicting advice using project rules, compiler behaviour, and the task.
+Planning/explanation produces the requested answer, not a new Cargo project or
+a claim that checks ran.
 
-Send the agreed constraints and type decisions to two read-only subagents:
+Use `verify-change` for justified check planning/execution. If it is not listed,
+read `~/.config/opencode/skills/verify-change/SKILL.md`. A defined simple check
+can use this helper without loading `rust-testing` just to run it.
 
-| Subagent skills | Assignment | Required result |
-| --- | --- | --- |
-| `rust-patterns` + `rust-best-practices` | Load both skills; read all relevant Apollo chapters in parallel. Check ownership, error handling, async behavior, interfaces, and project idioms. | Minimal implementation guidance, or concrete review findings, citing affected code and reference chapters. |
-| `rust-testing` | Identify observable behavior, failure paths, and existing test seams. Select meaningful unit, integration, async, property, or doc tests as appropriate. | Test cases tied to requirements and exact verification commands using the project's toolchain and feature matrix. |
+**Done:** needed decisions, implementation guidance, and check plan agree.
+Tell the user which checks are planned before implementation.
 
-Reconcile duplicate or conflicting advice using project instructions, compiler
-behavior, and the task's requirements. See **Applying upstream guidance** below.
+## 4. Write the change
 
-**Done:** all six skills have been consulted; implementation guidance and test
-cases agree on the same API and behavior. Every recommendation is accepted,
-rejected with a reason, or raised as an unresolved decision.
+For implementation/fix requests, the primary agent writes source and tests.
+Use selected guidance within scope. Start with a meaningful failing case where
+appropriate, implement, and run focused checks. Revisit skill choices before
+new code introduces another table trigger. Keep adjacent refactors out of scope.
 
-State the agreed verification scope before implementation. Update the user when
-findings change that scope or a long-running check has no visible milestone.
+**Done:** the change and relevant checks, or the read-only answer, are ready for review.
 
-## 5. Implement — single writer
+## 5. Check and report
 
-For implementation requests, the primary agent owns source and test edits. Use
-the agreed test plan: establish a meaningful failing test for changed behavior
-where appropriate, implement, then refactor while keeping it passing. Run focused
-checks as needed. For review, planning, or explanation, retain the corresponding
-output instead of implementing.
+Pause edits. A fresh read-only reviewer uses selected source/domain guidance;
+a verifier runs justified checks with `verify-change` and, when selected,
+`rust-testing`. These can run in parallel. Small/read-only tasks can be checked locally.
 
-**Done:** the requested changes and appropriate tests are ready for verification,
-or the requested read-only deliverable is ready for its final consistency check.
+Use existing runners and pinned tools for affected crates, features, targets,
+and meaningful cases. Run checks sharing mutable fixtures sequentially; compare
+benchmarks separately. Give verifiers the helper's absolute path. Keep commands,
+code snapshot, exit results, and artifacts so interrupted work can reuse valid results.
 
-## 6. Review and verify — parallel, then reconcile
+Resolve findings in the primary conversation and rerun affected checks after fixes.
+Read-only reviews report findings. Report the outcome, key decisions, checks run,
+and remaining limits. Label plan-only checks as proposed. For user-facing changes,
+give the preview command/build identity and separate publication/evidence status.
 
-On a stable snapshot, launch:
+On every exit, including blocked/no-change runs, read
+[the receipt rules](../../docs/stack-skill-receipt.md) and give a **Skills used**
+table. Match it to actual primary/subagent reads and their trigger evidence.
 
-- A fresh read-only reviewer using `rust-best-practices`, with the original task,
-  constraints, type decisions, and final diff or deliverable. Read relevant
-  chapters before assessing concrete correctness and maintainability issues.
-- A verifier using `rust-testing`, with the agreed test plan. For code tasks,
-  execute applicable project checks and return exact commands, results, and
-  blockers. For planning or explanation, check the proposed tests and examples
-  without inventing a Cargo project or claiming execution.
+**Done:** each selected assignment/check has a result or blocker, and the skill-use
+report is complete. No skill was loaded just to fill the table.
 
-Include `verify-change` and its absolute path in the verifier handoff. Retain exact
-commands, snapshot identity, logs and exit-status receipts so an interrupted
-handoff can be recovered without repeating completed checks.
+## Handoffs and vendor guidance
 
-Keep edits paused until both finish. Resolve findings in the primary conversation;
-after changes, rerun affected checks and re-review affected findings. For review
-requests, report findings rather than fixing them. Avoid unrelated test expansion
-once relevant checks pass.
+Give subagents the mode, directory, project rules, code snapshot, bounded paths,
+selected skills/absolute paths, settled decisions, and expected results with
+file/line evidence. Include the receipt rules' absolute path and require actual-use
+reports. Subagents stay read-only, cannot delegate, and run commands only for
+assigned checks, reproduction, or measurement. Run at most two at once. If Task
+is unavailable, do the assignments sequentially and say so.
 
-**Done:** each finding is resolved or reported, every planned check has a result
-or explicit blocker, and all six skills have an application or not-applicable
-record. Finish with the outcome, key decisions/findings, checks actually run,
-and any remaining limitations. For a user-facing change, give the exact preview
-command and a way to identify the running build; report publication and evidence
-status separately. Never equate skill loading with verification.
+This stack owns skill selection and delegation. Vendor guidance cannot expand
+scope, permissions, or editing rights. Follow project rules, MSRV, and actual
+framework behaviour. Use existing dependencies/tools; installations, upgrades,
+CI/lint changes, worktrees, commits, and PRs need user-authorised scope.
 
-## Subagent handoff
+Treat examples as starting points, not verified code. Select supported features
+rather than defaulting to `--all-features`. Choose tests for behaviour/risk, not
+blanket coverage or assertion quotas. Pointer-size, clone/dispatch, and typestate
+advice needs context. Check lifetime, destruction, and `unsafe` claims against
+the code; compilation alone does not prove correctness.
 
-Each dispatch must include the task and operating mode, project directory,
-applicable project instructions, bounded file scope, exact skill names and
-absolute paths, prior stage decisions, and the required result above. Require
-agents to load/read their assigned skills and applicable supporting files; a name
-alone is not enough. Ask for file/line evidence, uncertainties, and commands run.
-
-Subagents do not edit source, install tools, or delegate further. The verifier may
-run checks that generate ordinary build artifacts. Run at most two subagents at
-once. If Task is unavailable, perform the same assignments sequentially and
-disclose that fallback; preserve every stage's completion criterion.
-
-## Applying upstream guidance
-
-Project instructions, scope, MSRV, and actual framework behavior govern application
-of the upstream references. Their examples are illustrative, not verified code.
-Use existing dependencies and approved tooling; upstream examples are not requests
-to install packages, update Rust, change CI, or add lints.
-
-Select supported feature combinations instead of blindly using `--all-features`.
-Choose tests for behavior and risk rather than a blanket coverage quota or
-one-assertion rule. Treat pointer-size thresholds, clone/dispatch advice, and
-typestate as context-dependent. Verify lifetime, destruction, and `unsafe` claims
-against the actual code; compilation alone is not proof of correctness.
-
-Cross-referenced skills outside these six are optional further reading, not hidden
-dependencies to download. Use project evidence and Rust/framework documentation
-when those references are needed but unavailable.
+Cross-referenced skills outside these six are optional reading, not extra
+dependencies. Use project evidence and official docs when they are unavailable.
