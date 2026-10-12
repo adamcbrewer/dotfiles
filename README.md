@@ -112,6 +112,10 @@ In Codex, use `$<skill-name> <request>`. In OpenCode, ask for the skill by name
 or use an existing `/command`. For example, `$redesign-from-first-principles`
 and `/redesign-from-first-principles` reach the same skill.
 
+The shared `diff-explainer` includes logic-flow diagrams. See the
+[mention-triggered GitHub workflow experiment](docs/github-diff-explainer.md)
+to try it in a project using the connected Codex integration.
+
 After stowing `bin` and `agent-skills`, run `sync-opencode-skills` to restore
 vetted vendor versions. The script pins its CLI and source commits, follows
 [npm security guidance](https://github.com/lirantal/npm-security-best-practices),

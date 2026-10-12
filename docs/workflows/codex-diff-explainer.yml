@@ -1,0 +1,89 @@
+name: Request Codex diff explanation (experiment)
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: codex-diff-explainer-${{ github.event.comment.id }}
+  cancel-in-progress: false
+
+jobs:
+  request-explanation:
+    if: >-
+      github.event.issue.pull_request &&
+      github.event.comment.user.type == 'User' &&
+      github.event.comment.user.login == (vars.CODEX_REQUESTER || github.repository_owner) &&
+      startsWith(github.event.comment.body, '@diff-explainer')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Forward the request to Codex
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import itertools
+          import json
+          import os
+          import subprocess
+          from urllib.parse import quote
+
+          with open(os.environ["GITHUB_EVENT_PATH"]) as source:
+              event = json.load(source)
+          if event["comment"]["body"].strip() != "@diff-explainer":
+              print("Use a standalone @diff-explainer comment.")
+              raise SystemExit(0)
+
+          repo = os.environ["GH_REPO"]
+          number = event["issue"]["number"]
+          marker = f"<!-- diff-explainer-request:{event['comment']['id']} -->"
+
+          def api(path, payload=None):
+              command = ["gh", "api", path]
+              if payload is not None:
+                  command += ["--method", "POST", "--input", "-"]
+              return json.loads(subprocess.check_output(
+                  command,
+                  input=json.dumps(payload) if payload is not None else None,
+                  text=True,
+              ))
+
+          for page in itertools.count(1):
+              comments = api(f"repos/{repo}/issues/{number}/comments?per_page=100&page={page}")
+              if any(
+                  comment["user"]["login"] == "github-actions[bot]"
+                  and marker in (comment["body"] or "")
+                  for comment in comments
+              ):
+                  print("This comment already has a forwarded Codex request.")
+                  raise SystemExit(0)
+              if len(comments) < 100:
+                  break
+
+          skill = ".agents/skills/diff-explainer"
+          ref = quote(event["repository"]["default_branch"], safe="")
+          for path in ("SKILL.md", "references/logic-flow-diagrams.md"):
+              api(f"repos/{repo}/contents/{skill}/{path}?ref={ref}")
+
+          pr = api(f"repos/{repo}/pulls/{number}")
+          body = "\n\n".join([
+              "@codex explain this pull request using the diff-explainer skill.",
+              f"Read and follow `{skill}/SKILL.md`, resolving references from that skill's directory.",
+              f"Repository: `{repo}`. PR: {pr['html_url']}.",
+              f"Compare `{pr['base']['sha']}...{pr['head']['sha']}` and identify the reviewed head commit in the report.",
+              "Include applicable Mermaid diagrams and cite inspected code. Keep repository files unchanged.",
+              "Post the Markdown explanation back to this PR if commenting access is available; otherwise return it in the Codex task.",
+              f"Requested in {event['comment']['html_url']}.",
+              marker,
+          ])
+          posted = api(f"repos/{repo}/issues/{number}/comments", {"body": body})
+          print(f"Posted the Codex request: {posted['html_url']}")
+          print("Codex accepting this bot-authored request must be checked separately.")
+          PY

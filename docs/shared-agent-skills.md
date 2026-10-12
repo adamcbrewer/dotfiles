@@ -30,6 +30,11 @@ Codex or ask OpenCode's `diff-explainer` agent. The agent loads the shared skill
 diagram rules live in its `references/logic-flow-diagrams.md`. The skill is
 explicit-invocation only.
 
+For a project-owned GitHub experiment, see
+[mention-triggered Codex explanations](github-diff-explainer.md). Its reusable
+workflow forwards a PR mention to Codex; bot-authored requests still need a
+live check.
+
 OpenCode commands and agents stay in `opencode/.config/opencode/`. Commands load
 shared skills and pass the request. Workflow defaults belong in the skill;
 models, permissions and agent roles belong in the tool's own config.
