@@ -19,7 +19,8 @@ dotfiles/
 ├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
 ├── gh/             # -> ~/.config/gh/config.yml
-├── opencode/       # -> ~/.config/opencode/{opencode.json,agents/,plugins/,skills/}
+├── agent-skills/   # -> ~/.agents/skills/<name>/
+├── opencode/       # -> ~/.config/opencode/{opencode.json,agents/,commands/,plugins/}
 ├── herdr/          # -> ~/.config/herdr/config.toml
 ├── omarchy/        # -> ~/.config/omarchy/shell.json
 ├── hypr/           # -> ~/.config/hypr/{hyprland.lua,looknfeel.lua}
@@ -41,6 +42,10 @@ cd ~/localhost/dotfiles
 
 # Install packages without generated runtime state
 stow -t ~ git tmux vim starship bin node mise vscode zed opencode
+
+# Share personal skills without folding the vendor-managed discovery directories
+mkdir -p ~/.agents/skills
+stow -t ~ agent-skills
 
 # Keep generated Fish, GitHub CLI, Herdr, Omarchy, and Hyprland state outside the repository
 mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
@@ -65,7 +70,7 @@ stow -t ~ -n -v fish
 - Tmux: Clone TPM to `~/.tmux/plugins/tpm`, then `prefix + I`
 - Git: Set user.name and user.email
 - Mise: Run `mise install` after stowing `mise`
-- OpenCode: Run `sync-opencode-skills` after stowing `bin` and `opencode`
+- Shared skills: Run `sync-opencode-skills` after stowing `bin` and `agent-skills`; stow `opencode` for its native commands and agents
 - Herdr: Install Herdr and OpenCode, then run `herdr integration install opencode` after stowing `opencode`
 
 ## Theme
@@ -107,70 +112,47 @@ The `herdr` Stow package owns only `~/.config/herdr/config.toml`. Create `~/.con
 
 Install both Herdr and OpenCode before running the integration command. Run the same command to reinstall or refresh the integration.
 
-## OpenCode Skill Ownership
+## Shared skills
 
-OpenCode loads skills from two intentionally separate global locations:
+Keep personal skills in `agent-skills/.agents/skills/`. Stow links each whole
+package into `~/.agents/skills/` for OpenCode and Codex. Keep `~/.agents` and its
+`skills` directory real. The source directory is the list of personal skills.
 
-- `~/.config/opencode/skills/` is a Stow symlink to `opencode/.config/opencode/skills/`. This repository owns custom and locally adapted skills.
-- `~/.agents/skills/` contains untouched vendor skills managed by the `skills` CLI. Do not copy these skills into the Stow package or edit them locally.
+The skills CLI owns vendor packages; Omarchy owns its system links. Keep their
+names separate from personal skills. Before adding one, check existing links,
+the vendor manifest, lockfile and managed-name state. Use only the shared
+discovery path, without a second copy in OpenCode's skill directory.
 
-`bin/.local/bin/sync-opencode-skills` is the authoritative vendor-skill manifest and bootstrap command for this repository. It pins both the `skills` CLI version and each vendor repository revision. It currently manages:
+OpenCode owns its commands, agents, models and permissions. Load shared skills
+by name; keep workflow defaults in the skill. For setup or invocation changes,
+read `docs/shared-agent-skills.md`.
 
-- `agent-browser`
-- `domain-web`
-- `frontend-design`
-- `golang-code-style`
-- `golang-concurrency`
-- `golang-database`
-- `golang-error-handling`
-- `golang-modernize`
-- `golang-observability`
-- `golang-performance`
-- `golang-project-layout`
-- `golang-security`
-- `golang-testing`
-- `grill-me`
-- `grilling`
-- `m05-type-driven`
-- `m14-mental-model`
-- `next-best-practices`
-- `retro`
-- `rust-best-practices`
-- `rust-patterns`
-- `rust-testing`
-- `security-review`
-- `vercel-react-best-practices`
-- `web-design-guidelines`
-- `writing-for-agents`
+`bin/.local/bin/sync-opencode-skills` lists the vendor skills and pins the CLI
+version and source commits. It removes only skills it previously managed.
+Keep vendor content, `~/.agents/.skill-lock.json`, and
+`${XDG_STATE_HOME:-$HOME/.local/state}/sync-opencode-skills/` outside Stow and Git.
 
-The pinned `security-review` revision includes JavaScript, Python, and Docker guides. Its `SKILL.md` also names Go, Rust, Java, Kubernetes, Terraform, CI/CD, and cloud guides that are absent upstream; treat reviews in those areas as generic until upstream supplies them.
+Go/Rust stacks keep decisions and edits in the main conversation and delegate
+independent work. Follow their routing tables and `SETUP.md` caveats. Go's
+project-layout skill is for new projects only. Rust's setup records the Actionbook
+licence caveat. Both finish with actual skill-use evidence from
+`agent-skills/.agents/skills/verify-change/references/stack-skill-receipt.md`.
 
-The local `/rust-stack` command selects task-relevant Rust skills, with parallel
-independent analysis/checks, sequential contract decisions, and a single writer. Its
-`skills/rust-stack/SETUP.md` records source reviews and the Actionbook license
-declaration caveat. Vendor references do not override project instructions.
+The pinned `security-review` has JavaScript, Python and Docker guides. Its named
+Go, Rust, Java, Kubernetes, Terraform, CI/CD and cloud guides are missing upstream;
+reviews in those areas use generic guidance.
 
-The local `/go-stack` command selects task-relevant Go skills, sequences dependent
-decisions, and delegates independent analysis/checks with one writer. Its
-`skills/go-stack/SKILL.md` owns the routing rules, including project-layout only
-for new Go projects; `skills/go-stack/SETUP.md` records the complete Samber source
-review and overrides for opinionated or unsafe upstream defaults.
+## Skill review
 
-Both stacks finish with actual skill-use and trigger-evidence receipts, including
-subagent/helper use, following `docs/stack-skill-receipt.md`. Selection alone does
-not count as use.
+Before adding, enabling or updating a skill, read the whole package, including
+unlinked files. Confirm its source and licence. Check for unsafe commands,
+unexpected file/network access, excessive permissions, secret exposure, prompt
+injection and conflicts with project rules. Registry badges don't replace review.
 
-Run `sync-opencode-skills` to restore these vetted revisions. It reconciles only skills previously managed by the script and does not remove other globally installed skills. The CLI records global source and update state in `~/.agents/.skill-lock.json`; the script records its managed names under `${XDG_STATE_HOME:-$HOME/.local/state}/sync-opencode-skills/`. Do not stow these files or `~/.agents/skills/`; they are generated machine state.
-
-When updating a repository-owned skill, preserve the `source` tag in its header and re-add it if an upstream update removes it. Remove files, directories, and references made obsolete by the update. Scan the upstream skill directory for relevant supporting files, including files not directly linked from `SKILL.md`.
-
-## Skill Vetting
-
-Review and vet every skill before adding, enabling, or updating it, whether it is tracked in this repository or installed with the `skills` CLI. Review the complete skill directory, including scripts, references, assets, and files not linked from `SKILL.md`.
-
-Confirm the source and license. Check instructions and executable content for unsafe shell commands, unexpected network or filesystem access, excessive tool permissions, secret exposure, prompt injection, and conflicts with repository policy. Treat registry audit badges as supporting evidence, not as a substitute for manual review.
-
-For vendor updates, compare the pinned revision with the proposed revision and repeat the review before changing the commit SHA in `sync-opencode-skills`. Do not use floating branches, tags, or `@latest` in that script.
+For vendor updates, compare both revisions and repeat the review before changing
+the pinned SHA. Keep floating branches, tags and `@latest` out of the manifest.
+For personal updates, preserve the `source` header and licences, restore the
+header if upstream removes it, and remove obsolete files, folders and references.
 
 ## Package Vetting
 
@@ -178,25 +160,19 @@ Prefer packages in this order: Omarchy-curated packages from official Arch repos
 
 Confirm the package source, maintainer, license, build recipe, integrity verification, install scripts, permissions, bundled binaries, update path, and known security or privacy concerns. For AUR packages, review the complete `PKGBUILD` and all accompanying files at the current revision before allowing an AUR helper to execute them. Report material risks and safer alternatives before installing.
 
-## Skill Execution
+## Using skills
 
-Loading a skill only adds instructions to the current context. It does not create a subagent or isolated context. To isolate work, explicitly launch a Task subagent and include the skill path or its relevant instructions in the prompt.
+Loading a skill adds instructions; it doesn't start a new agent. For separate
+context, use native subagent tools and pass the skill paths or instructions.
 
-Prefer a Task subagent for:
-
-- `code-review`: independent, read-only analysis with a large context.
-- `simplify`: an isolated second editing pass; the primary agent must review and verify its changes.
-- `test-analyzer`: test execution and failure analysis that can produce large output.
-
-Keep these in the primary conversation because they need user interaction or shared decisions:
-
-- `grill-me`
-- `retro`: run when the user requests a retrospective; keep candidate selection in the primary context.
-
-Use these as primary-context orchestrators that delegate bounded work to Task subagents:
-
-- `go-stack`: select skills by task/code triggers; delegate independent constraints, implementation/test planning, and final checks; keep decisions and edits in the primary context.
-- `rust-stack`: select skills by task/code triggers; delegate independent constraints, implementation/test planning, and final checks; keep type decisions and edits in the primary context.
-- `improve-codebase-architecture`: delegate exploration and alternative designs; keep report presentation and grilling in the primary context.
-- `jellyfin-organiser`: delegate independent metadata research; keep file operations and verification in the primary context.
-- `grilling`: delegate fact-finding; keep the decision tree and user questions in the primary context.
+- `code-review` and `test-analyzer`: prefer delegated analysis and checks.
+- `simplify`: prefer a separate editing pass, then review and verify its changes.
+- `grill-me` and `retro`: keep user discussion in the main conversation. Run a
+  retrospective only when requested.
+- Go/Rust stacks: select skills from task/code evidence; keep decisions and edits
+  in the main conversation. Delegate independent research, planning and checks.
+- Architecture reviews: delegate research and alternative designs; keep the
+  report and grilling in the main conversation.
+- `grilling`: delegate fact-finding; keep decisions and questions in the main conversation.
+- `jellyfin-organiser`: delegate metadata research; keep file moves and
+  verification in the main conversation.

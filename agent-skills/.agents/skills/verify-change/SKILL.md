@@ -8,6 +8,11 @@ description: Verify a change with risk-based checks and a clear completion recei
 Choose checks from the requested behaviour and project rules. Preserve the distinction
 between finding a defect, proving a fix, and handing over a usable build.
 
+Use the supplied verification target and mode. With no target, verify the current
+task's changes; otherwise inspect uncommitted changes or the current branch
+against its known base. Verification-only requests stay read-only. If no change
+can be identified, report that; ask when the target or base is genuinely ambiguous.
+
 ## 1. Bound the task
 
 Read applicable project instructions, the change, affected callers, existing check
@@ -36,7 +41,7 @@ Use existing project runners and pinned toolchains. Check prerequisites inside t
 process that will execute the checks, including child shells, panes and containers.
 
 - GUI checks use the project's private display/bus and required test settings.
-- Browser checks follow [browser preflight](../../docs/browser-automation.md).
+- Browser checks follow [browser preflight](references/browser-automation.md).
 - Confirm the selected tests are non-empty and exercise relevant behaviour.
 - Preserve the runner's image provenance, accounts, caches and Python environment.
 

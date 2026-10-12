@@ -3,15 +3,7 @@ description: Pick and order the right Rust skills, then report what was used.
 agent: build
 ---
 
-Load `rust-stack` for the request below. Follow its skill-selection and handoff rules,
-then finish with the actual-skills-used report.
-
-If no arguments are provided, review the Rust changes on the current Git branch.
-Determine its intended base branch from repository context and review changes
-since their merge base, including uncommitted changes. Keep the review read-only.
-If the base is ambiguous, ask which branch to compare against. If there are no
-Rust changes, report that rather than asking for a task.
-
-When arguments are provided, use them as the request instead of this default.
+The user explicitly invokes `rust-stack`. Load and follow the shared skill for the
+request below, including its default target when no request is supplied.
 
 $ARGUMENTS

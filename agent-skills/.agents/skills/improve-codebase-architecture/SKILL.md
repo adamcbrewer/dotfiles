@@ -23,7 +23,7 @@ Prefer changes that simplify callers, concentrate related behavior, and can be t
 
 Read existing project documentation, any glossary (`GLOSSARY.md` or `CONTEXT.md`), and relevant ADRs first. Do not require or create glossary files for the review.
 
-Then use the Task tool with `subagent_type=explore` to walk the codebase. Don't follow rigid heuristics — explore organically and note where you experience friction:
+Delegate a bounded read-only codebase exploration using the harness's native subagent tools. Include the scope and project instructions in the handoff. If subagents are unavailable, perform the same exploration in the primary conversation and report that fallback. Don't follow rigid heuristics — explore organically and note where you experience friction:
 
 - Where does understanding one concept require bouncing between many small modules?
 - Where are modules **shallow** — interface nearly as complex as the implementation?

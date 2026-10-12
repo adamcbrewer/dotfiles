@@ -7,8 +7,8 @@ no-change, review, planning, and explanation runs.
 | --- | --- | --- |
 | `<actual skill name>` | `<request phrase or affected file:line matching the routing rule>` | `<stage; primary or subagent; consulted/applied>` |
 
-Track actual use separately from the selection plan. Count a skill after a Skill
-call or a full `SKILL.md` read. Include subagent use and helpers such as
+Track actual use separately from the selection plan. Count a skill after a native
+skill-loader call or a full `SKILL.md` read. Include subagent use and helpers such as
 `verify-change` when read. Leave the current stack itself out of the sub-skill table.
 
 Ask subagents for skill names/paths, references read, stages, trigger evidence,

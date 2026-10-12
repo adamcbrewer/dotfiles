@@ -1,14 +1,16 @@
 # Setup and provenance
 
-The local skill and `/rust-stack` command are owned by this Stow package.
+The shared `rust-stack` skill belongs to `agent-skills`; the OpenCode
+`/rust-stack` wrapper belongs to `opencode`.
 Untouched vendor skills live outside the repository and are restored with:
 
 ```sh
 sync-opencode-skills
 ```
 
-Stow `bin` and `opencode` first if they are not already linked. Quit and restart
-OpenCode after setup so it discovers the command and available vendor skills.
+Stow `bin` and `agent-skills` first, plus `opencode` for its command. Quit and
+restart OpenCode after setup so it discovers the command and available vendor
+skills. In Codex, mention `$rust-stack` or select it from `/skills`.
 Installing all six makes them available; the table in `SKILL.md` decides which
 ones this task needs. Missing skipped skills do not block a run.
 
@@ -42,8 +44,9 @@ Authoring guidance came from Matt Pocock's
 [`writing-great-skills`](https://github.com/mattpocock/skills/tree/9c32629965586e75a9d2206922dccec91e19f2f2/skills/productivity/writing-great-skills),
 including its glossary and invocation metadata. Upstream renamed it to
 `writing-for-agents`; it is authoring reference, not a runtime dependency.
-OpenCode uses the explicit command file and a discoverable skill description;
-the guide's Claude-specific invocation mechanics are not assumed to apply.
+OpenCode uses a thin command wrapper; Codex uses explicit skill mentions.
+Native invocation controls supplement the explicit-request description and body;
+their enforcement differs by harness, as recorded in the shared-skill guidance.
 
 The pinned setup follows the existing manifest approach and the version-pinning
 and lifecycle-script guidance in

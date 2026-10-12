@@ -1,18 +1,21 @@
 # Setup and provenance
 
-The local `go-stack` skill and `/go-stack` command belong to this Stow package.
+The shared `go-stack` skill belongs to the `agent-skills` Stow package; the
+OpenCode `/go-stack` wrapper belongs to `opencode`.
 The focused vendor set comes from the [shared Go-skills discussion](https://chatgpt.com/share/6ac780bb-07c4-83eb-9423-b3b896edb583),
 with `golang-project-layout` for new projects. Installing a skill makes it available;
 the table in `SKILL.md` decides whether this task needs it.
 
-After stowing `bin` and `opencode`, restore vetted vendor skills with:
+After stowing `bin` and `agent-skills` (plus `opencode` for its command), restore
+vetted vendor skills with:
 
 ```sh
 sync-opencode-skills
 ```
 
-Quit and restart OpenCode to discover the command and installed skills. Vendor
-content stays untouched under `~/.agents/skills/`, outside Stow and Git.
+Quit and restart OpenCode to discover the command and installed skills. In Codex,
+mention `$go-stack` or select it from `/skills`. Vendor content stays untouched
+under `~/.agents/skills/`, outside Stow and Git.
 `bin/.local/bin/sync-opencode-skills` owns the CLI version, source pin, and managed
 names. Stack runs read installed skills; they do not fetch updates or install
 tools/skills mentioned in the references.

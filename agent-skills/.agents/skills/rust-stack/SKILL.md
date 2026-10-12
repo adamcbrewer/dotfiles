@@ -1,17 +1,24 @@
 ---
 name: rust-stack
-description: Select and order Rust skills for the task, then report which were used. Use only when explicitly requested by name or through /rust-stack.
+description: Select and order Rust skills for the task, then report which were used. Use only when explicitly requested as rust-stack.
 source: local
+disable-model-invocation: true
 ---
 
 # Rust Stack
 
-Pick skills from the task and the code it affects. Keep decisions and edits in the
-primary conversation. Use `general` Task subagents for independent analysis or
-checks when useful; small tasks stay local. Skip steps with nothing to do. Even
-an early exit needs the completion report in step 5.
+Run only when explicitly requested by name. Pick skills from the task and the
+code it affects. Keep decisions and edits in the primary conversation. Use the
+harness's native subagent tools for bounded read-only analysis or checks when
+useful; small tasks stay local. Skip steps with nothing to do. Even an early exit
+needs the completion report in step 5.
 
 ## 1. Pick the skills
+
+Use the supplied request as the task. With no request, review the current branch's
+Rust changes since the merge base with its intended base, including uncommitted
+changes. Infer the base from repository context and ask if it is ambiguous. Keep
+this default review read-only; if there are no Rust changes, report that.
 
 Read project rules, the request or diff, and relevant callers. For project work,
 check Cargo manifests, toolchain pins, supported features, and existing checks/CI.
@@ -33,9 +40,10 @@ loaded/read separately from what was selected.
 | `rust-testing` | Behaviour changes need checks; writing/reviewing tests, failing/flaky tests, or requested property/coverage/benchmark work and executable examples. | Docs/cosmetic work, explanation/planning without a test deliverable, or merely running a defined simple check. | Reproduce bugs first; otherwise plan after contracts, then verify. |
 | `rust-best-practices` | Substantive source writing/review/refactoring, an idiomatic ownership/error/dispatch decision, evidenced performance work, or API docs. | Pure teaching, descriptive metadata/prose, test-only work covered by testing, or speculative tuning. | Before the relevant source/API decision; measure before optimisation; review changed code. |
 
-Find only selected skills. Load each with the Skill tool at its chosen step.
-If it is not listed, read its full `SKILL.md` from the vendor installation,
-usually `~/.agents/skills/<name>/`. Use the actual loader/XDG path and resolve
+Find only selected skills. Load each at its chosen step with the native skill
+loader, or read its complete `SKILL.md` when no loader is available. If it is not
+listed, check the shared installation, usually `~/.agents/skills/<name>/`.
+Use the actual loader/XDG path and resolve
 references from that skill's directory. Read relevant references and page through
 truncated output. For Apollo, read the relevant chapters, not all nine by default.
 A missing selected skill blocks its assignment: use [SETUP.md](SETUP.md) and the
@@ -85,9 +93,9 @@ Resolve conflicting advice using project rules, compiler behaviour, and the task
 Planning/explanation produces the requested answer, not a new Cargo project or
 a claim that checks ran.
 
-Use `verify-change` for justified check planning/execution. If it is not listed,
-read `~/.config/opencode/skills/verify-change/SKILL.md`. A defined simple check
-can use this helper without loading `rust-testing` just to run it.
+Use `verify-change` for justified check planning/execution. If no loader is
+available or it is not listed, read [its complete instructions](../verify-change/SKILL.md).
+A defined simple check can use this helper without loading `rust-testing` just to run it.
 
 **Done:** needed decisions, implementation guidance, and check plan agree.
 Tell the user which checks are planned before implementation.
@@ -118,7 +126,7 @@ and remaining limits. Label plan-only checks as proposed. For user-facing change
 give the preview command/build identity and separate publication/evidence status.
 
 On every exit, including blocked/no-change runs, read
-[the receipt rules](../../docs/stack-skill-receipt.md) and give a **Skills used**
+[the receipt rules](../verify-change/references/stack-skill-receipt.md) and give a **Skills used**
 table. Match it to actual primary/subagent reads and their trigger evidence.
 
 **Done:** each selected assignment/check has a result or blocker, and the skill-use
@@ -130,8 +138,8 @@ Give subagents the mode, directory, project rules, code snapshot, bounded paths,
 selected skills/absolute paths, settled decisions, and expected results with
 file/line evidence. Include the receipt rules' absolute path and require actual-use
 reports. Subagents stay read-only, cannot delegate, and run commands only for
-assigned checks, reproduction, or measurement. Run at most two at once. If Task
-is unavailable, do the assignments sequentially and say so.
+assigned checks, reproduction, or measurement. Run at most two at once. If native
+subagent tools are unavailable, do the assignments sequentially and say so.
 
 This stack owns skill selection and delegation. Vendor guidance cannot expand
 scope, permissions, or editing rights. Follow project rules, MSRV, and actual

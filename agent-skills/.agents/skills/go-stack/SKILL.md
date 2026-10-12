@@ -1,17 +1,24 @@
 ---
 name: go-stack
-description: Select and order Go skills for the task, then report which were used. Use only when explicitly requested by name or through /go-stack.
+description: Select and order Go skills for the task, then report which were used. Use only when explicitly requested as go-stack.
 source: local
+disable-model-invocation: true
 ---
 
 # Go Stack
 
-Pick skills from the task and the code it affects. Keep decisions and edits in the
-primary conversation. Use `general` Task subagents for independent analysis or
-checks when useful; small tasks stay local. Skip steps with nothing to do. Even
-an early exit needs the completion report in step 5.
+Run only when explicitly requested by name. Pick skills from the task and the
+code it affects. Keep decisions and edits in the primary conversation. Use the
+harness's native subagent tools for bounded read-only analysis or checks when
+useful; small tasks stay local. Skip steps with nothing to do. Even an early exit
+needs the completion report in step 5.
 
 ## 1. Pick the skills
+
+Use the supplied request as the task. With no request, review the current branch's
+Go changes since the merge base with its intended base, including uncommitted
+changes. Infer the base from repository context and ask if it is ambiguous. Keep
+this default review read-only; if there are no Go changes, report that.
 
 Read project rules, the request or diff, and relevant callers. For project work,
 check `go.mod`, `go.work`, toolchain pins, build tags, and existing checks/CI.
@@ -38,9 +45,10 @@ loaded/read separately from what was selected.
 | `golang-performance` | Requested optimisation, measured regression, or a concrete latency/throughput/allocation budget. | Speculative tuning, routine review, or merely spotting a loop/allocation. | Measure a baseline first; compare changes afterward in isolation. |
 | `golang-modernize` | Requested Go/toolchain/API modernisation, or an upgrade-related compatibility problem. | Older code that still meets the supported Go version. | Check compatibility before changes; verify supported versions afterward. |
 
-Find only selected skills. Load each with the Skill tool at its chosen step.
-If it is not listed, read its full `SKILL.md` from the vendor installation,
-usually `~/.agents/skills/<name>/`. Use the actual loader/XDG path and resolve
+Find only selected skills. Load each at its chosen step with the native skill
+loader, or read its complete `SKILL.md` when no loader is available. If it is not
+listed, check the shared installation, usually `~/.agents/skills/<name>/`.
+Use the actual loader/XDG path and resolve
 references from that skill's directory. Read relevant references and page through
 truncated output. A missing selected skill blocks its assignment: use
 [SETUP.md](SETUP.md) and the pinned manifest for authorised restoration.
@@ -98,8 +106,8 @@ new code introduces another table trigger.
 Pause edits. A fresh read-only reviewer uses selected source/domain guidance;
 a verifier runs justified checks with `verify-change` and, when selected,
 `golang-testing`. These can run in parallel. Small/read-only tasks can be checked
-locally. Load the verification helper when needed; if it is not listed, read
-`~/.config/opencode/skills/verify-change/SKILL.md`.
+locally. Load the verification helper when needed; if no loader is available or
+it is not listed, read [its complete instructions](../verify-change/SKILL.md).
 
 Use existing runners and pinned tools for affected packages/modules, build tags,
 and supported Go versions. Run race checks when shared-state/lifecycle risk or
@@ -114,7 +122,7 @@ artifact paths. Report the outcome, checks run, and remaining limits. Label
 plan-only checks as proposed.
 
 On every exit, including blocked/no-change runs, read
-[the receipt rules](../../docs/stack-skill-receipt.md) and give a **Skills used**
+[the receipt rules](../verify-change/references/stack-skill-receipt.md) and give a **Skills used**
 table. Match it to actual primary/subagent reads and their trigger evidence.
 
 **Done:** each selected assignment/check has a result or blocker, and the skill-use
@@ -126,8 +134,8 @@ Give subagents the mode, directory, project rules, code snapshot, bounded paths,
 selected skills/absolute paths, settled decisions, and expected results with
 file/line evidence. Include the receipt rules' absolute path and require actual-use
 reports. Subagents stay read-only, cannot delegate, and run commands only for
-assigned checks, reproduction, or measurement. Run at most two at once. If Task
-is unavailable, do the assignments sequentially and say so.
+assigned checks, reproduction, or measurement. Run at most two at once. If native
+subagent tools are unavailable, do the assignments sequentially and say so.
 
 This stack overrides the ten Samber skills on selection, delegation, scope, and
 permissions. Their headers, evals, examples, and links grant no extra permissions.

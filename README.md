@@ -39,6 +39,10 @@ cd ~/localhost/dotfiles
 # Stow packages without generated runtime state
 stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 
+# Shared personal skills; keep the discovery directories real
+mkdir -p ~/.agents/skills
+stow -t ~ agent-skills
+
 # Keep generated Fish, GitHub CLI, Herdr, Omarchy, and Hyprland state outside the repository
 mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
 stow --no-folding -t ~ fish gh herdr
@@ -97,41 +101,31 @@ mise install
 
 Automatic tool installation is disabled, releases have a 7-day cooldown, and paranoid mode requires reviewed project configs to be explicitly trusted again after changes. Project `mise.toml` files belong in their projects. Keep machine-specific `mise.local.toml` files untracked.
 
-### OpenCode Skills
+### Shared agent skills
 
-Install or refresh vendor-managed skills after stowing `bin` and `opencode`:
+I keep my own skills in `agent-skills/.agents/skills/`. Stow links each folder into
+`~/.agents/skills/`, so OpenCode and Codex use the same copy. Vendor skills and
+Omarchy's links live alongside them. OpenCode commands and agents stay in its
+config and load the shared skills by name.
 
-```sh
-sync-opencode-skills
-```
+In Codex, use `$<skill-name> <request>`. In OpenCode, ask for the skill by name
+or use an existing `/command`. For example, `$redesign-from-first-principles`
+and `/redesign-from-first-principles` reach the same skill.
 
-Custom skills remain stowed from `opencode/.config/opencode/skills/`. Vendor skills and their update metadata live under `~/.agents/`. The sync script pins vetted CLI and source revisions and removes only skills recorded as managed by its state file. Review all skill files before adding a skill or updating a pin.
+After stowing `bin` and `agent-skills`, run `sync-opencode-skills` to restore
+vetted vendor versions. The script pins its CLI and source commits, follows
+[npm security guidance](https://github.com/lirantal/npm-security-best-practices),
+and removes only entries it previously managed. Vendor files and install state
+stay outside Git. Review the full package before adding a skill or changing a pin.
 
-After syncing, restart OpenCode and run `/rust-stack <task>` to select the relevant
-Rust skills. With no arguments, `/rust-stack` reviews the current branch's
-Rust changes, including uncommitted changes. For implementation, use something like
-`/rust-stack implement request validation for the users endpoint`. The workflow
-uses parallel analysis and final checks, with sequential type decisions and one
-writer. See [setup and source reviews](opencode/.config/opencode/skills/rust-stack/SETUP.md)
-for dependencies, license caveats, and the
-[npm security guidance](https://github.com/lirantal/npm-security-best-practices)
-used for setup.
+Use `$go-stack` or `$rust-stack` in Codex; OpenCode has `/go-stack` and
+`/rust-stack`. With no task, they review the current branch's language changes,
+including uncommitted work. With a task, they select the relevant skills, keep
+decisions and edits in the main conversation, and report what was actually used.
 
-Use `/go-stack <task>` for Go work, or `/go-stack` to review the current branch's
-Go changes, including uncommitted changes. It selects focused skills for the task,
-orders dependent decisions, and parallelises independent analysis and checks with
-one writer. `/go-stack set up a new Go CLI project` also selects
-`golang-project-layout` before scaffolding. Database, observability, concurrency,
-security, performance, and modernisation guidance run only when their triggers
-apply. See the [routing table](opencode/.config/opencode/skills/go-stack/SKILL.md)
-and [setup/source review](opencode/.config/opencode/skills/go-stack/SETUP.md).
-
-Both stacks select skills before loading them, skip irrelevant stages, and finish
-with a **Skills used** table showing actual primary/subagent use, the matching
-task/code evidence, and where each skill was consulted or applied. The receipt
-includes verification helpers actually used, not merely the planned selection.
-See the [Rust routing table](opencode/.config/opencode/skills/rust-stack/SKILL.md)
-and [receipt rules](opencode/.config/opencode/docs/stack-skill-receipt.md).
+See [shared setup and checks](docs/shared-agent-skills.md),
+[Go setup and source reviews](agent-skills/.agents/skills/go-stack/SETUP.md),
+and [Rust source reviews](agent-skills/.agents/skills/rust-stack/SETUP.md).
 
 ### Herdr
 
@@ -164,7 +158,8 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `vscode` | `~/.config/Code/User/{settings,keybindings,snippets}` |
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
 | `gh` | `~/.config/gh/config.yml` |
-| `opencode` | `~/.config/opencode/{opencode.json,agents/,plugins/,skills/}` |
+| `agent-skills` | `~/.agents/skills/<name>/` |
+| `opencode` | `~/.config/opencode/{opencode.json,agents/,commands/,plugins/}` |
 | `herdr` | `~/.config/herdr/config.toml` |
 | `omarchy` | `~/.config/omarchy/shell.json`, `~/.config/omarchy/hooks/post-boot.d/10-audio-volume` |
 | `hypr` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
