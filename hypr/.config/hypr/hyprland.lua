@@ -22,6 +22,13 @@ require("hypr.bindings")
 require("hypr.looknfeel")
 require("hypr.autostart")
 
+hl.unbind("SUPER + F")
+hl.unbind("SUPER + CTRL + F")
+hl.unbind("SUPER + ALT + F")
+o.bind("SUPER + F", "Full width", hl.dsp.window.fullscreen({ mode = "maximized" }))
+o.bind("SUPER + CTRL + F", "Tiled full screen", "omarchy-hyprland-window-tiled-fullscreen-toggle")
+o.bind("SUPER + ALT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+
 local function get_active_workspace()
   return hl.get_active_special_workspace() or hl.get_active_workspace()
 end
