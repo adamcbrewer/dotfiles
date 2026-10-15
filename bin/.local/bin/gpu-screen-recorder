@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Work around Radeon Polaris VCE hangs during hardware encoding. On this
+# RX 570, recording triggered "ring vce0 timeout", a GPU reset and VRAM loss,
+# leaving the desktop frozen. Forcing CPU H.264 passed a short recording test.
+# Matching AMD crash reports and CPU workaround:
+# https://github.com/omacom/omarchy/issues/9555
+#
+# Omarchy's -fallback-cpu-encoding yes still tries hardware encoding first;
+# it didn't protect this session from the encoder hang. Related fallback
+# history (a separate NVIDIA API mismatch, not the cause of this AMD crash):
+# https://github.com/omacom/omarchy/issues/7217
+#
+# Keep Omarchy's capture, audio and output options, but always encode on CPU.
+args=()
+while (($#)); do
+  case "$1" in
+    -k|-encoder)
+      if (($# < 2)); then
+        printf 'Missing value for %s\n' "$1" >&2
+        exit 1
+      fi
+      shift 2
+      ;;
+    *)
+      args+=("$1")
+      shift
+      ;;
+  esac
+done
+
+# Omarchy matches this process name when stopping and finalizing recordings.
+exec -a gpu-screen-recorder /usr/bin/gpu-screen-recorder \
+  "${args[@]}" -k h264 -encoder cpu
