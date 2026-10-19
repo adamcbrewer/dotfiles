@@ -39,9 +39,9 @@ cd ~/localhost/dotfiles
 # Stow packages without generated runtime state
 stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 
-# Shared personal skills; keep the discovery directories real
-mkdir -p ~/.agents/skills
-stow -t ~ agent-skills
+# Shared instructions and skills; keep discovery directories real
+mkdir -p ~/.agents/skills ~/.codex ~/.claude ~/.config/opencode
+stow -t ~ agents
 
 # Keep generated Fish, GitHub CLI, Herdr, Omarchy, and Hyprland state outside the repository
 mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
@@ -103,7 +103,7 @@ Automatic tool installation is disabled, releases have a 7-day cooldown, and par
 
 ### Shared agent skills
 
-I keep my own skills in `agent-skills/.agents/skills/`. Stow links each folder into
+I keep my own skills in `agents/.agents/skills/`. Stow links each folder into
 `~/.agents/skills/`, so OpenCode and Codex use the same copy. Vendor skills and
 Omarchy's links live alongside them. OpenCode commands and agents stay in its
 config and load the shared skills by name.
@@ -116,7 +116,7 @@ The shared `diff-explainer` includes logic-flow diagrams. See the
 [mention-triggered GitHub workflow experiment](docs/github-diff-explainer.md)
 to try it in a project using the connected Codex integration.
 
-After stowing `bin` and `agent-skills`, run `sync-opencode-skills` to restore
+After stowing `bin` and `agents`, run `sync-opencode-skills` to restore
 vetted vendor versions. The script pins its CLI and source commits, follows
 [npm security guidance](https://github.com/lirantal/npm-security-best-practices),
 and removes only entries it previously managed. Vendor files and install state
@@ -128,8 +128,26 @@ including uncommitted work. With a task, they select the relevant skills, keep
 decisions and edits in the main conversation, and report what was actually used.
 
 See [shared setup and checks](docs/shared-agent-skills.md),
-[Go setup and source reviews](agent-skills/.agents/skills/go-stack/SETUP.md),
-and [Rust source reviews](agent-skills/.agents/skills/rust-stack/SETUP.md).
+[Go setup and source reviews](agents/.agents/skills/go-stack/SETUP.md),
+and [Rust source reviews](agents/.agents/skills/rust-stack/SETUP.md).
+
+### Shared agent instructions
+
+Edit `agents/.agents/AGENTS.md` for personal conventions shared
+across projects. Stow exposes this one file at `~/.agents/AGENTS.md` and links
+the harness discovery paths to it:
+
+- Codex: `~/.codex/AGENTS.md`
+- Claude Code: `~/.claude/CLAUDE.md`
+- OpenCode: `~/.config/opencode/AGENTS.md`
+
+The shared path is our source convention; each harness loads its own entrypoint.
+Use fresh sessions after changes. Repository-specific rules stay in each
+project's root `AGENTS.md`.
+
+These entrypoints follow the [Codex instructions documentation](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
+[Claude Code memory documentation](https://code.claude.com/docs/en/memory), and
+[OpenCode instructions documentation](https://opencode.ai/v2/docs/instructions/).
 
 ### Herdr
 
@@ -162,8 +180,8 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `vscode` | `~/.config/Code/User/{settings,keybindings,snippets}` |
 | `zed` | `~/.config/zed/{settings,keymap,snippets}` |
 | `gh` | `~/.config/gh/config.yml` |
-| `agent-skills` | `~/.agents/skills/<name>/` |
-| `opencode` | `~/.config/opencode/{opencode.json,agents/,commands/,plugins/}` |
+| `agents` | `~/.agents/skills/<name>/`, `~/.agents/AGENTS.md`, `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.config/opencode/AGENTS.md` |
+| `opencode` | `~/.config/opencode/{opencode.json,cli.json,agents/,commands/,plugins/}` |
 | `herdr` | `~/.config/herdr/config.toml` |
 | `omarchy` | `~/.config/omarchy/shell.json`, `~/.config/omarchy/hooks/post-boot.d/10-audio-volume` |
 | `hypr` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |

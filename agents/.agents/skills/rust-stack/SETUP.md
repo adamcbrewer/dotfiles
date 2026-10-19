@@ -1,6 +1,6 @@
 # Setup and provenance
 
-The shared `rust-stack` skill belongs to `agent-skills`; the OpenCode
+The shared `rust-stack` skill belongs to `agents`; the OpenCode
 `/rust-stack` wrapper belongs to `opencode`.
 Untouched vendor skills live outside the repository and are restored with:
 
@@ -8,7 +8,7 @@ Untouched vendor skills live outside the repository and are restored with:
 sync-opencode-skills
 ```
 
-Stow `bin` and `agent-skills` first, plus `opencode` for its command. Quit and
+Stow `bin` and `agents` first, plus `opencode` for its command. Quit and
 restart OpenCode after setup so it discovers the command and available vendor
 skills. In Codex, mention `$rust-stack` or select it from `/skills`.
 Installing all six makes them available; the table in `SKILL.md` decides which

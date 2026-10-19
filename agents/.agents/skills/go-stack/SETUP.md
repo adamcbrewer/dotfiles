@@ -1,12 +1,12 @@
 # Setup and provenance
 
-The shared `go-stack` skill belongs to the `agent-skills` Stow package; the
+The shared `go-stack` skill belongs to the `agents` Stow package; the
 OpenCode `/go-stack` wrapper belongs to `opencode`.
 The focused vendor set comes from the [shared Go-skills discussion](https://chatgpt.com/share/6ac780bb-07c4-83eb-9423-b3b896edb583),
 with `golang-project-layout` for new projects. Installing a skill makes it available;
 the table in `SKILL.md` decides whether this task needs it.
 
-After stowing `bin` and `agent-skills` (plus `opencode` for its command), restore
+After stowing `bin` and `agents` (plus `opencode` for its command), restore
 vetted vendor skills with:
 
 ```sh

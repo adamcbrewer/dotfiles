@@ -19,8 +19,8 @@ dotfiles/
 ├── vscode/         # -> ~/.config/Code/User/{settings,keybindings,snippets}
 ├── zed/            # -> ~/.config/zed/{settings,keymap,snippets}
 ├── gh/             # -> ~/.config/gh/config.yml
-├── agent-skills/   # -> ~/.agents/skills/<name>/
-├── opencode/       # -> ~/.config/opencode/{opencode.json,agents/,commands/,plugins/}
+├── agents/         # -> ~/.agents/{AGENTS.md,skills/} and harness instruction links
+├── opencode/       # -> ~/.config/opencode/{opencode.json,cli.json,agents/,commands/,plugins/}
 ├── herdr/          # -> ~/.config/herdr/config.toml
 ├── omarchy/        # -> ~/.config/omarchy/shell.json
 ├── hypr/           # -> ~/.config/hypr/{hyprland.lua,looknfeel.lua}
@@ -43,9 +43,9 @@ cd ~/localhost/dotfiles
 # Install packages without generated runtime state
 stow -t ~ git tmux vim starship bin node mise vscode zed opencode
 
-# Share personal skills without folding the vendor-managed discovery directories
-mkdir -p ~/.agents/skills
-stow -t ~ agent-skills
+# Share instructions and personal skills; keep discovery directories real
+mkdir -p ~/.agents/skills ~/.codex ~/.claude ~/.config/opencode
+stow -t ~ agents
 
 # Keep generated Fish, GitHub CLI, Herdr, Omarchy, and Hyprland state outside the repository
 mkdir -p ~/.config/{fish,gh,herdr,hypr,omarchy}
@@ -70,7 +70,7 @@ stow -t ~ -n -v fish
 - Tmux: Clone TPM to `~/.tmux/plugins/tpm`, then `prefix + I`
 - Git: Set user.name and user.email
 - Mise: Run `mise install` after stowing `mise`
-- Shared skills: Run `sync-opencode-skills` after stowing `bin` and `agent-skills`; stow `opencode` for its native commands and agents
+- Shared skills: Run `sync-opencode-skills` after stowing `bin` and `agents`; stow `opencode` for its native commands and agents
 - Herdr: Install Herdr and OpenCode, then run `herdr integration install opencode` after stowing `opencode`
 
 ## Theme
@@ -112,9 +112,25 @@ The `herdr` Stow package owns only `~/.config/herdr/config.toml`. Create `~/.con
 
 Install both Herdr and OpenCode before running the integration command. Run the same command to reinstall or refresh the integration.
 
+OpenCode terminal preferences live in the stowed `cli.json`. Herdr owns the
+generated `herdr-tui-session.js` and `herdr-opencode/tui.js` outside Git; both
+are required by its v2 TUI integration. After refreshing the integration,
+preserve any new settings and restore the `cli.json` Stow link if the installer
+replaced it. Restart the OpenCode TUI to load the updated integration.
+The notification plugin owns custom sounds; `cli.json` disables built-in
+attention sounds to avoid duplicate playback.
+
+## Shared instructions
+
+`agents/.agents/AGENTS.md` owns personal conventions shared by
+Codex, Claude Code and OpenCode. Its Stow package links each harness's global
+instruction path to that one file. Keep the harness configuration directories
+real before stowing `agents`. Keep repository setup and
+ownership rules in this root `AGENTS.md`.
+
 ## Shared skills
 
-Keep personal skills in `agent-skills/.agents/skills/`. Stow links each whole
+Keep personal skills in `agents/.agents/skills/`. Stow links each whole
 package into `~/.agents/skills/` for OpenCode and Codex. Keep `~/.agents` and its
 `skills` directory real. The source directory is the list of personal skills.
 
@@ -136,7 +152,7 @@ Go/Rust stacks keep decisions and edits in the main conversation and delegate
 independent work. Follow their routing tables and `SETUP.md` caveats. Go's
 project-layout skill is for new projects only. Rust's setup records the Actionbook
 licence caveat. Both finish with actual skill-use evidence from
-`agent-skills/.agents/skills/verify-change/references/stack-skill-receipt.md`.
+`agents/.agents/skills/verify-change/references/stack-skill-receipt.md`.
 
 The pinned `security-review` has JavaScript, Python and Docker guides. Its named
 Go, Rust, Java, Kubernetes, Terraform, CI/CD and cloud guides are missing upstream;

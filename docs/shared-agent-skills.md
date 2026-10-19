@@ -1,6 +1,6 @@
 # Shared agent skills
 
-I keep my skills in `agent-skills/.agents/skills/`. Stow links them into
+I keep my skills in `agents/.agents/skills/`. Stow links them into
 `~/.agents/skills/`, so Codex and OpenCode use the same files.
 
 ## Set up
@@ -8,9 +8,9 @@ I keep my skills in `agent-skills/.agents/skills/`. Stow links them into
 From this repo:
 
 ```sh
-mkdir -p ~/.agents/skills
-stow --simulate --verbose=2 -t ~ agent-skills
-stow -t ~ agent-skills
+mkdir -p ~/.agents/skills ~/.codex ~/.claude ~/.config/opencode
+stow --simulate --verbose=2 -t ~ agents
+stow -t ~ agents
 ```
 
 Keep `~/.agents` and `~/.agents/skills` as real directories. Check for clashes
@@ -34,15 +34,16 @@ The skill holds the workflow; commands and agents just load it.
 ## Explicit-only skills
 
 - Codex: set `policy.allow_implicit_invocation: false` in `agents/openai.yaml`.
-- OpenCode v2: set `disable-model-invocation: true` in `SKILL.md`. OpenCode v1 ignores this flag, so keep the explicit-request wording too.
+- OpenCode: set `disable-model-invocation: true` in `SKILL.md`.
 
 These settings control automatic selection. You can still request the skill by name.
 
 ## Quick check
 
-Use `opencode --pure debug skill` in OpenCode or `/skills` in Codex. Check from
-this repo and another directory: each skill should appear once, its references
-should work, and an explicit request should load it.
+In OpenCode v2, use `@<skill-id>` to load a skill explicitly and
+`opencode api GET /api/command` to list available commands. Use `/skills` in
+Codex. Check from this repo and another directory: each skill should appear
+once, its references should work, and an explicit request should load it.
 
 See the [GitHub diff-explainer experiment](github-diff-explainer.md) for PR mentions.
 Setup follows [npm security best practices](https://github.com/lirantal/npm-security-best-practices).

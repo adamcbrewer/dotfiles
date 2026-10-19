@@ -13,7 +13,7 @@ workflow run proves the request was posted, not that Codex ran it.
 1. Copy [the workflow template](workflows/codex-diff-explainer.yml) into the
    project's `.github/workflows/codex-diff-explainer.yml`.
 2. Copy the complete
-   [`diff-explainer` package](../agent-skills/.agents/skills/diff-explainer/)
+   [`diff-explainer` package](../agents/.agents/skills/diff-explainer/)
    into the project's `.agents/skills/diff-explainer/`, including `references/`
    and `agents/`. Use reviewed copies committed with the project; local Stow
    links do not transfer to Codex cloud.

@@ -1,70 +1,73 @@
-import type { Plugin } from "@opencode-ai/plugin";
+import { spawn, type ChildProcess } from "node:child_process";
+import { readdir } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { Plugin } from "@opencode/plugin";
 
-const HOME = process.env.HOME ?? "";
+const AUDIO = join(homedir(), "Audio/agents");
 
-async function playRandomFile($: any, dir: string, ext: string): Promise<void> {
-  try {
-    const result =
-      await $`find ${dir} -maxdepth 1 -type f -name "*.${ext}"`.text();
-    const files = result.trim().split("\n").filter(Boolean);
-    if (files.length === 0) return;
-    const file = files[Math.floor(Math.random() * files.length)];
-    await $`ffplay -v 0 -nodisp -autoexit ${file}`.quiet();
-  } catch {}
-}
+export default Plugin.define({
+  id: "adam.notifications",
+  setup(ctx) {
+    const controller = new AbortController();
+    const players = new Set<ChildProcess>();
 
-async function playFile($: any, file: string): Promise<void> {
-  try {
-    await $`ffplay -v 0 -nodisp -autoexit ${file}`.quiet();
-  } catch {}
-}
+    function play(file: string) {
+      if (controller.signal.aborted) return;
+      const player = spawn("ffplay", ["-v", "0", "-nodisp", "-autoexit", file], {
+        stdio: "ignore",
+      });
+      players.add(player);
+      player.once("error", () => players.delete(player));
+      player.once("close", () => players.delete(player));
+    }
 
-async function isSubagent(client: any, sessionID: string): Promise<boolean> {
-  try {
-    const session = await client.session.get({ path: { id: sessionID } });
-    return !!session.data?.parentID;
-  } catch {
-    return false;
-  }
-}
-
-export const NotificationPlugin: Plugin = async ({ $, client }) => {
-  return {
-    event: async ({ event }) => {
-      if (event.type === "session.compacted") {
-        await playFile($, `${HOME}/Audio/agents/session-start/smb3_pipe.wav`);
+    async function alert() {
+      const directory = join(AUDIO, "notification");
+      const entries = await readdir(directory, { withFileTypes: true });
+      const files = entries.filter((entry) => entry.isFile());
+      if (files.length) {
+        play(join(directory, files[Math.floor(Math.random() * files.length)].name));
       }
+    }
 
-      if (event.type === "session.created") {
-        if (event.properties.info.parentID) {
-          // subagent session created
-          await playFile($, `${HOME}/Audio/agents/session-start/smb3_vine.wav`);
-        } else {
-          // main session created
-          await playFile(
-            $,
-            `${HOME}/Audio/agents/session-start/smb3_powerup.wav`,
-          );
+    const listening = (async () => {
+      for await (const event of ctx.event.subscribe({ signal: controller.signal })) {
+        if (event.location && event.location.directory !== ctx.location.directory) continue;
+        try {
+          switch (event.type) {
+            case "session.created":
+              play(join(
+                AUDIO, "session-start",
+                event.data.parentID ? "smb3_vine.wav" : "smb3_powerup.wav",
+              ));
+              break;
+            case "session.compacted":
+              play(join(AUDIO, "session-start/smb3_pipe.wav"));
+              break;
+            case "session.execution.succeeded": {
+              const session = await ctx.session.get({ sessionID: event.data.sessionID });
+              play(join(AUDIO, "stop", session.parentID ? "smb3_pipe.wav" : "smb3_1-up.wav"));
+              break;
+            }
+            case "session.execution.failed":
+            case "permission.asked":
+              await alert();
+              break;
+          }
+        } catch (error) {
+          if (!controller.signal.aborted) console.warn("Notification sound failed:", error);
         }
       }
+    })().catch((error) => {
+      if (!controller.signal.aborted) console.warn("Notification event stream failed:", error);
+    });
 
-      if (event.type === "session.idle") {
-        const sub = await isSubagent(client, event.properties.sessionID);
-        if (sub) {
-          await playFile($, `${HOME}/Audio/agents/stop/smb3_pipe.wav`);
-        } else {
-          // main session finished
-          await playFile($, `${HOME}/Audio/agents/stop/smb3_1-up.wav`);
-        }
-      }
-
-      if (event.type === "session.error") {
-        await playRandomFile($, `${HOME}/Audio/agents/notification`, "*");
-      }
-
-      if (event.type === "permission.asked") {
-        await playRandomFile($, `${HOME}/Audio/agents/notification`, "*");
-      }
-    },
-  };
-};
+    return async () => {
+      controller.abort();
+      for (const player of players) player.kill();
+      players.clear();
+      await listening;
+    };
+  },
+});

@@ -69,7 +69,6 @@ alias pt="cd $HOME/localhost/papertrails.io/ && pnpm process:prod && cd -"
 # load_nvm > /dev/stderr
 
 # opencode
-fish_add_path /home/adam/.opencode/bin
 alias o="opencode"
 
 # bun
