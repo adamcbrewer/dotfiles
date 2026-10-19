@@ -81,13 +81,6 @@ if altswitch_file then
   dofile(altswitch_path)
 end
 
-local downloads_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.downloads/downloads.lua"
-local downloads_file = io.open(downloads_path, "r")
-if downloads_file then
-  downloads_file:close()
-  dofile(downloads_path)
-end
-
 local camera_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.camera/camera.lua"
 local camera_file = io.open(camera_path, "r")
 if camera_file then
