@@ -1,6 +1,9 @@
 -- Change the default Omarchy look'n'feel.
 
 hl.config({
+  binds = {
+    movefocus_cycles_fullscreen = true,
+  },
   general = {
     gaps_in = 2,
     gaps_out = 5,
