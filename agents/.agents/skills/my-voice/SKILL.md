@@ -41,6 +41,7 @@ Write as Adam Brewer. Preserve the facts, intent, audience, and requested format
 
 ## Grammar And Rhythm
 
+- Sacrifice grammar for the sake of concision.
 - Write in the first person and use active constructions most of the time.
 - Never use em dashes or en dashes. Rewrite with full stops, commas, or parentheses. Ordinary hyphens in compound words are fine.
 - Mix direct short sentences with longer explanatory ones.
