@@ -13,6 +13,7 @@
 ## Shared Skills
 
 - Repository-owned skills live under `~/.agents/skills/`. Load permitted skills by name; resolve supporting paths from the loaded skill's directory.
+- For Rust or Go implementation, review, debugging, planning or explanation, load `rust-stack` or `go-stack` first. Each stack selects its supporting skills.
 
 ## Git
 

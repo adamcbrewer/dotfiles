@@ -76,6 +76,23 @@ is_desired_skill() {
 
 mkdir -p "$state_dir"
 
+configure_grill_me() {
+  node - "$1" <<'JS'
+const fs = require("node:fs");
+const path = require("node:path");
+const directory = process.argv[2];
+const skillPath = path.join(directory, "SKILL.md");
+const skill = fs.readFileSync(skillPath, "utf8")
+  .replace(/^description:.*$/m, "description: Interview the user to sharpen a plan or design. Use when the user asks to be grilled or interviewed about it.")
+  .replace(/^disable-model-invocation: true\n/m, "");
+fs.writeFileSync(skillPath, skill);
+const agentPath = path.join(directory, "agents/openai.yaml");
+const agent = fs.readFileSync(agentPath, "utf8")
+  .replace("allow_implicit_invocation: false", "allow_implicit_invocation: true");
+fs.writeFileSync(agentPath, agent);
+JS
+}
+
 install_skills() {
   local repository=$1
   local revision=$2
@@ -87,6 +104,9 @@ install_skills() {
   git -C "$checkout" remote add origin "$repository"
   git -C "$checkout" fetch --quiet --depth 1 origin "$revision"
   git -C "$checkout" checkout --quiet --detach FETCH_HEAD
+  if [ "$checkout" = "$temp_dir/mattpocock-skills" ]; then
+    configure_grill_me "$checkout/$source_path/productivity/grill-me"
+  fi
   npx --yes "$skills_cli" add "$checkout/$source_path" --global --agent opencode --yes --copy "$@"
 }
 

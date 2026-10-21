@@ -1,16 +1,16 @@
 # Setup and provenance
 
-The shared `rust-stack` skill belongs to `agents`; the OpenCode
-`/rust-stack` wrapper belongs to `opencode`.
+The shared `rust-stack` skill belongs to `agents` and is eligible for automatic
+selection on Rust tasks. It coordinates the supporting skills through its workflow.
 Untouched vendor skills live outside the repository and are restored with:
 
 ```sh
 sync-opencode-skills
 ```
 
-Stow `bin` and `agents` first, plus `opencode` for its command. Quit and
-restart OpenCode after setup so it discovers the command and available vendor
-skills. In Codex, mention `$rust-stack` or select it from `/skills`.
+Stow `bin` and `agents` first. Quit and restart OpenCode after setup so it discovers
+the shared stack and available vendor skills. To select the stack directly, use
+`@rust-stack` in OpenCode or `$rust-stack` in Codex (also available through `/skills`).
 Installing all six makes them available; the table in `SKILL.md` decides which
 ones this task needs. Missing skipped skills do not block a run.
 
@@ -44,9 +44,9 @@ Authoring guidance came from Matt Pocock's
 [`writing-great-skills`](https://github.com/mattpocock/skills/tree/9c32629965586e75a9d2206922dccec91e19f2f2/skills/productivity/writing-great-skills),
 including its glossary and invocation metadata. Upstream renamed it to
 `writing-for-agents`; it is authoring reference, not a runtime dependency.
-OpenCode uses a thin command wrapper; Codex uses explicit skill mentions.
-Native invocation controls supplement the explicit-request description and body;
-their enforcement differs by harness, as recorded in the shared-skill guidance.
+Both harnesses discover the shared stack without a slash-command wrapper.
+Invocation modes and harness differences are recorded in
+[the shared-skill guidance](../../../../docs/shared-agent-skills.md).
 
 The pinned setup follows the existing manifest approach and the version-pinning
 and lifecycle-script guidance in

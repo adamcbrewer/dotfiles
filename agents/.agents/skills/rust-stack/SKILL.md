@@ -1,15 +1,15 @@
 ---
 name: rust-stack
-description: Select and order Rust skills for the task, then report which were used. Use only when explicitly requested as rust-stack.
+description: Run the Rust stack workflow for Rust implementation, review, debugging, planning or explanation. Use as the entry point to select supporting skills, coordinate the work, verify it and report actual skill use.
 source: local
-disable-model-invocation: true
 ---
 
 # Rust Stack
 
-Run only when explicitly requested by name. Pick skills from the task and the
-code it affects. Keep decisions and edits in the primary conversation. Use the
-harness's native subagent tools for bounded read-only analysis or checks when
+Announce `rust-stack` and follow this workflow for the Rust task. Loading a
+supporting skill alone does not run the stack. Pick supporting skills from the
+task and the code it affects. Keep decisions and edits in the primary conversation.
+Use the harness's native subagent tools for bounded read-only analysis or checks when
 useful; small tasks stay local. Skip steps with nothing to do. Even an early exit
 needs the completion report in step 5.
 

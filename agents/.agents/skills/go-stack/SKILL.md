@@ -1,15 +1,15 @@
 ---
 name: go-stack
-description: Select and order Go skills for the task, then report which were used. Use only when explicitly requested as go-stack.
+description: Run the Go stack workflow for Go implementation, review, debugging, planning or explanation. Use as the entry point to select supporting skills, coordinate the work, verify it and report actual skill use.
 source: local
-disable-model-invocation: true
 ---
 
 # Go Stack
 
-Run only when explicitly requested by name. Pick skills from the task and the
-code it affects. Keep decisions and edits in the primary conversation. Use the
-harness's native subagent tools for bounded read-only analysis or checks when
+Announce `go-stack` and follow this workflow for the Go task. Loading a
+supporting skill alone does not run the stack. Pick supporting skills from the
+task and the code it affects. Keep decisions and edits in the primary conversation.
+Use the harness's native subagent tools for bounded read-only analysis or checks when
 useful; small tasks stay local. Skip steps with nothing to do. Even an early exit
 needs the completion report in step 5.
 
