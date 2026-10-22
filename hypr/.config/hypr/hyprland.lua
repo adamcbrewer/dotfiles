@@ -22,6 +22,9 @@ require("hypr.bindings")
 require("hypr.looknfeel")
 require("hypr.autostart")
 
+hl.unbind("SUPER + SPACE")
+o.bind("SUPER + SPACE", "oma-cast launcher", hl.dsp.global("oma-cast:toggle"))
+
 hl.unbind("SUPER + F")
 hl.unbind("SUPER + CTRL + F")
 hl.unbind("SUPER + ALT + F")
