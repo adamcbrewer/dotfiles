@@ -2,7 +2,7 @@
 claude = "latest"
 codex = "latest"
 gh = "latest"
-node = "26.7.0"
+node = "26.12.1"
 "npm:corepack" = "0.35.0"
 "npm:playwright" = "1.63.0"
 opencode = "latest"
