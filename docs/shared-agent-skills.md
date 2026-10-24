@@ -64,7 +64,7 @@ and plugin skills have their own catalogs and policies.
 | --- | --- | --- |
 | `agent-browser` | Eligible | Browser interaction and app testing |
 | `author-git-content` | Eligible | Commit, PR, issue and comment wording |
-| `code-review` | Eligible | Requested code review; before merging |
+| `code-review` | Eligible | Branch/local or explicit-target review; assigned review step; before merging |
 | `diagnose-crash` | Eligible | Local application crashes |
 | `diff-explainer` | Explicit-only | Explain a diff or PR as semantic chapters |
 | `domain-web` | Eligible | Rust web services, selected by `rust-stack` |
@@ -92,6 +92,11 @@ and plugin skills have their own catalogs and policies.
 | `opencode-session-review` | Eligible | Requested OpenCode session analysis |
 | `redesign-from-first-principles` | On request | Requested first-principles redesign or rethink |
 | `retro` | Explicit-only | Session retrospective |
+| `review-completeness` | Eligible | Feature outcomes and missing changes across components |
+| `review-failure-paths` | Eligible | Errors, retries and fallbacks that hide failure |
+| `review-findings` | Eligible | Validate supplied suspected bugs |
+| `review-security-history` | Eligible | Changed safeguards and security regressions in local history |
+| `review-stack` | On request | Review branch or feature changes with automatic specialist selection |
 | `rust-best-practices` | Eligible | Substantive Rust source work |
 | `rust-patterns` | Eligible | Rust ownership, errors, traits and concurrency |
 | `rust-stack` | Eligible | Entry point for Rust work; selects supporting skills |
