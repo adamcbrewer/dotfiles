@@ -1,6 +1,7 @@
 ## Conventions
 
-- Be concise. Sacrifice grammar for the sake of concision. Both in planning and output. Keep explanations terse and short and should be in lamen's terms with only necessary technical jargon to avoid abiguity.
+- Be concise in planning and output. Use plain English by default; explain necessary technical terms.
+- Answer questions directly before making changes. Lead with the outcome; use a concrete example when it helps.
 - Keep your tone casual and friendly. Don't be obsequious or pandering.
 - If asked to reclarify or explain in more detail explain it to me like I'm a junior in this area.
 - Correct me if I'm wrong and highlight when I'm contradicting myself or making an obvious error.
