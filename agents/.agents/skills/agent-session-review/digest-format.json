@@ -1,0 +1,30 @@
+{
+  "source": "COPY FROM MANIFEST WHEN AVAILABLE",
+  "extraction_version": 1,
+  "session_id": "COPY FROM MANIFEST",
+  "root_session_id": "COPY FROM MANIFEST",
+  "project_id": "COPY FROM MANIFEST",
+  "directory": "COPY FROM MANIFEST",
+  "input_hash": "COPY FROM MANIFEST",
+  "chunks_reviewed": [
+    "chunks/0001-001.json"
+  ],
+  "work_summary": "One or two sentences describing the work.",
+  "observations": [
+    {
+      "category": "user_correction",
+      "description": "Describe the observed friction or useful approach.",
+      "outcome": "resolved, ongoing, or unknown, with a brief explanation",
+      "evidence": [
+        {
+          "message_id": "msg_...",
+          "part_id": "prt_...",
+          "chunk_file": "chunks/0001-001.json",
+          "quote": "Exact short excerpt from the source."
+        }
+      ]
+    }
+  ],
+  "limitations": [],
+  "evidence_checks": []
+}

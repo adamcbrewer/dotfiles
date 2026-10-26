@@ -54,8 +54,9 @@ See the official [Codex](https://learn.chatgpt.com/docs/build-skills),
 
 Eligible and on-request skills both allow model invocation; on-request limits
 live in their descriptions and instructions. Eligibility is permission to select
-a skill, not proof it ran. Naming a skill is an explicit request, even in prose;
-the harness's mention syntax reliably selects skills absent from the initial list.
+a skill, not proof it ran. Eligible and on-request skills accept a prose request.
+Explicit-only skills require the harness's skill picker, registered mention or
+command; a plain-text name does not activate them.
 
 This list covers the shared personal, pinned vendor and Omarchy skills. Built-in
 and plugin skills have their own catalogs and policies.
@@ -89,7 +90,7 @@ and plugin skills have their own catalogs and policies.
 | `my-voice` | On request | Requested writing in Adam's voice |
 | `next-best-practices` | Eligible | Next.js implementation and review |
 | `omarchy` | Eligible | Linux desktop and Omarchy customization |
-| `opencode-session-review` | Eligible | Requested OpenCode session analysis |
+| `agent-session-review` | Explicit-only | Select the skill or command to review Codex/OpenCode sessions |
 | `redesign-from-first-principles` | On request | Requested first-principles redesign or rethink |
 | `retro` | Explicit-only | Session retrospective |
 | `review-completeness` | Eligible | Feature outcomes and missing changes across components |
