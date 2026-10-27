@@ -34,6 +34,14 @@ can select the matching stack. To choose it directly, use `$rust-stack` / `$go-s
 in Codex or `@rust-stack` / `@go-stack` in OpenCode. The OpenCode `/rust-stack` and
 `/go-stack` wrappers have been removed; no wrapper is needed for skill mentions.
 
+Use `$ux-stack <request>` in Codex or `@ux-stack <request>` in OpenCode for UX
+planning, implementation or review. The stack keeps the requested mode and
+selects usability, visual-design and web-interface guidance at the appropriate
+stage. Pro Max supplies optional reference searches for unresolved decisions.
+Plans and reviews stay read-only unless fixes are requested. With no target,
+it reviews relevant current branch/local UI changes. See its
+[source review and caveats](../agents/.agents/skills/ux-stack/SETUP.md).
+
 Claude Code uses `~/.claude/skills/` for personal discovery. This Stow package shares
 its global instructions, but does not link the shared skill catalog there. Only
 Omarchy's `omarchy` and `diagnose-crash` links currently exist there. Reading a skill
@@ -106,6 +114,9 @@ and plugin skills have their own catalogs and policies.
 | `simplify` | On request | Requested cleanup or assigned simplification pass |
 | `test-analyzer` | Eligible | Requested test analysis or failure diagnosis |
 | `unslop` | On request | Requested prose polishing or humanizing |
+| `ui-ux-pro-max` | Eligible | Targeted design references, selected by `ux-stack` when useful |
+| `ux-heuristics-audit` | Eligible | Usability evaluation of a proposed or existing flow |
+| `ux-stack` | On request | UX planning, implementation or review with automatic skill selection |
 | `vercel-react-best-practices` | Eligible | React and Next.js performance |
 | `verify-change` | Eligible | Requested verification or a verification stage |
 | `wat` | Eligible | Confusion about the last reply or a simpler explanation |
@@ -123,6 +134,9 @@ explicit-only in Codex or OpenCode.
 - Edit my skills here, including supporting files. Keep their source and licence.
 - Stow shares those edits with both tools. There's no separate sync step.
 - `sync-opencode-skills` restores reviewed, pinned vendor skills. Keep vendor files and their install state outside Git.
+- The UX dependencies are installed from their selected directories, with their
+  repository MIT notices included. Uxcel's other workflows and Pro Max's sibling
+  skills are not installed.
 - The sync script overrides `grill-me`'s description and invocation flags in the
   pinned checkout before installation, preserving its on-request mode on refresh.
   Its two-file alias package and repository MIT license were reviewed at
