@@ -1,22 +1,22 @@
 -- Change the default Omarchy look'n'feel.
 
-hl.config({
-  binds = {
-    movefocus_cycles_fullscreen = true,
-  },
-  general = {
-    gaps_in = 2,
-    gaps_out = 5,
-  },
-  decoration = {
-    dim_around = 0.4,
-    dim_inactive = true,
-    dim_strength = 0.15,
-    rounding = 4,
-  },
-})
+-- hl.config({
+--   binds = {
+--     movefocus_cycles_fullscreen = true,
+--   },
+--   general = {
+--     gaps_in = 2,
+--     gaps_out = 5,
+--   },
+--   decoration = {
+--     dim_around = 0.4,
+--     dim_inactive = true,
+--     dim_strength = 0.15,
+--     rounding = 4,
+--   },
+-- })
 
-hl.workspace_rule({ workspace = "f[1] s[false] w[2-2147483647]", gaps_out = 20 })
+-- hl.workspace_rule({ workspace = "f[1] s[false] w[2-2147483647]", gaps_out = 20 })
 
 -- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
 -- hl.config({
