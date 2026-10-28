@@ -99,7 +99,7 @@ Install the globally configured tools after stowing `mise` and `node` (which als
 mise install
 ```
 
-Automatic tool installation is disabled, releases have a 7-day cooldown, and paranoid mode requires reviewed project configs to be explicitly trusted again after changes. Project `mise.toml` files belong in their projects. Keep machine-specific `mise.local.toml` files untracked.
+Automatic tool installation is disabled, and the local default is a 7-day release cooldown. Omarchy-managed tools explicitly override that cooldown to zero; Claude, Codex and OpenCode also check for updates when launched, at most once every four hours. Paranoid mode requires reviewed project configs to be explicitly trusted again after changes. Project `mise.toml` files belong in their projects. Keep machine-specific `mise.local.toml` files untracked.
 
 ### Shared agent skills
 
