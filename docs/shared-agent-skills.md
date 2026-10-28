@@ -54,6 +54,7 @@ See the official [Codex](https://learn.chatgpt.com/docs/build-skills),
 
 ## Invocation list
 
+- **Always:** load and apply for every response or prose task, including when another writing skill is active.
 - **Eligible:** the agent can select it when the task matches its description.
 - **On request:** ordinary wording requesting that activity is enough; naming the
   skill or using a command is optional. The agent should not initiate the activity.
@@ -113,7 +114,7 @@ and plugin skills have their own catalogs and policies.
 | `security-review` | Eligible | Requested security audit or review |
 | `simplify` | On request | Requested cleanup or assigned simplification pass |
 | `test-analyzer` | Eligible | Requested test analysis or failure diagnosis |
-| `unslop` | On request | Requested prose polishing or humanizing |
+| `unslop` | Always | Every response and prose task, including when another writing skill is active |
 | `ui-ux-pro-max` | Eligible | Targeted design references, selected by `ux-stack` when useful |
 | `ux-heuristics-audit` | Eligible | Usability evaluation of a proposed or existing flow |
 | `ux-stack` | On request | UX planning, implementation or review with automatic skill selection |
