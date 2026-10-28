@@ -1,25 +1,57 @@
 {
   "bar": {
-    "centerAnchor": "omarchy.clock",
+    "background": "opaque",
     "layout": {
       "center": [
         {
-          "id": "omarchy.indicators"
-        },
-        {
-          "id": "omarchy.clock",
           "format": "ddd d MMM HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
+          "id": "omarchy.clock",
           "verticalFormat": "HH\n—\nmm"
-        },
+        }
+      ],
+      "centerBegin": [
         {
-          "id": "omarchy.keyboard-layout"
+          "id": "omarchy.indicators"
+        }
+      ],
+      "centerEnd": [
+        {
+          "cities": [
+            {
+              "name": "London",
+              "zone": "Europe/London"
+            },
+            {
+              "lat": -33.92584,
+              "lon": 18.42322,
+              "name": "Cape Town",
+              "region": "Western Cape, ZA",
+              "zone": "Africa/Johannesburg"
+            },
+            {
+              "name": "Tokyo",
+              "zone": "Asia/Tokyo"
+            },
+            {
+              "name": "Los Angeles",
+              "zone": "America/Los_Angeles"
+            },
+            {
+              "name": "New York",
+              "zone": "America/New_York"
+            }
+          ],
+          "id": "omarchy.elsewhen"
         },
         {
           "id": "omarchy.weather"
         },
         {
           "id": "omarchy.system-update"
+        },
+        {
+          "id": "adam.camera"
         }
       ],
       "left": [
@@ -27,7 +59,7 @@
           "id": "omarchy.menu"
         },
         {
-          "id": "omarchy.workspaces"
+          "id": "adam.workspaces"
         },
         {
           "id": "omarchy.active-window"
@@ -40,6 +72,24 @@
             "Slack_status_icon_1",
             "steam"
           ]
+        },
+        {
+          "id": "omarchy.keyboard-layout"
+        },
+        {
+          "id": "adam.feeds"
+        },
+        {
+          "id": "adam.github-prs"
+        },
+        {
+          "id": "adam.nordvpn"
+        },
+        {
+          "id": "adam.order-stats"
+        },
+        {
+          "id": "adam.codex-usage"
         },
         {
           "id": "omarchy.agents"
@@ -65,13 +115,22 @@
         }
       ]
     },
-    "position": "top",
-    "transparent": false
+    "position": "top"
   },
   "idle": {
     "lock": 2148383,
     "screensaver": 900
   },
-  "plugins": [],
+  "plugins": [
+    {
+      "id": "io.github.adamcbrewer.voxtype-aura"
+    },
+    {
+      "id": "adam.altswitch"
+    },
+    {
+      "id": "typecraft.oma-cast"
+    }
+  ],
   "version": 1
 }

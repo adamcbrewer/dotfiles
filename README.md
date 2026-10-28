@@ -185,7 +185,7 @@ cat _nostow/vscode-ext/extensions.txt | xargs -L 1 code --install-extension
 | `herdr` | `~/.config/herdr/config.toml` |
 | `omarchy` | `~/.config/omarchy/shell.json`, `~/.config/omarchy/hooks/post-boot.d/10-audio-volume` |
 | `hypr` | `~/.config/hypr/{hyprland.lua,looknfeel.lua}` |
-| `hypr-desktop` | `~/.config/hypr/input.lua` |
+| `hypr-desktop` | `~/.config/hypr/{input.lua,bindings.lua}` |
 | `hypr-laptop` | `~/.config/hypr/input.lua` |
 
 ## _nostow (Reference/Backup)
@@ -208,7 +208,7 @@ Catppuccin Mocha across starship and tmux.
 ## Omarchy And Hyprland
 
 `hypr` owns portable Hyprland overrides. `hypr-desktop` owns the desktop's
-keyboard and pointer settings; `hypr-laptop` owns this laptop's settings. Never
+keyboard, pointer and shortcut settings; `hypr-laptop` owns this laptop's settings. Never
 stow both machine packages on one machine because they target the same
 `input.lua`.
 `monitors.lua` remains local and unmanaged because display layouts are

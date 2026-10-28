@@ -3,13 +3,6 @@
 -- Omarchy's bootstrap keeps path setup out of this user config.
 dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/bootstrap.lua")
 
--- Disable all Omarchy default bindings. Add your own in hypr/bindings.lua.
--- omarchy_default_bindings = false
---
--- Or disable only bindings for Omarchy's preinstalled apps/web apps while
--- keeping core window-manager bindings:
--- omarchy_preinstalled_bindings = false
-
 -- Load Omarchy defaults.
 require("default.hypr.omarchy")
 
@@ -18,87 +11,57 @@ require("default.hypr.omarchy")
 -- ~/.config/hypr files.
 require("hypr.monitors")
 require("hypr.input")
--- require("hypr.bindings")
+require("hypr.bindings")
 require("hypr.looknfeel")
 require("hypr.autostart")
 
--- hl.unbind("SUPER + SPACE")
--- o.bind("SUPER + SPACE", "oma-cast launcher", hl.dsp.global("oma-cast:toggle"))
+hl.unbind("SUPER + SPACE")
+o.bind("SUPER + SPACE", "oma-cast launcher", hl.dsp.global("oma-cast:toggle"))
 
--- hl.unbind("SUPER + F")
--- hl.unbind("SUPER + CTRL + F")
--- hl.unbind("SUPER + ALT + F")
--- o.bind("SUPER + F", "Full width", hl.dsp.window.fullscreen({ mode = "maximized" }))
--- o.bind("SUPER + CTRL + F", "Tiled full screen", "omarchy-hyprland-window-tiled-fullscreen-toggle")
--- o.bind("SUPER + ALT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+hl.unbind("SUPER + F")
+hl.unbind("SUPER + ALT + F")
+o.bind("SUPER + F", "Full width", hl.dsp.window.fullscreen({ mode = "maximized" }))
+o.bind("SUPER + ALT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 
--- local function get_active_workspace()
---   return hl.get_active_special_workspace() or hl.get_active_workspace()
--- end
+local function get_active_workspace()
+  return hl.get_active_special_workspace() or hl.get_active_workspace()
+end
 
--- hl.unbind("SUPER + J")
--- o.bind("SUPER + J", "Toggle window split", function()
---   local workspace = get_active_workspace()
+hl.unbind("SUPER + J")
+o.bind("SUPER + J", "Toggle window split", function()
+  local workspace = get_active_workspace()
 
---   if not workspace then
---     return
---   end
+  if not workspace then
+    return
+  end
 
---   if workspace.tiled_layout == "scrolling" then
---     hl.dispatch(hl.dsp.layout("consume_or_expel prev"))
---   elseif workspace.tiled_layout == "dwindle" then
---     hl.dispatch(hl.dsp.layout("togglesplit"))
---   end
--- end)
+  if workspace.tiled_layout == "scrolling" then
+    hl.dispatch(hl.dsp.layout("consume_or_expel prev"))
+  elseif workspace.tiled_layout == "dwindle" then
+    hl.dispatch(hl.dsp.layout("togglesplit"))
+  end
+end)
 
--- hl.unbind("SUPER + L")
--- o.bind("SUPER + L", "Toggle workspace layout", function()
---   local workspace = get_active_workspace()
+local altswitch_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.altswitch/altswitch.lua"
+local altswitch_file = io.open(altswitch_path, "r")
+if altswitch_file then
+  altswitch_file:close()
+  dofile(altswitch_path)
+end
 
---   if not workspace then
---     return
---   elseif not workspace.special then
---     hl.exec_cmd("omarchy-hyprland-workspace-layout-toggle")
---     return
---   end
-
---   local layout = workspace.tiled_layout == "dwindle" and "scrolling" or "dwindle"
---   local layouts_dir = (os.getenv("XDG_STATE_HOME") or os.getenv("HOME") .. "/.local/state") .. "/omarchy/workspace-layouts"
-
---   os.execute("mkdir -p " .. o.shell_quote(layouts_dir))
-
---   local file = io.open(layouts_dir .. "/" .. workspace.id .. ".lua", "w")
---   if file then
---     file:write(string.format("hl.workspace_rule({ workspace = %q, layout = %q })\n", workspace.name, layout))
---     file:close()
---   end
-
---   hl.workspace_rule({ workspace = workspace.name, layout = layout })
---   hl.exec_cmd(o.notify("Workspace layout set to " .. layout))
--- end)
-
--- local altswitch_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.altswitch/altswitch.lua"
--- local altswitch_file = io.open(altswitch_path, "r")
--- if altswitch_file then
---   altswitch_file:close()
---   dofile(altswitch_path)
--- end
-
--- local camera_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.camera/camera.lua"
--- local camera_file = io.open(camera_path, "r")
--- if camera_file then
---   camera_file:close()
---   dofile(camera_path)
--- end
+local camera_path = os.getenv("HOME") .. "/.config/omarchy/plugins/adam.camera/camera.lua"
+local camera_file = io.open(camera_path, "r")
+if camera_file then
+  camera_file:close()
+  dofile(camera_path)
+end
 
 hl.env("SSH_AUTH_SOCK", os.getenv("XDG_RUNTIME_DIR") .. "/gcr/ssh")
 hl.env("QT_LOGGING_RULES", "qt.multimedia.*=false")
 
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")
+require("hypr.scratchpad-layout")
+require("hypr.qconsole")
 
--- Add any other personal Hyprland configuration below.
--- o.window("qemu", { workspace = "5" })
-
--- hl.workspace_rule({ workspace = "special:scratchpad", gaps_out = 40 })
--- hl.workspace_rule({ workspace = "f[1] s[true] w[2-2147483647]", gaps_out = 60 })
+hl.workspace_rule({ workspace = "special:scratchpad", gaps_out = 40 })
