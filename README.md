@@ -85,6 +85,29 @@ git config --global user.name "Your Name"
 git config --global user.email "your@email.com"
 ```
 
+SSH commit signing is enabled globally. On each machine, reuse an existing SSH key
+or [generate one and add it to your SSH agent](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+The private key must be available through the agent. Set the public-key path in
+the machine-local config, adjusting the filename for that machine:
+
+```sh
+git config --file ~/.gitconfig.local user.signingkey ~/.ssh/id_ed25519.pub
+```
+
+The shared `.gitconfig` explicitly includes `~/.gitconfig.local`; this local file
+stays outside the dotfiles repository. Keep private keys out of Git too, following
+the [secrets guidance](https://github.com/lirantal/npm-security-best-practices#9-no-plaintext-secrets-in-env-files).
+
+Add the public key in [GitHub's SSH key settings](https://github.com/settings/keys)
+with **Signing Key** selected, even if it is already registered for authentication.
+See [GitHub's instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+
+Confirm Git reads the machine-local setting:
+
+```sh
+git config --show-origin --get user.signingkey
+```
+
 ### Node Security
 
 See [`docs/node-security.md`](docs/node-security.md) for npm, pnpm, Bun, aube, Yarn, and mise supply-chain hardening defaults. The policy follows [npm Security Best Practices](https://github.com/lirantal/npm-security-best-practices).

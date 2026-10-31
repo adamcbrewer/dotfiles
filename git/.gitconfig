@@ -136,3 +136,9 @@
 [user]
 	name = Adam Brewer
 	email = adamcbrewer@gmail.com
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[include]
+	path = ~/.gitconfig.local # Machine-specific signing-key settings.
