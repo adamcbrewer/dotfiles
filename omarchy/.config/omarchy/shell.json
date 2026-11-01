@@ -7,7 +7,7 @@
           "format": "ddd d MMM HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
-          "verticalFormat": "HH\n—\nmm"
+          "verticalFormat": "HH\n\u2014\nmm"
         }
       ],
       "centerBegin": [
@@ -113,12 +113,24 @@
           "id": "omarchy.power",
           "showPercentage": true
         }
-      ]
+      ],
+      "tray": []
     },
     "position": "top"
   },
+  "dock": {
+    "pinned": [
+      "chromium",
+      "foot",
+      "omacalc",
+      "omawrite",
+      "X",
+      "YouTube"
+    ],
+    "position": "bottom"
+  },
   "idle": {
-    "lock": 2148383,
+    "lock": 0,
     "screensaver": 900
   },
   "plugins": [
@@ -130,7 +142,16 @@
     },
     {
       "id": "typecraft.oma-cast"
+    },
+    {
+      "id": "adam.idle"
     }
   ],
-  "version": 1
+  "version": 1,
+  "disabledPlugins": [
+    "omarchy.idle"
+  ],
+  "cloneSourceRestores": [
+    "adam.idle"
+  ]
 }
