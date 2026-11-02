@@ -13,18 +13,26 @@ Use the harness's native subagent tools for bounded read-only analysis or checks
 useful; small tasks stay local. Skip steps with nothing to do. Even an early exit
 needs the completion report in step 5.
 
+Read the [shared stack report](../../references/stack-report.md) before assigning
+work so completed passes and contributions are tracked from the start.
+
 ## 1. Pick the skills
 
 Use the supplied request as the task. With no request, review the current branch's
 Go changes since the merge base with its intended base, including uncommitted
-changes. Infer the base from repository context and ask if it is ambiguous. Keep
-this default review read-only; if there are no Go changes, report that.
+changes. Infer the base from repository context and ask if it is ambiguous.
+If there are no Go changes, report that.
 
 Read project rules, the request or diff, and relevant callers. For project work,
 check `go.mod`, `go.work`, toolchain pins, build tags, and existing checks/CI.
 Keep the requested mode: implement, review, audit, plan, explain, or debug.
-Reviews and plans stay read-only. Ask for a target only when none is clear;
-a new project does not need a module yet.
+Stack reviews include repairing confirmed in-scope issues and verifying repairs
+by default. Explicit "review only", "no fixes" or "do not edit" requests stay
+read-only, as do planning and explanation requests. Preserve the agreed direction;
+optional improvements or decisions that change the brief return to the user.
+Nested assignments inherit the coordinator's mode; reviewers return findings and
+the coordinator applies repairs. Ask for a target only when none is clear. A new
+project does not need a module yet.
 
 Mark each candidate selected or skipped, with task/code evidence and the step
 where it belongs. A dependency or reference alone is not a trigger. Briefly tell
@@ -103,9 +111,10 @@ new code introduces another table trigger.
 
 ## 5. Check and report
 
-Pause edits. A fresh read-only reviewer uses selected source/domain guidance;
-a verifier runs justified checks with `verify-change` and, when selected,
-`golang-testing`. These can run in parallel. Small/read-only tasks can be checked
+Pause edits. A fresh read-only reviewer uses selected source/domain guidance.
+Hand justified checks to `verify-change`, locally or through a verifier, with the
+scope, current inputs, expected behaviour and valid earlier results. Include
+`golang-testing` only when selected. Review and verification can run in parallel. Small/read-only tasks can be checked
 locally. Load the verification helper when needed; if no loader is available or
 it is not listed, read [its complete instructions](../verify-change/SKILL.md).
 
@@ -117,24 +126,24 @@ run checks sharing ports/databases sequentially. Compare benchmarks separately
 under matching conditions. Report missing tools/services or unsupported platforms.
 
 Resolve findings in the primary conversation and rerun affected checks after fixes.
-Read-only reviews report findings. Keep commands, code snapshot, exit results, and
-artifact paths. Report the outcome, checks run, and remaining limits. Label
-plan-only checks as proposed.
+Read-only reviews report findings. Reuse the verification handoff's commands,
+results and limits in the conversation. Label plan-only checks as proposed.
 
-On every exit, including blocked/no-change runs, read
-[the receipt rules](../verify-change/references/stack-skill-receipt.md) and give a **Skills used**
-table. Match it to actual primary/subagent reads and their trigger evidence.
+On every exit, including blocked/no-change runs, produce one completion report
+using the [shared stack report](../../references/stack-report.md). Incorporate the
+verification handoff and helper contributions without duplicate receipts.
 
-**Done:** each selected assignment/check has a result or blocker, and the skill-use
-report is complete. No skill was loaded just to fill the table.
+**Done:** each selected assignment/check has a result or blocker, and the shared
+completion report accounts for actual work. No skill was loaded just to fill the table.
 
 ## Handoffs and vendor guidance
 
 Give subagents the mode, directory, project rules, code snapshot, bounded paths,
 selected skills/absolute paths, settled decisions, and expected results with
-file/line evidence. Include the receipt rules' absolute path and require actual-use
-reports. Subagents stay read-only, cannot delegate, and run commands only for
-assigned checks, reproduction, or measurement. Run at most two at once. If native
+file/line evidence. Include the shared stack report's absolute path and request
+completed passes, actual skill use, findings and recheck results. Subagents stay
+read-only, cannot delegate, and run commands only for assigned checks, reproduction,
+or measurement. Run at most two at once. If native
 subagent tools are unavailable, do the assignments sequentially and say so.
 
 This stack overrides the ten Samber skills on selection, delegation, scope, and

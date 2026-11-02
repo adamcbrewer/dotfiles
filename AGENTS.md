@@ -151,8 +151,10 @@ Keep vendor content, `~/.agents/.skill-lock.json`, and
 Go/Rust stacks keep decisions and edits in the main conversation and delegate
 independent work. Follow their routing tables and `SETUP.md` caveats. Go's
 project-layout skill is for new projects only. Rust's setup records the Actionbook
-licence caveat. Both finish with actual skill-use evidence from
-`agents/.agents/skills/verify-change/references/stack-skill-receipt.md`.
+licence caveat. Go, Rust, UX and review stacks finish with the reporting contract in
+`agents/.agents/references/stack-report.md`. `verify-change` provides their common
+verification handoff when checks are justified; reports stay in the conversation
+unless persistent evidence is requested or required by the project.
 
 The pinned `security-review` has JavaScript, Python and Docker guides. Its named
 Go, Rust, Java, Kubernetes, Terraform, CI/CD and cloud guides are missing upstream;

@@ -20,8 +20,10 @@ When a parent or stack has assigned the review, perform that assignment and retu
 findings to it. The parent owns coordination; do not launch another review stack
 or recursively delegate the same work.
 
-A review request alone produces findings. During an implementation or review-and-fix
-task, the parent assesses supported findings and applies justified fixes within the
+A standalone review request alone produces findings. For stack-owned work, use the
+coordinator's declared mode, including a stack's default review-and-fix mode.
+During an implementation or review-and-fix task, the parent assesses supported
+findings and applies justified fixes within the
 existing authorization, or explicitly delegates a fix if project rules permit.
 Do not ask again for fixes already authorized. A reviewer edits only when assigned
 that responsibility; pause other reviews of affected files while edits happen.

@@ -2,7 +2,12 @@
 
 ## Preflight once
 
-Before loading a browser workflow or interacting with a page, check the runner:
+Follow the active harness's browser policy and the user's runner preference
+before choosing a runner. When shared browser tools are required, use their
+preflight and fallback rules. Use the local CLI route below only where that
+policy permits it.
+
+For the local CLI route, check the runner:
 
 ```bash
 command -v agent-browser
@@ -21,9 +26,9 @@ agent-browser --session "$SESSION" --executable-path /usr/bin/brave open "$URL"
 Pass the same session on subsequent commands. Confirm navigation works before
 planning further actions, and close that session when finished.
 
-If the CLI is missing or fails, inspect available browser tools and existing
-project-installed Playwright packages. Select a working route and report the
-fallback briefly. Check CLI wrappers before invoking them: some provision tools
+If the CLI is missing or fails, select a supported fallback allowed by the
+active browser policy and report it briefly. Where permitted, inspect existing
+project-installed Playwright packages. Check CLI wrappers before invoking them: some provision tools
 or change global tool selection on every call. Use a preinstalled pinned runner
 where available. Restore/install a missing dependency only as authorised work.
 
@@ -55,7 +60,8 @@ CLI; browser selection is checked separately from package installation.
 
 ## Tidy up
 
-Always close down sessons and browsers you've finished working with.
+Close sessions and tabs opened for this task when finished, following the active
+harness's rules. Preserve user-owned sessions and tabs.
 
 This setup uses version pinning, lockfile resolution and disabled lifecycle scripts
 from [npm security best practices](https://github.com/lirantal/npm-security-best-practices).

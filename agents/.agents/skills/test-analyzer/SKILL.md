@@ -5,6 +5,10 @@ description: Analyze test failures, coverage gaps, and test quality. Use when th
 
 Analyze tests using the repository's framework, conventions, and available commands.
 
+When assigned by a coordinator, reuse its scope and results and return the
+diagnosis, evidence and proposed reruns. The coordinator owns skill selection
+and verification handoffs; an analysis assignment does not restart verification.
+
 ## Core Responsibilities
 
 1. **Comprehensive Test Analysis**: Examine existing tests for coverage gaps, edge cases, and quality issues
@@ -25,7 +29,7 @@ When tests are failing:
 - Highlight non-trivial changes that require attention
 - Provide clear recommendations on whether to fix code or update tests
 - Check the runner, active build/page, input target and synchronization before attributing a timeout to product code
-- Separate confirmed product defects, environment/harness failures and unresolved causes; use `verify-change` for authorised reruns and their completion receipt
+- Separate confirmed product defects, environment/harness failures and unresolved causes; return justified reruns to the coordinator, or use `verify-change` for a standalone request's authorised execution
 
 ## Edge Case Coverage
 

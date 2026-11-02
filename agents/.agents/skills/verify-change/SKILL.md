@@ -1,105 +1,101 @@
 ---
 name: verify-change
-description: Verify a change with risk-based checks and a clear completion receipt. Use when asked to verify changes, check readiness, or plan/run a workflow's verification stage.
+description: Plan or execute scoped checks and return verification evidence. Use for requested verification, readiness checks, or a stack's verification handoff.
 ---
 
 # Verify change
 
-Choose checks from the requested behaviour and project rules. Preserve the distinction
-between finding a defect, proving a fix, and handing over a usable build.
+Use this as the common verification handoff from Go, Rust, UX and review stacks,
+or for a standalone verification request. The existing coordinator owns scope,
+skill selection, repairs and the final report. An assigned verifier returns its
+results to that coordinator without starting another stack or invoking analysis
+helpers. Report deeper diagnostic needs for the coordinator to assign separately.
 
-Use the supplied verification target and mode. With no target, verify the current
-task's changes; otherwise inspect uncommitted changes or the current branch
-against its known base. Verification-only requests stay read-only. If no change
-can be identified, report that; ask when the target or base is genuinely ambiguous.
+## 1. Accept the handoff
 
-## 1. Bound the task
+Reuse the supplied task, applicable project rules, affected paths, current code
+revision and local edits, requested behaviour, proposed checks and valid earlier
+results. Ask only for material missing information. For standalone use, establish
+these from the current task or relevant branch/local changes; an empty scope is
+a valid result.
 
-Read applicable project instructions, the change, affected callers, existing check
-commands and relevant CI configuration. Establish the required outcome and mode:
+Choose the requested mode:
 
-- **Execute:** run the justified existing checks. For verification-only requests,
-  keep source read-only and report defects; an implementation request permits
-  in-scope repairs followed by affected-check reruns.
-- **Plan:** select cases and exact commands without reporting them as executed.
+- **Execute:** run justified checks using existing project tools. Verification-only
+  requests and assigned verifier passes keep source read-only. The coordinator
+  applies already-authorised repairs and hands back the affected reruns. During
+  standalone implementation work, the same agent may perform both roles.
+- **Plan:** propose cases and commands, without claiming execution.
 
-Identify the snapshot: repository/worktree, HEAD and uncommitted changes, or the
-equivalent inputs outside Git. Reuse results only when their inputs and environment
-still match. Pause source edits while checking that snapshot.
+Match checks to the required behaviour and project rules, using language/testing
+guidance already selected by the coordinator. Prose or cosmetic changes may need
+only inspection. State the scope before expensive checks. Pause edits to affected
+inputs while checking them; changed inputs invalidate only dependent results.
 
-State the planned checks and their scope before expensive work. Use the project's
-escalation rules; broader checks need a concrete impact/coverage reason or an
-explicit request. Reversible prose or cosmetic edits may need inspection rather
-than new tests. An unclear target or genuinely ambiguous requirement needs a
-specific question.
+**Done:** target, mode, expected behaviour and justified checks are clear.
 
-**Done:** target, mode, snapshot, required behaviour and justified checks are known.
+## 2. Check the runner
 
-## 2. Check the execution environment
+Use existing runners and pinned tools. Inspect commands and targets before
+execution, including scripts that update snapshots or mutate data. Use disposable
+fixtures for mutating checks; installs, live migrations and automatic source or
+snapshot updates require scope beyond verification alone.
 
-Use existing project runners and pinned toolchains. Check prerequisites inside the
-process that will execute the checks, including child shells, panes and containers.
+Check prerequisites in the process that will execute the checks. Apply the
+project's GUI/display, container and environment requirements where relevant.
+Browser work follows [browser preflight](references/browser-automation.md).
+Report missing prerequisites and use an available supported route when permitted.
 
-- GUI checks use the project's private display/bus and required test settings.
-- Browser checks follow [browser preflight](references/browser-automation.md).
-- Confirm the selected tests are non-empty and exercise relevant behaviour.
-- Preserve the runner's image provenance, accounts, caches and Python environment.
+**Done:** each check has a usable execution path or a concrete blocker.
 
-When a prerequisite is missing, report the blocker and use a supported available
-runner if project rules allow it. Repeat an unavailable route when its state has
-changed. Treat tool installation as separate work governed by the user's request.
+## 3. Run and summarise
 
-**Done:** each planned check has a usable execution path or an explicit blocker.
+Run the scoped checks and retain commands, meaningful selection counts where
+available, exit results and relevant output in the conversation. A successful
+command with zero relevant inputs or skipped required checks is insufficient.
+Separate confirmed defects, runner/environment failures and unresolved causes.
 
-## 3. Run and retain results
+Use temporary logs only when needed for long output, diagnosis or an interrupted
+run. Existing runner artifacts can be reused. No receipt files, content snapshots
+or long-term archive are required by default. After an interruption, inspect
+available completion evidence; reuse it only while relevant inputs and environment
+still match. Unknown completion is not a pass.
 
-Run the selected checks against the identified snapshot. Record exact commands,
-selection counts where available, exit status and relevant summaries. A successful
-command that scanned zero inputs or skipped required checks is insufficient.
+Give progress updates for long checks and report failures or blockers promptly.
+Return the smallest supported diagnosis and affected rerun scope to the coordinator.
+After each repair, rerun the failing case and the smallest set of affected caller
+or regression tests, plus relevant targeted lint or type checks. Refresh only the
+review conclusions affected by the edit. Reuse independent passing results; each
+specialist does not need its own repeat of the same checks.
 
-For long checks, preserve logs and completion status in session-owned scratch or
-the runner's existing artifact location. Inspect those receipts after a handoff
-interruption before deciding a rerun is needed. Keep task evidence out of tracked
-source unless the project explicitly maintains that artifact.
+Reserve full test/lint suites for the configured final gate, such as a pre-push
+hook, final local check or CI. Confirm what that gate actually covers and reuse
+its results when they match the final inputs. A future hook or pending CI is
+pending evidence, not a pass. Run missing required final checks once at completion
+when within scope; do not duplicate a valid gate simply to produce a receipt.
+Earlier broad reruns need a concrete cross-cutting impact, new failure evidence,
+an explicit request or a project requirement. Explain that reason before running.
 
-Give updates when a check finishes, fails, blocks, or changes scope. If a long check
-has no milestone for several minutes, briefly report what is running and what its
-latest output establishes. Keep pending results and estimates clearly qualified.
+Finish once scoped checks pass or remaining failures, blockers and pending final
+gates are explicit; a clean result creates no extra gate.
 
-**Done:** every planned check has a result or blocker traceable to this snapshot.
+**Done:** every planned check has a result or blocker, and each rerun has a reason.
 
-## 4. Investigate failures and close verification
+## 4. Return the verification handoff
 
-Reproduce an isolated failure with the exact failing case. Check both the product
-and the test-driving conditions: actual page/build, visible input target, captured
-text, readiness, timing and environment. Use `test-analyzer` for non-trivial failure
-analysis or test-quality questions.
+Return a compact result in the conversation:
 
-Separate confirmed defects from environment/harness failures and unresolved causes.
-Where repairs are authorised, fix the cause and rerun the failing case plus affected
-callers/regressions. Document which earlier results remain valid after the edit.
-Broaden coverage when new evidence or project rules require it, stating why first.
+- Target and relevant revision/local-edit qualification.
+- Checks performed, commands and meaningful results, including reused results.
+- Confirmed issues, unresolved failures, omitted checks and coverage limits.
+- When relevant, the exact preview command and how to identify the running build.
+- Publication/evidence status only when requested; verification grants no publishing
+  permission.
 
-Finish when all justified checks pass or an unresolved failure/blocker is reported.
-A clean result alone is not a reason to launch another suite or repeat the same
-unchanged checks. Independent review findings may create new, bounded obligations.
+Plan-only handoffs contain proposed checks and rationale. Include actual skill use
+and completed passes for the coordinator's [stack report](../../references/stack-report.md).
+The coordinator incorporates this handoff into its final answer without a second
+receipt. Standalone verification ends with this compact result; no stack table is
+required unless a stack ran.
 
-**Done:** outcomes are resolved or explicitly reported; each rerun has a reason.
-
-## 5. Hand over a usable result
-
-Keep the completion receipt short:
-
-- **Change/build:** what changed, worktree/revision and dirty-state qualification.
-- **Checks:** exact commands, meaningful results and log paths when needed.
-- **Limits:** failed, blocked, intentionally omitted or still-unconfirmed behaviour.
-- **Preview, when relevant:** exact build/launch command and how to identify that
-  build in the running app. Account for singleton forwarding and stale dev servers.
-- **Publication, when requested:** actual commit/push/PR status and whether evidence
-  is attached or pending. Verification itself does not authorise publication.
-
-Plan-only results provide proposed checks and rationale instead of a pass receipt.
-Respect project-specific PR formats; put detailed local receipts in the handoff
-when the PR template does not call for them.
-
-**Done:** the user can distinguish tested code, a running preview, and published work.
+**Done:** the user or coordinator can tell what was checked and what remains uncertain.

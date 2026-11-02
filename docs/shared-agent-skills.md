@@ -38,8 +38,9 @@ Use `$ux-stack <request>` in Codex or `@ux-stack <request>` in OpenCode for UX
 planning, implementation or review. The stack keeps the requested mode and
 selects usability, visual-design and web-interface guidance at the appropriate
 stage. Pro Max supplies optional reference searches for unresolved decisions.
-Plans and reviews stay read-only unless fixes are requested. With no target,
-it reviews relevant current branch/local UI changes. See its
+Reviews include in-scope fixes by default; explicit review-only requests, plans
+and explanations stay read-only. With no target, it reviews relevant current
+branch/local UI changes. See its
 [source review and caveats](../agents/.agents/skills/ux-stack/SETUP.md).
 
 Claude Code uses `~/.claude/skills/` for personal discovery. This Stow package shares
@@ -51,6 +52,36 @@ by its shared path is different from registering it for automatic discovery or
 See the official [Codex](https://learn.chatgpt.com/docs/build-skills),
 [OpenCode v2](https://opencode.ai/v2/docs/skills/) and
 [Claude Code](https://code.claude.com/docs/en/skills) discovery rules.
+
+## Stack reports and verification
+
+Go, Rust, UX and review stacks use one [reporting contract](../agents/.agents/references/stack-report.md).
+The coordinator tracks completed work passes, distinct confirmed findings and
+verified fixes per skill, including contributions from helpers and nested stacks.
+Passes count bounded applications and affected rechecks, not chat turns or tool
+calls. Consulted-only and incomplete work are identified explicitly.
+
+`verify-change` is the common handoff when a stack needs checks. It reuses the
+coordinator's scope, plans or executes justified checks, and returns evidence for
+one final report. It does not invoke `test-analyzer`; diagnostic needs return to
+the coordinator. Standalone verification remains available.
+
+Reviews through Go, Rust, UX and review stacks include fixes for confirmed
+in-scope issues by default. Say "review only", "no fixes" or "do not edit" for
+findings without repairs. Planning and explanation requests stay read-only.
+Preserve the agreed direction; optional improvements and changes to settled
+product decisions return to the user. Assigned reviewers remain read-only; the
+coordinator applies repairs. Nested assignments inherit their coordinator's mode.
+
+Repair loops rerun the failing cases, affected regressions and relevant targeted
+lint/type checks. Full suites belong at the configured final gate unless concrete
+wider impact or project rules require them earlier. Reuse valid hook/CI results;
+pending checks remain pending in the report.
+
+Reports live in the conversation by default. Temporary logs are useful for long
+checks or interruptions; persistent receipts and cross-task statistics require a
+request or an existing project requirement. The shared reference has no skill
+entrypoint or user command. Stow the `agents` package to share it alongside skills.
 
 ## Invocation list
 
@@ -106,7 +137,7 @@ and plugin skills have their own catalogs and policies.
 | `review-failure-paths` | Eligible | Errors, retries and fallbacks that hide failure |
 | `review-findings` | Eligible | Validate supplied suspected bugs |
 | `review-security-history` | Eligible | Changed safeguards and security regressions in local history |
-| `review-stack` | On request | Review branch or feature changes with automatic specialist selection |
+| `review-stack` | On request | Review and fix branch or feature changes; explicit review-only supported |
 | `rust-best-practices` | Eligible | Substantive Rust source work |
 | `rust-patterns` | Eligible | Rust ownership, errors, traits and concurrency |
 | `rust-stack` | Eligible | Entry point for Rust work; selects supporting skills |

@@ -11,13 +11,19 @@ Announce `ux-stack` when requested. Infer the mode from the user's request, then
 use the available artifacts to decide which passes are possible. Existing code
 does not turn a planning request into an implementation or review request.
 
+Read the [shared stack report](../../references/stack-report.md) before assigning
+work so completed passes and contributions are tracked from the start.
+
 ## 1. Establish the task
 
 Carry one brief through the work: audience, primary user task, platform, scope,
 existing design system, constraints and requested deliverable. Infer settled
 details from the conversation and project; ask only when missing information
-would materially change a decision. Plans and reviews stay read-only. Apply fixes
-only within an implementation or review-and-fix request.
+would materially change a decision. Stack reviews include repairing confirmed
+in-scope issues and verifying repairs by default. Explicit "review only", "no fixes"
+or "do not edit" requests stay read-only, as do planning and explanation requests.
+Preserve the agreed brief and design direction; aesthetic suggestions or changes
+to settled product decisions return to the user rather than becoming automatic edits.
 
 For change reviews, identify the intended base, HEAD and relevant staged,
 unstaged and untracked UI changes. Include surrounding screens, components and
@@ -28,7 +34,8 @@ is genuinely ambiguous. An empty UI diff is a valid result, not a reason to
 audit the entire application.
 
 Keep an existing workflow's coordinator when assigned a bounded UX pass. Reuse
-its scope and evidence, return findings to it, and avoid starting nested stacks.
+its scope, mode and evidence, return findings to it, and avoid starting nested
+stacks. Assigned reviewers return findings; the coordinator applies repairs.
 
 **Done:** mode, target, primary task and material constraints are clear.
 
@@ -81,9 +88,10 @@ completed code or accessibility audit.
 
 Reuse settled planning rather than repeating discovery. Follow the relevant plan
 route only for unresolved decisions, implement the scoped change, then review the
-result using selected guidance. Use `verify-change` for justified checks through
-the project's existing tools. Follow its browser preflight before browser work.
-Recheck only affected findings after fixes.
+result using selected guidance. Hand justified checks to `verify-change`, locally
+or through a verifier, with the scope, current inputs, expected behaviour and valid
+earlier results. Incorporate its returned evidence. Recheck only affected findings
+after fixes.
 
 ### Review
 
@@ -92,7 +100,11 @@ where relevant and the web file audit where source is available. Independent
 checks can share a stable snapshot; their order must still respect dependencies.
 Preserve concrete source locations when combining vendor outputs. Fetch Vercel's
 current rules as its skill requires, and report an unavailable fetch as a coverage
-limit. Use `verify-change` when execution is justified within the review scope.
+limit. Use the same `verify-change` handoff when execution is justified within the
+review scope. In the default review-and-fix mode, apply confirmed in-scope repairs
+through the coordinator, then recheck only affected paths. Explicit review-only
+runs return findings and proposed checks. Inspection-only passes need no extra
+execution stage.
 
 Match claims to evidence: a screenshot supports visible observations; source
 supports code findings; an exercised flow supports observed behaviour. Name what
@@ -119,10 +131,9 @@ usage data. Resolve competing recommendations toward the primary task.
 
 Give up to three priorities when findings exist; a clean result needs none.
 Include checks actually run, coverage limits and any authorised fixes applied.
-Plans list proposed checks explicitly. Finish with a compact **Skills used** table
-of actual reads by the coordinator or helpers: skill, stage, and contribution.
-Distinguish consulted guidance from applied guidance, and list missing selected
-passes separately. Reading instructions is not proof that their checks ran.
+Plans list proposed checks explicitly. Finish using the
+[shared stack report](../../references/stack-report.md), incorporating verification
+and helper contributions into one report.
 
 **Done:** one report accounts for the requested outcome, skill contributions and
 remaining limits. No additional unchanged review is required.

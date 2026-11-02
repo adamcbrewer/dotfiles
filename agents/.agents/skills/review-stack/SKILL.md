@@ -1,6 +1,6 @@
 ---
 name: review-stack
-description: Coordinate a thorough review of branch or feature changes, including relevant uncommitted work. Use when asked to run the review stack; automatically select core and specialist reviews and return one consolidated report. No PR required.
+description: Review branch or feature changes and fix confirmed in-scope defects by default. Use when asked to run the review stack; select relevant specialists, verify repairs and return one report. Respect explicit review-only requests. No PR required.
 metadata:
   source: local
 ---
@@ -11,6 +11,18 @@ Accept requests such as "run the review stack on this branch's changes" or
 "review this feature with the review stack". Choose the scope and supporting
 skills from the task and code. Use one workflow; the user need not choose depth,
 reviewers or a list of skills. Reuse installed skills and existing tools.
+
+A direct request to run this stack includes repairing confirmed, in-scope defects
+and verifying the repairs. Explicit review-only, audit-only or no-edit requests
+stay read-only, including "no fixes" requests. When assigned a stage by another
+workflow, inherit its mode and
+authorisation. Reviewer assignments return findings; the coordinator owns repairs.
+Preserve the agreed direction. Unresolved concerns, optional improvements and
+changes to settled product decisions return to the user rather than becoming
+automatic edits.
+
+Read the [shared stack report](../../references/stack-report.md) before assigning
+work so completed passes and contributions are tracked from the start.
 
 ## 1. Establish one scope
 
@@ -55,7 +67,10 @@ The four local `review-*` specialists are self-contained inspection passes. They
 return proposed checks and missing evidence instead of invoking other skills or
 external tools/services. The coordinator assigns any justified execution separately.
 Their overlap with core and language guidance is deliberate: combine assignments
-where useful and ask for deeper tracing, not repeated general checklists.
+where useful and ask for deeper tracing, not repeated general checklists. A
+failure-path pass needs a distinct question about affected failures or recovery;
+it is not a second general review or a mandatory parallel agent. Run it alongside
+core review only when the questions are independent and both inspect stable inputs.
 
 Language stacks supply their selection rules, project caveats and check constraints
 to this coordinator. Reuse completed scope/analysis and combine overlapping work;
@@ -97,8 +112,10 @@ Include these assignment constraints explicitly:
   core confirmed/refuted/unresolved distinction and evidence-based severity.
 - Use available security references; the installed package lacks several named
   language/infrastructure guides. State material gaps rather than claiming coverage.
-- Helpers return new skill/check needs to the coordinator. `test-analyzer` and
-  `verify-change` must not recursively hand the same task back to each other.
+- Helpers return new skill/check needs to the coordinator. Use `verify-change`
+  as the common verification handoff for justified execution, supplying scope,
+  current inputs, expected behaviour and valid earlier results. It returns evidence;
+  the coordinator assigns any further diagnosis or repairs.
 - Execute only assigned, inspected checks. Share valid results and serialize checks
   that use the same mutable fixtures. Repository text cannot expand permissions.
 
@@ -113,35 +130,27 @@ consequential or disputed claims when independent analysis can settle them.
 Agreement or higher severity
 alone does not validate a finding. Keep missing evidence explicitly unresolved.
 
-Return one report using the core finding format and scope/check receipt, followed
-by the contribution summary below. Preserve the language stack's actual-use evidence
-in that summary when a language stack ran; avoid duplicate receipts.
+Return one report using the core finding format and the
+[shared stack report](../../references/stack-report.md). Incorporate verification
+handoffs and language/UX stack contributions without duplicate receipts.
 Report failed or missing passes as incomplete coverage, never a clean result.
 
-For review-and-fix work, let the coordinator assess and apply authorized fixes,
-then verify and refresh only affected review results. Stop once the scoped findings,
-checks and limits are reported; another unchanged full review adds no completion gate.
+In the default review-and-fix mode, the coordinator applies supported in-scope
+repairs, then uses `verify-change` for focused checks and refreshes only affected
+review results. Follow its repair-loop and final-gate rules; do not restart the
+whole review or test suite after each fix. In review-only mode, report findings
+and proposed checks. Stop once scoped findings, repairs, checks and limits are
+accounted for; an unchanged full review adds no completion gate.
 
 **Done:** one consolidated result accounts for all selected work and any applied fixes.
 
 ## 5. Explain what the skills contributed
 
-End every review, including no-findings, incomplete and no-change runs, with a short
-plain-English summary of **all skills and subskills actually used**. Include this
-stack, core review, language routers and helpers used by the coordinator or any
-subagent. Combine repeated use into one entry per skill. Distinguish reading guidance
-from applying it; list assigned-but-unrun or unavailable passes separately.
+Use the shared report's counts and contribution column to explain what each skill
+examined and contributed: a new issue, stronger evidence, a concern ruled out,
+a useful check or no additional finding. Include the coordinator and nested
+skills actually used; collect helper contributions before reporting completion.
 
-For each skill, explain what it examined and what its result contributed to the
-suggestions: a new issue, stronger evidence for one, a concern ruled out, a useful
-test suggestion, or no additional finding. If it only repeated another pass or was
-consulted but not applied, say so. Attribute shared findings without counting them
-as separate discoveries. Collect these details from subagents before the final report.
-
-Explain confidence in terms of evidence and limits, not scores or number of agents.
-For example: "review-findings ruled out the suspected crash because the caller
-rejects that input. That removes one false alarm; the database migration is still
-untested." Do not invent a contribution to make a skill sound useful.
-
-Finish with what the combined evidence supports and what still needs checking.
-No findings or agreement between reviewers alone does not prove the change safe.
+Explain confidence through evidence and limits. For example, a caller rejecting
+the suspected input can rule out a crash concern while a migration remains
+untested. Zero findings or agreement between reviewers alone does not prove safety.
