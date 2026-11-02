@@ -5,7 +5,12 @@ description: Draft, revise, or post commit messages, pull request titles and des
 
 # Author Git Content
 
-Before writing or revising the text, load and follow the `my-voice` skill. If no native skill loader is available, read [its complete instructions](../my-voice/SKILL.md), resolving the path relative to this skill's directory. Apply its tone and language to the content; use the repository's format and templates for structure rather than its email conventions.
+Before writing or revising Git content, load and follow both [my-voice](../my-voice/SKILL.md) and [unslop](../unslop/SKILL.md). Use the native skill loader, or read each complete `SKILL.md` relative to this directory. Write in Adam's voice, then apply `unslop` before returning or posting the text. Use the repository's format and templates for structure rather than email conventions.
+
+Read and follow the repository's applicable instructions, contribution guidelines
+and templates before drafting. Follow its conventions for commit messages, PRs,
+issues and comments, including required formats, ticket references and checks.
+Repository requirements take precedence over this skill's defaults.
 
 - Ground the text in the actual change, discussion, or ticket. Do not invent facts, test results, decisions, or promises.
 - Keep titles and commit subjects concise and specific. Follow repository conventions and required templates; retain issue references and technical terms exactly where needed.
