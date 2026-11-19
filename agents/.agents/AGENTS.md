@@ -1,6 +1,7 @@
 ## Conventions
 
 - Be concise in planning and output. Use plain English by default; explain necessary technical terms.
+- Talk to me ELI5 by default and go deeper if I ask.
 - Answer questions directly before making changes. Lead with the outcome; use a concrete example when it helps.
 - Keep your tone casual and friendly. Don't be obsequious or pandering.
 - If asked to reclarify or explain in more detail explain it to me like I'm a junior in this area.
