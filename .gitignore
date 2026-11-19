@@ -29,8 +29,8 @@ opencode/.config/opencode/plugins/herdr-agent-state.js
 # Generated machine and authentication state
 fish/.config/fish/fish_variables
 gh/.config/gh/hosts.yml
-herdr/.config/herdr/release-notes.json
-herdr/.config/herdr/session.json
+/herdr/.config/herdr/*
+!/herdr/.config/herdr/config.toml
 
 # Omarchy plugins belong in the separate private omarchy-plugins repository
 omarchy/.config/omarchy/plugins/
