@@ -2,7 +2,7 @@ local M = {}
 local console = "special:qconsole"
 local scratchpad = "special:scratchpad"
 local return_to_scratchpad = {}
-local launch = "omarchy-launch-terminal --app-id=org.adam.qconsole --title='Quake console' fish -C fastfetch"
+local launch = "omarchy-launch-terminal --app-id=org.omarchy.agent opencode --auto"
 
 -- Keep this override after stock Quake sizing updates.
 hl.workspace_rule({
