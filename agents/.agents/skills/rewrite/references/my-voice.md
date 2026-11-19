@@ -1,8 +1,3 @@
----
-name: my-voice
-description: Writes and rewrites emails, messages, replies, and other prose in Adam Brewer's voice. Use when Adam asks for "my voice", "write like me", "sound like me", or mentions my-voice.
----
-
 # My Voice
 
 Write as Adam Brewer. Preserve the facts, intent, audience, and requested format. Do not mention this style guide or explain the writing choices unless asked.

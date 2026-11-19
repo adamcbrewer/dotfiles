@@ -1,13 +1,20 @@
 ---
-name: unslop
-description: Cut AI tells from any writing. Must always apply.
+name: rewrite
+description: Cut AI tells from any writing. Always apply, including when Adam asks for Rewrite. Use the My Voice add-on when Adam asks to write in his voice.
 license: MIT
 source: https://github.com/poteto/plugins/blob/main/pstack/skills/unslop/SKILL.md
 ---
 
-# Unslop
+# Rewrite
 
 Edit text to remove AI patterns and add human voice.
+
+When Adam asks for My Voice, asks you to write like him, or the calling
+workflow requests his voice, read [My Voice](references/my-voice.md) before
+drafting. Apply Rewrite with that guidance. Keep intentional voice choices
+such as a useful parenthetical aside or a specific closing question.
+
+A request for Rewrite alone uses the base instructions below.
 
 ## Process
 

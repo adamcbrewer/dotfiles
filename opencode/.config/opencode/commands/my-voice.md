@@ -3,6 +3,6 @@ description: Drafts or rewrites text in Adam Brewer's voice.
 agent: build
 ---
 
-Load and follow the `my-voice` skill for the request below.
+Load `rewrite` or read `~/.agents/skills/rewrite/SKILL.md`. Apply its My Voice add-on to the request below.
 
 $ARGUMENTS

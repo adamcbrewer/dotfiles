@@ -24,6 +24,9 @@ with vendor and Omarchy skill names before adding one.
 OpenCode commands, agents and settings stay in `opencode/.config/opencode/`.
 The skill holds the workflow; commands and agents just load it.
 
+Say "Rewrite" for the base editing guidance or "My Voice" to add Adam's
+writing preferences. OpenCode's `/my-voice` command also selects the add-on.
+
 For Rust or Go implementation, review, debugging, planning or explanation, the
 agent loads `rust-stack` or `go-stack` first. The stack selects supporting skills,
 coordinates the work, verifies it and reports actual skill use. Loading an
@@ -127,7 +130,6 @@ and plugin skills have their own catalogs and policies.
 | `jellyfin-organiser` | Eligible | Organize Jellyfin media |
 | `m05-type-driven` | Eligible | Rust types enforcing an invariant |
 | `m14-mental-model` | Eligible | Teach Rust concepts and ownership |
-| `my-voice` | On request | Requested writing in Adam's voice |
 | `next-best-practices` | Eligible | Next.js implementation and review |
 | `omarchy` | Eligible | Linux desktop and Omarchy customization |
 | `agent-session-review` | Explicit-only | Select the skill or command to review Codex/OpenCode sessions |
@@ -138,6 +140,7 @@ and plugin skills have their own catalogs and policies.
 | `review-findings` | Eligible | Validate supplied suspected bugs |
 | `review-security-history` | Eligible | Changed safeguards and security regressions in local history |
 | `review-stack` | On request | Review and fix branch or feature changes; explicit review-only supported |
+| `rewrite` | Always | All prose, with the My Voice add-on when requested or called by a workflow |
 | `rust-best-practices` | Eligible | Substantive Rust source work |
 | `rust-patterns` | Eligible | Rust ownership, errors, traits and concurrency |
 | `rust-stack` | Eligible | Entry point for Rust work; selects supporting skills |
@@ -145,7 +148,6 @@ and plugin skills have their own catalogs and policies.
 | `security-review` | Eligible | Requested security audit or review |
 | `simplify` | On request | Requested cleanup or assigned simplification pass |
 | `test-analyzer` | Eligible | Requested test analysis or failure diagnosis |
-| `unslop` | Always | Every response and prose task, including when another writing skill is active |
 | `ui-ux-pro-max` | Eligible | Targeted design references, selected by `ux-stack` when useful |
 | `ux-heuristics-audit` | Eligible | Usability evaluation of a proposed or existing flow |
 | `ux-stack` | On request | UX planning, implementation or review with automatic skill selection |
