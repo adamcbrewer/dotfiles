@@ -62,6 +62,5 @@ hl.env("QT_LOGGING_RULES", "qt.multimedia.*=false")
 -- Toggle config flags dynamically.
 require("default.hypr.toggles")
 require("hypr.scratchpad-layout")
-require("hypr.qconsole")
 
 hl.workspace_rule({ workspace = "special:scratchpad", gaps_out = 40 })
